@@ -1,0 +1,72 @@
+body {
+  margin: 0;
+  font-family: "Hiragino Maru Gothic ProN", "メイリオ", sans-serif;
+  background: #000;
+  color: #fff;
+  overflow: hidden;
+}
+
+/* ゲーム画面 */
+#centurycyclememoria-game-screen {
+  position: relative;
+  width: 100vw;
+  height: 100vh;
+}
+
+#centurycyclememoria-background img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+/* 黒背景（ナレーション導入用） */
+#centurycyclememoria-background img[src="ccm_black.jpg"] {
+  background: #000;
+}
+
+#centurycyclememoria-overlay {
+  position: absolute;
+  top: 0; left: 0;
+  width: 100%; height: 100%;
+  background: radial-gradient(circle at center, rgba(255,255,200,0.4), transparent 70%);
+  pointer-events: none;
+  opacity: 0;
+  transition: opacity 2s ease;
+}
+
+#centurycyclememoria-character img {
+  position: absolute;
+  bottom: 0;
+  left: 50%;
+  transform: translateX(-50%);
+  height: 80%;
+  display: none;
+}
+
+/* テキストボックス全体（下部固定） */
+#centurycyclememoria-textbox {
+  position: absolute;
+  bottom: 5%;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 80%;
+  min-height: 140px;
+  background: rgba(0, 0, 0, 0.6);
+  border: 2px solid #fff;
+  border-radius: 12px;
+  padding: 20px;
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+  text-align: left;
+  color: #fff;
+  font-size: 20px;
+  line-height: 1.8;
+  box-shadow: 0 0 15px rgba(0,0,0,0.5);
+}
+
+/* テキスト部分 */
+#centurycyclememoria-text {
+  margin: 0;
+  white-space: pre-line;
+}
