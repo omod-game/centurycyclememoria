@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <title>世紀輪廻メモリア</title>
+  <link rel="stylesheet" href="centurycyclememoria.css">
+  <link rel="manifest" href="manifest.json">
+  <link rel="icon" href="icon.jpg" type="image/jpeg">
+  <meta name="theme-color" content="#000000">
+  <script>
+    if ("serviceWorker" in navigator) {
+      navigator.serviceWorker.register("service-worker.js");
+    }
+  </script>
+</head>
+<body>
+  <!-- ゲーム画面 -->
+  <div id="centurycyclememoria-game-screen">
+    <div id="centurycyclememoria-background">
+      <img id="centurycyclememoria-bg-image" src="" alt="背景">
+      <div id="centurycyclememoria-overlay"></div>
+    </div>
+    <div id="centurycyclememoria-character">
+      <img id="centurycyclememoria-char-image" src="" alt="キャラクター">
+    </div>
+    <div id="centurycyclememoria-textbox">
+      <p id="centurycyclememoria-text"></p>
+    </div>
+  </div>
+
+  <script src="centurycyclememoria.js"></script>
+</body>
+</html>
