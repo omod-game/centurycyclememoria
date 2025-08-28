@@ -1,0 +1,220 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <title>世紀輪廻メモリア</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="stylesheet" href="centurycyclememoria.css">
+  <link rel="manifest" href="manifest.json">
+  <link rel="icon" href="icon-192.png" type="image/png">
+  <meta name="theme-color" content="#000000">
+  <style>
+    html, body {
+      height: auto;
+      min-height: 100%;
+      overflow-y: auto;
+    }
+    body {
+      margin: 0;
+      font-family: "Noto Serif JP", serif;
+      color: #fff;
+      background: url("bg_moon_sakura.jpg") no-repeat center center fixed;
+      background-size: cover;
+      position: relative;
+    }
+
+    /* 背景の黒透過レイヤー */
+    body::before {
+      content: "";
+      position: fixed;
+      inset: 0;
+      background: rgba(0,0,0,0.45);
+      z-index: -1;
+    }
+
+    /* ヘッダー */
+    header {
+      text-align: center;
+      padding: 3rem 1rem 2rem;
+    }
+    header h1 {
+      font-size: 2.5rem;
+      margin-bottom: 0.5rem;
+    }
+    header p {
+      opacity: 0.85;
+    }
+
+    /* ナビゲーション（右上固定） */
+    nav {
+      position: fixed;
+      top: 1rem;
+      right: 1.5rem;
+      background: rgba(0,0,0,0.45);
+      padding: 0.5rem 1rem;
+      border-radius: 9999px;
+      font-size: 0.9rem;
+    }
+    nav a {
+      margin: 0 0.4rem;
+      color: #fff;
+      text-decoration: none;
+    }
+    nav a:hover {
+      text-decoration: underline;
+    }
+
+    /* セクション */
+    section {
+      text-align: center;
+      padding: 3rem 1rem;
+      max-width: 900px;
+      margin: 0 auto;
+    }
+    section h2 {
+      font-size: 1.8rem;
+      margin-bottom: 1rem;
+    }
+    section p {
+      line-height: 1.8;
+      margin-bottom: 1rem;
+    }
+
+    /* ボタン */
+    .btn {
+      display: inline-block;
+      background: rgba(255,255,255,0.15);
+      padding: 0.8rem 2rem;
+      border-radius: 9999px;
+      font-size: 1.1rem;
+      color: #fff;
+      text-decoration: none;
+      transition: background 0.3s;
+    }
+    .btn:hover {
+      background: rgba(255,255,255,0.3);
+    }
+
+    /* キャラクター紹介 */
+    .character-intro {
+      background: rgba(0,0,0,0.35);
+      padding: 2rem 1rem;
+      border-radius: 15px;
+      margin-top: 2rem;
+    }
+    .character-name {
+      font-size: 1.6rem;
+      font-weight: bold;
+      color: #ff7fbf;
+      text-shadow: 1px 1px 3px rgba(0,0,0,0.6);
+      margin-bottom: 1rem;
+    }
+    .character-intro p {
+      line-height: 1.9;
+      font-size: 1rem;
+      margin: 0 auto;
+      max-width: 700px;
+      text-shadow: 1px 1px 2px rgba(0,0,0,0.5);
+    }
+
+    /* スポンサーリンク */
+    .sponsor {
+      text-align: center;
+      padding: 2rem 1rem;
+      opacity: 0.85;
+    }
+    .sponsor h2 {
+      font-size: 1rem;
+      margin-bottom: 1rem;
+    }
+    .sponsor .ad-box {
+      background: rgba(255,255,255,0.08);
+      padding: 1rem;
+      border-radius: 10px;
+    }
+
+    footer {
+      text-align: center;
+      font-size: 0.8rem;
+      padding: 2rem 1rem;
+      opacity: 0.7;
+    }
+  </style>
+</head>
+<body>
+  <!-- ナビゲーション -->
+  <nav>
+    <a href="index.html">トップ</a>
+    <a href="characters.html">キャラクター</a>
+    <a href="blog.html">ブログ</a>
+    <a href="privacy.html">プライバシーポリシー</a>
+    <a href="contact.html">お問い合わせ</a>
+    <a href="profile.html">プロフィール</a>
+  </nav>
+
+  <!-- ヘッダー -->
+  <header>
+    <h1>世紀輪廻メモリア</h1>
+    <p>──記憶と輪廻をめぐる、幻想の物語</p>
+  </header>
+
+  <!-- メインビジュアル -->
+  <section>
+    <h2>🌸 輪廻と記憶の物語へようこそ</h2>
+    <p>
+      月夜に舞う桜の下、静かに始まるひとつの出会い。<br>
+      それはやがて、百年をめぐる約束を呼び覚ます──。
+    </p>
+    <a href="centurycyclememoria.html" class="btn">▶ 運命の始まりへ</a>
+    <p class="mt-2 text-sm opacity-80">月夜に舞う桜とともに、物語は動き出す</p>
+  </section>
+
+  <!-- ストーリー紹介 -->
+  <section>
+    <h2>物語</h2>
+    <p>
+      春風に揺れる桜の朝、ふとした隣席から始まる出会い。<br>
+      それは、時を越えて眠る記憶の扉を静かに叩く。<br>
+      <br>
+      百年を巡る約束は、再び月明かりの下で息を吹き返し、<br>
+      ふたりを運命の輪へと誘っていく──。
+    </p>
+  </section>
+
+   <!-- 登場人物紹介（ホーム用） -->
+  <section>
+    <h2>紡がれる人々</h2>
+    <div style="text-align:center; margin: 2rem 0;">
+      <h3 style="color:#ff7fbf; text-shadow:1px 1px 3px rgba(0,0,0,0.6); font-size:1.6rem;">
+        桜井 未来
+      </h3>
+      <p style="opacity:0.9; font-size:1rem; line-height:1.8;">
+        春風に舞う桜のように、笑顔と切なさを纏う少女
+      </p>
+      <a href="characters.html" class="btn" style="margin-top:1.5rem;">▶ 紡がれる人々の記録</a>
+    </div>
+  </section>
+
+  <!-- スポンサーリンク -->
+  <section class="sponsor">
+    <h2>スポンサーリンク</h2>
+    <div class="ad-box">
+      <!-- Google広告コードをここに -->
+      <ins class="adsbygoogle"
+           style="display:block"
+           data-ad-client="YOUR-CLIENT-ID"
+           data-ad-slot="1234567890"
+           data-ad-format="auto"
+           data-full-width-responsive="true"></ins>
+      <script>
+        (adsbygoogle = window.adsbygoogle || []).push({});
+      </script>
+    </div>
+  </section>
+
+  <!-- フッター -->
+  <footer>
+    © 2025 世紀輪廻メモリア | All Rights Reserved.
+  </footer>
+</body>
+</html>
