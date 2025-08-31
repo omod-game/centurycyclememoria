@@ -1,8 +1,12 @@
 const gameScreen = document.getElementById("centurycyclememoria-game-screen");
 const bgImage = document.getElementById("centurycyclememoria-bg-image");
 const charImage = document.getElementById("centurycyclememoria-char-image");
-const textBox = document.getElementById("centurycyclememoria-text");
 const overlay = document.getElementById("centurycyclememoria-overlay");
+
+// 新しい参照
+const bubble = document.getElementById("ccm-bubble");
+const nameEl = document.getElementById("ccm-name");
+const lineEl = document.getElementById("ccm-line");
 
 let currentLine = 0;
 
@@ -42,18 +46,42 @@ const scenario = [
   { text: "未来の声には、尊敬とほんの少しの緊張が混じっていた。", bg: "bg_council_door.jpg" }
 ];
 
+// テキスト解析（名前と本文を分離）
+function formatLine(text) {
+  const m = text.match(/^([^\s「『（(]+)\s*[「『(（]/);
+  if (m) {
+    const speaker = m[1];
+    const quote = text.replace(/^([^\s「『（(]+)\s*/, "");
+    return { type: "dialogue", speaker, line: quote };
+  }
+  return { type: "narration", speaker: "", line: text };
+}
+
+// レンダリング
+function renderText(text) {
+  const f = formatLine(text);
+  if (f.type === "dialogue") {
+    bubble.classList.remove("is-narration");
+    nameEl.textContent = f.speaker;
+    nameEl.setAttribute("aria-hidden", "false");
+    lineEl.textContent = f.line;
+  } else {
+    bubble.classList.add("is-narration");
+    nameEl.textContent = "";
+    nameEl.setAttribute("aria-hidden", "true");
+    lineEl.textContent = f.line;
+  }
+}
 
 // シナリオ表示
 function showLine() {
   const line = scenario[currentLine];
   if (!line) return;
 
-  // 背景切替
-  if (line.bg) {
-    bgImage.src = line.bg;
-  }
+  // 背景
+  if (line.bg) bgImage.src = line.bg;
 
-  // キャラ画像（必要ならline.charで設定可能）
+  // キャラ画像
   if (line.char) {
     charImage.src = line.char;
     charImage.style.display = "block";
@@ -65,7 +93,7 @@ function showLine() {
   overlay.style.opacity = line.overlay ? 1 : 0;
 
   // テキスト
-  textBox.textContent = line.text;
+  renderText(line.text);
 }
 
 // クリックで次へ
