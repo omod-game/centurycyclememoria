@@ -1,9 +1,9 @@
 body {
   margin: 0;
   font-family: "Hiragino Maru Gothic ProN", "メイリオ", sans-serif;
-  background: #000;
+  background: url('bg_homepage.jpg') no-repeat center center fixed;
+  background-size: cover;
   color: #fff;
-  overflow: hidden;
 }
 
 /* ゲーム画面 */
@@ -83,4 +83,13 @@ body {
 #centurycyclememoria-text {
   margin: 0;
   white-space: pre-line;
+}
+
+/* サイトの調整 */
+.site-header, .site-footer {
+  background-color: rgba(0, 0, 0, 0.7);
+}
+
+.container {
+  backdrop-filter: blur(6px);
 }
