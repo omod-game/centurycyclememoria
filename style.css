@@ -1,20 +1,21 @@
-/* --- 共通リセット・基本設定 --- */
+/* 共通リセット */
 * {
   margin: 0;
   padding: 0;
   box-sizing: border-box;
 }
 
-html, body {
+body {
   font-family: "Noto Serif JP", serif;
-  min-height: 100%;
   color: #fff;
   background: url("bg_moon_sakura.jpg") no-repeat center center fixed;
   background-size: cover;
-  overflow-x: hidden;
+  position: relative;
+  min-height: 100vh;
+  line-height: 1.8;
 }
 
-/* 背景黒透過レイヤー */
+/* 背景透過レイヤー */
 body::before {
   content: "";
   position: fixed;
@@ -23,61 +24,55 @@ body::before {
   z-index: -1;
 }
 
-/* --- ヘッダー・ナビ --- */
+/* ヘッダー */
 header {
   text-align: center;
-  padding: 3rem 1rem 2rem;
+  padding: 2rem 1rem;
 }
-
 header h1 {
   font-size: 2.5rem;
   margin-bottom: 0.5rem;
 }
-
-header p {
-  opacity: 0.85;
-}
-
-/* ナビゲーション */
 nav {
-  position: fixed;
-  top: 1rem;
-  right: 1.5rem;
-  background: rgba(0,0,0,0.45);
-  padding: 0.5rem 1rem;
-  border-radius: 9999px;
-  font-size: 0.9rem;
+  margin-top: 0.5rem;
 }
-
 nav a {
-  margin: 0 0.4rem;
+  margin: 0 0.5rem;
   color: #fff;
   text-decoration: none;
 }
-
 nav a:hover {
   text-decoration: underline;
 }
 
-/* --- メインセクション --- */
-section {
-  text-align: center;
-  padding: 3rem 1rem;
+/* メインコンテンツ */
+main {
+  padding: 2rem 1rem;
   max-width: 900px;
   margin: 0 auto;
 }
 
+/* セクション */
+section {
+  margin-bottom: 3rem;
+  text-align: center;
+}
 section h2 {
   font-size: 1.8rem;
   margin-bottom: 1rem;
 }
-
 section p {
-  line-height: 1.8;
   margin-bottom: 1rem;
 }
 
-/* --- ボタン --- */
+/* 半透明ボックス */
+.box {
+  background: rgba(0,0,0,0.55);
+  padding: 2rem;
+  border-radius: 15px;
+}
+
+/* ボタン */
 .btn {
   display: inline-block;
   background: rgba(255,255,255,0.15);
@@ -88,57 +83,22 @@ section p {
   text-decoration: none;
   transition: background 0.3s;
 }
-
 .btn:hover {
   background: rgba(255,255,255,0.3);
 }
 
-/* --- キャラクター紹介 --- */
-.character-intro {
-  background: rgba(0,0,0,0.35);
-  padding: 2rem 1rem;
-  border-radius: 15px;
-  margin-top: 2rem;
-}
-
-.character-name {
-  font-size: 1.6rem;
-  font-weight: bold;
-  color: #ff7fbf;
-  text-shadow: 1px 1px 3px rgba(0,0,0,0.6);
-  margin-bottom: 1rem;
-}
-
-.character-intro p {
-  line-height: 1.9;
-  font-size: 1rem;
-  margin: 0 auto;
-  max-width: 700px;
-  text-shadow: 1px 1px 2px rgba(0,0,0,0.5);
-}
-
-/* --- スポンサーリンク --- */
-.sponsor {
+/* フッター */
+footer {
   text-align: center;
   padding: 2rem 1rem;
-  opacity: 0.85;
+  opacity: 0.7;
+  font-size: 0.9rem;
 }
 
-.sponsor h2 {
-  font-size: 1rem;
-  margin-bottom: 1rem;
-}
-
-.sponsor .ad-box {
+/* 広告枠 */
+.ad-box {
   background: rgba(255,255,255,0.08);
   padding: 1rem;
   border-radius: 10px;
-}
-
-/* --- フッター --- */
-footer {
-  text-align: center;
-  font-size: 0.8rem;
-  padding: 2rem 1rem;
-  opacity: 0.7;
+  margin: 1rem auto;
 }
