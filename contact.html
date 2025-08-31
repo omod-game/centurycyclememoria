@@ -1,37 +1,15 @@
 <!DOCTYPE html>
 <html lang="ja">
 <head>
-<meta charset="UTF-8">
-<title>お問い合わせ - 世紀輪廻メモリア</title>
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<link rel="stylesheet" href="centurycyclememoria.css">
-<style>
-  body {
-    background: url("bg_moon_sakura.jpg") no-repeat center center fixed;
-    background-size: cover;
-    position: relative;
-  }
-  body::before {
-    content:"";
-    position: fixed;
-    inset:0;
-    background: rgba(0,0,0,0.45);
-    z-index:-1;
-  }
-  .form-container {
-    max-width:500px;
-    margin:5rem auto;
-    background: rgba(0,0,0,0.35);
-    padding:2rem;
-    border-radius:15px;
-  }
-  label { display:block; margin-top:1rem; font-weight:bold; }
-  input, textarea { width:100%; padding:0.5rem; border-radius:8px; border:none; margin-top:0.3rem; }
-  button { margin-top:1rem; padding:0.8rem 2rem; border-radius:9999px; border:none; background: rgba(255,255,255,0.15); color:#fff; cursor:pointer; transition:0.3s; }
-  button:hover { background: rgba(255,255,255,0.3); }
-</style>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>お問い合わせ - 世紀輪廻メモリア</title>
+  <link rel="stylesheet" href="style.css">
+  <link rel="icon" href="icon-192.png" type="image/png">
 </head>
 <body>
+
+  <!-- ナビゲーション -->
   <nav>
     <a href="index.html">トップ</a>
     <a href="characters.html">キャラクター</a>
@@ -41,29 +19,44 @@
     <a href="profile.html">プロフィール</a>
   </nav>
 
+  <!-- ヘッダー -->
   <header>
     <h1>お問い合わせ</h1>
-    <p>AIを活用して制作している「世紀輪廻メモリア」へのご意見・ご質問はこちらから</p>
+    <p>ご意見・ご要望はこちらからお送りください</p>
   </header>
 
-  <section class="form-container">
-    <form action="https://formsubmit.co/centurycyclememoria@gmail.com" method="POST">
-      <input type="hidden" name="_captcha" value="false">
-      <input type="hidden" name="_next" value="thankyou.html">
-      <label>お名前</label>
-      <input type="text" name="name" required>
-      <label>メールアドレス</label>
-      <input type="email" name="email" required>
-      <label>お問い合わせ内容</label>
-      <textarea name="message" rows="6" required></textarea>
-      <button type="submit">送信</button>
-    </form>
+  <!-- お問い合わせフォーム -->
+  <section>
+    <div style="background: rgba(0,0,0,0.45); padding:2rem; border-radius:15px; max-width:600px; margin:0 auto;">
+      <form action="https://formsubmit.co/centurycyclememoria@gmail.com" method="POST">
+        <!-- スパム防止 -->
+        <input type="hidden" name="_captcha" value="false">
+        <input type="hidden" name="_next" value="thankyou.html">
+
+        <div style="margin-bottom:1rem;">
+          <label>お名前</label>
+          <input type="text" name="name" required style="width:100%; padding:0.6rem; border-radius:8px; border:1px solid #ccc;">
+        </div>
+
+        <div style="margin-bottom:1rem;">
+          <label>メールアドレス</label>
+          <input type="email" name="email" required style="width:100%; padding:0.6rem; border-radius:8px; border:1px solid #ccc;">
+        </div>
+
+        <div style="margin-bottom:1rem;">
+          <label>お問い合わせ内容</label>
+          <textarea name="message" required style="width:100%; padding:0.6rem; border-radius:8px; border:1px solid #ccc; min-height:150px;"></textarea>
+        </div>
+
+        <button type="submit" class="btn" style="width:100%;">送信</button>
+      </form>
+    </div>
   </section>
 
+  <!-- 広告 -->
   <section class="sponsor">
     <h2>スポンサーリンク</h2>
     <div class="ad-box">
-      <!-- Google広告コード -->
       <ins class="adsbygoogle"
            style="display:block"
            data-ad-client="YOUR-CLIENT-ID"
@@ -76,8 +69,10 @@
     </div>
   </section>
 
+  <!-- フッター -->
   <footer>
     © 2025 世紀輪廻メモリア | All Rights Reserved.
   </footer>
+
 </body>
 </html>
