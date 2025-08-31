@@ -20,7 +20,7 @@ body {
 }
 
 /* 黒背景（ナレーション導入用） */
-#centurycyclememoria-background img[src="ccm_black.jpg"] {
+#centurycyclememoria-background img[src="bg_black.jpg"] {
   background: #000;
 }
 
@@ -43,57 +43,44 @@ body {
   display: none;
 }
 
-/* テキストボックス全体（下部固定） */
-#centurycyclememoria-textbox {
+/* === テキストボックス === */
+#centurycyclememoria-textbox-wrapper {
   position: absolute;
   bottom: 5%;
   left: 50%;
   transform: translateX(-50%);
   width: 80%;
-  min-height: 140px;
+  text-align: left;
+}
+
+/* 名前帯（小さいピンク枠） */
+#centurycyclememoria-name {
+  display: none; /* デフォルト非表示 */
+  background: rgba(255, 182, 193, 0.3);
+  border: 1px solid #ff69b4;
+  color: #ff69b4;
+  padding: 4px 12px;
+  border-radius: 6px 6px 0 0;
+  font-weight: bold;
+  font-size: 18px;
+  width: fit-content;
+  margin-left: 10px;
+}
+
+/* セリフボックス */
+#centurycyclememoria-textbox {
   background: rgba(0, 0, 0, 0.6);
   border: 2px solid #fff;
-  border-radius: 12px;
+  border-radius: 0 12px 12px 12px;
   padding: 20px;
-  display: flex;
-  align-items: flex-start;
-  justify-content: flex-start;
-  text-align: left;
   color: #fff;
   font-size: 20px;
   line-height: 1.8;
   box-shadow: 0 0 15px rgba(0,0,0,0.5);
+  min-height: 140px;
 }
 
-/* ===== キャラ名バッジ＋セリフ（character-sakura） ===== */
-.character-sakura {
-  width: 100%;
-}
-
-.character-sakura .name {
-  display: inline-flex;
-  align-items: center;
-  padding: 6px 12px;
-  border-radius: 8px;
-  font-weight: 700;
-  font-size: 16px;
-  color: #ff7fbf; /* ピンク */
-  background: rgba(255, 255, 255, 0.08);
-  border: 1px solid rgba(255, 255, 255, 0.35);
-  backdrop-filter: blur(2px);
-  text-shadow: 0 1px 2px rgba(0,0,0,.45);
-  margin-bottom: 8px;
-}
-
-.character-sakura .line {
-  margin: 0;
-  font-size: 20px;
-  line-height: 1.9;
-  text-shadow: 0 1px 2px rgba(0,0,0,.5);
+/* セリフ本文 */
+#centurycyclememoria-text {
   white-space: pre-line;
-}
-
-/* ナレーション（名前なし） */
-.character-sakura.is-narration .name {
-  display: none;
 }
