@@ -1,85 +1,61 @@
 <!DOCTYPE html>
 <html lang="ja">
 <head>
-<meta charset="UTF-8" />
-<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-<title>お問い合わせ | 世紀輪廻メモリア</title>
-<meta name="description" content="世紀輪廻メモリアへのお問い合わせフォーム。開発・不具合報告・ご感想などはこちらから。">
-<link rel="canonical" href="https://YOUR_SITE_URL/contact.html">
-<script src="https://cdn.tailwindcss.com"></script>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>お問い合わせ - 世紀輪廻メモリア</title>
+  <link rel="stylesheet" href="centurycyclememoria.css">
+  <script src="https://cdn.tailwindcss.com"></script>
 </head>
-<body class="bg-gradient-to-b from-purple-200 via-pink-200 to-yellow-100 min-h-screen flex flex-col">
+<body class="bg-gray-900 text-white">
 
   <!-- ヘッダー（共通） -->
-  <header class="w-full bg-white/90 backdrop-blur shadow-md">
-    <div class="max-w-6xl mx-auto px-4 py-4 flex items-center justify-between">
-      <a href="index.html" class="text-2xl font-extrabold text-purple-700">世紀輪廻メモリア</a>
-      <nav class="space-x-4 text-sm">
-        <a href="index.html" class="hover:underline">トップ</a>
-        <a href="game.html" class="hover:underline">ゲーム</a>
-        <a href="blog.html" class="hover:underline">ブログ</a>
-        <a href="privacy.html" class="hover:underline">プライバシー</a>
-        <a href="contact.html" class="font-semibold text-purple-700 underline">お問い合わせ</a>
+  <header class="site-header">
+    <div class="header-inner flex justify-between items-center p-4">
+      <h1 class="logo text-2xl font-bold">世紀輪廻メモリア</h1>
+      <nav>
+        <a href="index.html" class="mx-2 hover:underline">トップ</a>
+        <a href="game.html" class="mx-2 hover:underline">ゲーム</a>
+        <a href="blog.html" class="mx-2 hover:underline">ブログ</a>
+        <a href="privacy.html" class="mx-2 hover:underline">プライバシーポリシー</a>
+        <a href="contact.html" class="mx-2 hover:underline">お問い合わせ</a>
+        <a href="profile.html" class="mx-2 hover:underline">プロフィール</a>
       </nav>
     </div>
   </header>
 
-  <!-- 本文 -->
-  <main class="flex-1">
-    <section class="max-w-3xl mx-auto px-4 py-10">
-      <div class="bg-white/95 rounded-3xl shadow-xl p-8">
-        <h1 class="text-3xl font-bold text-purple-700 mb-2">お問い合わせ</h1>
-        <p class="text-gray-600 mb-6">
-          ご意見・ご感想・不具合報告・コラボのご提案など、お気軽にお送りください。<br>
-          通常、数日以内にご返信いたします。
-        </p>
+  <!-- メイン -->
+  <main class="flex items-center justify-center min-h-[80vh]">
+    <div class="bg-gray-800 p-8 rounded-2xl shadow-lg w-full max-w-md">
+      <h2 class="text-2xl font-bold text-center mb-6">お問い合わせ</h2>
+      <form action="https://formsubmit.co/centurycyclememoria@gmail.com" method="POST">
+        <input type="hidden" name="_captcha" value="false">
+        <input type="hidden" name="_next" value="https://YOUR_SITE_URL/thankyou.html">
 
-        <form action="https://formsubmit.co/YOUR_GMAIL_ADDRESS" method="POST" id="contactForm" class="space-y-5">
-          <!-- 送信後の遷移先 -->
-          <input type="hidden" name="_next" value="https://YOUR_SITE_URL/thankyou.html">
-          <!-- スパム対策（ハニーポット） -->
-          <input type="text" name="_honey" style="display:none">
-          <!-- CAPTCHA 無効化 -->
-          <input type="hidden" name="_captcha" value="false">
-          <!-- 件名（任意） -->
-          <input type="hidden" name="_subject" value="【世紀輪廻メモリア】お問い合わせが届きました">
+        <div class="mb-4">
+          <label class="block mb-1 font-semibold text-white">お名前</label>
+          <input type="text" name="name" required class="w-full p-2 rounded-lg border border-gray-400">
+        </div>
 
-          <div>
-            <label class="block font-semibold mb-1">お名前</label>
-            <input type="text" name="name" required
-              class="w-full p-3 rounded-xl border border-gray-200 focus:outline-none focus:ring-2 focus:ring-purple-300 bg-white/80">
-          </div>
+        <div class="mb-4">
+          <label class="block mb-1 font-semibold text-white">メールアドレス</label>
+          <input type="email" name="email" required class="w-full p-2 rounded-lg border border-gray-400">
+        </div>
 
-          <div>
-            <label class="block font-semibold mb-1">メールアドレス</label>
-            <input type="email" name="email" required
-              class="w-full p-3 rounded-xl border border-gray-200 focus:outline-none focus:ring-2 focus:ring-purple-300 bg-white/80">
-          </div>
+        <div class="mb-4">
+          <label class="block mb-1 font-semibold text-white">お問い合わせ内容</label>
+          <textarea name="message" required class="w-full p-2 rounded-lg border border-gray-400 h-32"></textarea>
+        </div>
 
-          <div>
-            <label class="block font-semibold mb-1">お問い合わせ内容</label>
-            <textarea name="message" required rows="6"
-              class="w-full p-3 rounded-xl border border-gray-200 focus:outline-none focus:ring-2 focus:ring-purple-300 bg-white/80"></textarea>
-          </div>
-
-          <button type="submit"
-            class="w-full bg-gradient-to-r from-purple-600 to-pink-500 text-white font-bold py-3 rounded-xl shadow hover:opacity-90 transition">
-            送信する
-          </button>
-
-          <p class="text-xs text-gray-500">
-            送信いただくと、<a href="privacy.html" class="underline">プライバシーポリシー</a>に同意したものとみなします。
-          </p>
-        </form>
-      </div>
-    </section>
+        <button type="submit" class="w-full bg-purple-600 hover:bg-purple-800 py-2 rounded-lg text-white font-bold transition">送信</button>
+      </form>
+    </div>
   </main>
 
-  <!-- フッター（共通） -->
-  <footer class="w-full bg-white/90 backdrop-blur shadow-inner">
-    <div class="max-w-6xl mx-auto px-4 py-6 text-center text-sm text-gray-600">
-      <p>&copy; 2025 世紀輪廻メモリア運営</p>
-    </div>
+  <!-- フッター -->
+  <footer class="site-footer text-center py-6 bg-gray-800">
+    <p>&copy; 2025 世紀輪廻メモリア運営</p>
   </footer>
+
 </body>
 </html>
