@@ -1,104 +1,86 @@
 /* 共通リセット */
-* {
-  margin: 0;
-  padding: 0;
-  box-sizing: border-box;
-}
+* { margin:0; padding:0; box-sizing:border-box; }
 
 body {
   font-family: "Noto Serif JP", serif;
-  color: #fff;
-  background: url("bg_moon_sakura.jpg") no-repeat center center fixed;
-  background-size: cover;
-  position: relative;
-  min-height: 100vh;
-  line-height: 1.8;
+  color:#fff;
+  background:url("bg_moon_sakura.jpg") no-repeat center center fixed;
+  background-size:cover;
+  min-height:100vh;
+  line-height:1.8;
+  position:relative;
 }
 
 /* 背景透過レイヤー */
 body::before {
-  content: "";
-  position: fixed;
-  inset: 0;
+  content:"";
+  position:fixed;
+  inset:0;
   background: rgba(0,0,0,0.45);
-  z-index: -1;
+  z-index:-1;
 }
 
 /* ヘッダー */
 header {
-  text-align: center;
-  padding: 2rem 1rem;
+  text-align:center;
+  padding:3rem 1rem 2rem;
 }
-header h1 {
-  font-size: 2.5rem;
-  margin-bottom: 0.5rem;
-}
+header h1 { font-size:2.5rem; margin-bottom:0.5rem; }
+
+/* ナビゲーション（右上固定） */
 nav {
-  margin-top: 0.5rem;
+  position:fixed;
+  top:1rem;
+  right:1.5rem;
+  background: rgba(0,0,0,0.45);
+  padding:0.5rem 1rem;
+  border-radius:9999px;
+  font-size:0.9rem;
 }
 nav a {
-  margin: 0 0.5rem;
-  color: #fff;
-  text-decoration: none;
+  margin:0 0.4rem;
+  color:#fff;
+  text-decoration:none;
 }
-nav a:hover {
-  text-decoration: underline;
-}
+nav a:hover { text-decoration:underline; }
 
-/* メインコンテンツ */
-main {
-  padding: 2rem 1rem;
-  max-width: 900px;
-  margin: 0 auto;
-}
+/* メイン */
+main { padding:2rem 1rem; max-width:900px; margin:0 auto; }
 
 /* セクション */
-section {
-  margin-bottom: 3rem;
-  text-align: center;
-}
-section h2 {
-  font-size: 1.8rem;
-  margin-bottom: 1rem;
-}
-section p {
-  margin-bottom: 1rem;
-}
+section { text-align:center; margin-bottom:3rem; }
+section h2 { font-size:1.8rem; margin-bottom:1rem; text-shadow:1px 1px 2px rgba(0,0,0,0.6); }
+section p { margin-bottom:1rem; }
 
 /* 半透明ボックス */
-.box {
-  background: rgba(0,0,0,0.55);
-  padding: 2rem;
-  border-radius: 15px;
-}
+.box { background: rgba(0,0,0,0.55); padding:2rem; border-radius:15px; }
 
 /* ボタン */
 .btn {
-  display: inline-block;
+  display:inline-block;
   background: rgba(255,255,255,0.15);
-  padding: 0.8rem 2rem;
-  border-radius: 9999px;
-  font-size: 1.1rem;
-  color: #fff;
-  text-decoration: none;
-  transition: background 0.3s;
+  padding:0.8rem 2rem;
+  border-radius:9999px;
+  font-size:1.1rem;
+  color:#fff;
+  text-decoration:none;
+  transition:background 0.3s;
 }
-.btn:hover {
-  background: rgba(255,255,255,0.3);
-}
+.btn:hover { background: rgba(255,255,255,0.3); }
 
 /* フッター */
 footer {
-  text-align: center;
-  padding: 2rem 1rem;
-  opacity: 0.7;
-  font-size: 0.9rem;
+  text-align:center;
+  padding:2rem 1rem;
+  font-size:0.9rem;
+  opacity:0.7;
+  background: rgba(0,0,0,0.3);
 }
 
-/* 広告枠 */
+/* 広告ボックス */
 .ad-box {
   background: rgba(255,255,255,0.08);
-  padding: 1rem;
-  border-radius: 10px;
-  margin: 1rem auto;
+  padding:1rem;
+  border-radius:10px;
+  margin:1rem auto;
 }
