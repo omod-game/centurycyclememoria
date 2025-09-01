@@ -39,7 +39,30 @@ const scenario = [
   { speaker: "桜井 未来", text: "ここは玲奈がよくいるところ。生徒会長なんだ", bg: "bg_council_door.jpg", char: "char_miku_smile.png" },
   { text: "扉の奥からは、誰かが書類をめくる音がかすかに聞こえた。", bg: "bg_council_door.jpg" },
   { speaker: "桜井 未来", text: "真面目でしっかりしてるけど……ちょっと厳しいところもあるかな", bg: "bg_council_door.jpg", char: "char_miku_smile.png" },
-  { text: "未来の声には、尊敬とほんの少しの緊張が混じっていた。", bg: "bg_council_door.jpg" }
+  { text: "未来の声には、尊敬とほんの少しの緊張が混じっていた。", bg: "bg_council_door.jpg" },
+  
+  { text: "案内はひと通り終わり、気づけば夕暮れ時になっていた。", bg: "bg_school_corridor_evening.jpg" },
+  { speaker: "桜井 未来", text: "最後に……特別な場所、見せてあげる！", bg: "bg_school_corridor_evening.jpg" },
+  
+  { text: "未来に手を引かれ、階段を上る。", bg: "bg_school_stairs_evening.jpg" },
+  { text: "扉を開けた先に広がっていたのは──", bg: "bg_rooftop_evening.jpg" },
+  { text: "茜色の空と、遠くに見える街並み。", bg: "bg_rooftop_evening.jpg" },
+  { speaker: "桜井 未来", text: "ここ、私のお気に入りなんだ。嫌なことがあっても……ここに来ると落ち着くの", bg: "bg_rooftop_evening.jpg" },
+  { text: "未来の横顔は、夕陽に照らされて金色に輝いていた。", bg: "bg_rooftop_evening.jpg", overlay: true },
+  
+  { text: "風が吹き抜け、桜の花びらが舞い込む。", bg: "bg_rooftop_evening.jpg" },
+  { speaker: "桜井 未来", text: "ねえ……また、ここに来てくれる？", bg: "bg_rooftop_evening.jpg" },
+  { text: "その問いに、自然と頷いていた。", bg: "bg_rooftop_evening.jpg" },
+  
+  { text: "──放課後。", bg: "bg_school_gate_evening.jpg" },
+  { text: "未来と並んで歩く帰り道。", bg: "bg_street_evening.jpg" },
+  { speaker: "桜井 未来", text: "転校してきて、どう？ 少しは慣れそう？", bg: "bg_street_evening.jpg" },
+  { text: "……うん、未来のおかげで。", bg: "bg_street_evening.jpg" },
+  { speaker: "桜井 未来", text: "ふふっ、それならよかった！", bg: "bg_street_evening.jpg" },
+  
+  { text: "その笑顔を見ていると、不思議な déjà vu が胸をよぎった。", bg: "bg_street_evening.jpg", overlay: true },
+  { text: "──まるで、この道を一緒に歩いたことがあるような……。", bg: "bg_street_evening.jpg" }
+
 ];
 
 // シナリオ表示
