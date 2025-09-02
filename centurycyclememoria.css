@@ -64,7 +64,7 @@ body {
   padding: 6px 18px;
   font-size: 20px;
   margin-bottom: 8px;
-  color: #ff69b4; /* 名前ピンク */
+  color: #ff69b4;
   font-weight: bold;
   text-shadow: 0 0 5px #fff;
   backdrop-filter: blur(6px);
