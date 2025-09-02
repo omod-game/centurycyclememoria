@@ -117,24 +117,26 @@ function showLine() {
   const line = scenario[currentLine];
   if (!line) return;
 
-  // 選択肢処理
+  // 選択肢がある場合は選択肢表示に切り替え
   if (line.choice) {
     waitingChoice = line;
     displayChoice(line);
     return;
   }
-  waitingChoice = null;
 
-  // 選択肢表示をクリア
-  const choiceContainer = document.getElementById("choice-container");
-  if (choiceContainer) choiceContainer.innerHTML = "";
+  waitingChoice = null;
 
   // 背景切替
   if (line.bg) {
-    bgImage.src = line.bg;
+    bgImage.style.transition = "opacity 0.6s ease";
+    bgImage.style.opacity = 0;
+    setTimeout(() => {
+      bgImage.src = line.bg;
+      bgImage.style.opacity = 1;
+    }, 200);
   }
 
-  // キャラ画像
+  // キャラクター切替
   if (line.char) {
     charImage.src = line.char;
     charImage.style.display = "block";
@@ -145,64 +147,69 @@ function showLine() {
   // オーバーレイ
   overlay.style.opacity = line.overlay ? 1 : 0;
 
-  // 名前とセリフ
+  // 名前とテキスト表示
   if (line.speaker) {
     nameBox.textContent = line.speaker;
+    nameBox.style.opacity = 1;
     nameBox.style.display = "inline-block";
     textBox.textContent = `「${line.text}」`;
   } else {
+    nameBox.style.opacity = 0;
     nameBox.style.display = "none";
     textBox.textContent = line.text;
   }
 
-  // affection 反映
+  // affection反映
   if (line.affection) {
     for (const key in line.affection) {
-      affection[key] += line.affection[key];
+      affection[key] = (affection[key] || 0) + line.affection[key];
       console.log(`${key} affection: ${affection[key]}`);
     }
   }
 
   // 光る演出
   if (line.flash) {
-    const textboxContainer = document.getElementById("centurycyclememoria-textbox");
-    textboxContainer.classList.add("textbox-flash");
-    setTimeout(() => {
-      textboxContainer.classList.remove("textbox-flash");
-    }, 2000);
+    textBoxWrapper.classList.add("textbox-flash");
+    setTimeout(() => textBoxWrapper.classList.remove("textbox-flash"), 2000);
   }
 }
 
 // ----------------------------
-// 選択肢表示（中央一覧表示・背景変更対応）
+// 選択肢表示（中央・リッチ表示）
 // ----------------------------
 function displayChoice(choiceLine) {
   waitingChoice = choiceLine;
 
   // テキスト・名前をフェードアウト
-  textBox.style.transition = "opacity 0.4s ease";
-  textBox.style.opacity = 0;
-  nameBox.style.transition = "opacity 0.4s ease";
-  nameBox.style.opacity = 0;
+  textBoxWrapper.style.transition = "opacity 0.3s ease";
+  textBoxWrapper.style.opacity = 0;
 
-  // choice-container を用意
+  // choice-container 作成
   let choiceContainer = document.getElementById("choice-container");
   if (!choiceContainer) {
     choiceContainer = document.createElement("div");
     choiceContainer.id = "choice-container";
+    choiceContainer.style.position = "absolute";
+    choiceContainer.style.top = "50%";
+    choiceContainer.style.left = "50%";
+    choiceContainer.style.transform = "translate(-50%, -50%)";
+    choiceContainer.style.display = "flex";
+    choiceContainer.style.flexDirection = "column";
+    choiceContainer.style.alignItems = "center";
+    choiceContainer.style.gap = "15px";
+    choiceContainer.style.zIndex = "50";
     document.getElementById("centurycyclememoria-game-screen").appendChild(choiceContainer);
   }
-  choiceContainer.innerHTML = ""; // 前の選択肢削除
-  choiceContainer.style.display = "flex";
+  choiceContainer.innerHTML = "";
 
-  // 選択肢を順次生成
+  // 選択肢ボタン生成
   choiceLine.options.forEach((opt, index) => {
     const btn = document.createElement("button");
     btn.textContent = opt.text;
     btn.className = "scenario-choice fade-in";
-    btn.style.animationDelay = `${index * 0.1}s`; // フェードイン順番
+    btn.style.animationDelay = `${index * 0.1}s`;
 
-    // 背景フェード切り替え（ホバー時）
+    // 背景フェード用
     btn.addEventListener("mouseenter", () => {
       if (opt.bg) {
         bgImage.style.transition = "opacity 0.6s ease";
@@ -214,31 +221,23 @@ function displayChoice(choiceLine) {
       }
     });
 
-    // 選択肢クリック処理
     btn.addEventListener("click", () => {
       // affection反映
       if (opt.affection) {
         for (const key in opt.affection) {
-          affection[key] += opt.affection[key];
+          affection[key] = (affection[key] || 0) + opt.affection[key];
           console.log(`${key} affection: ${affection[key]}`);
         }
       }
 
-      // 次のシナリオへジャンプ
+      // nextジャンプ
       if (opt.next) {
         const nextIndex = scenario.findIndex(l => l.id === opt.next);
         if (nextIndex >= 0) {
           currentLine = nextIndex;
           waitingChoice = null;
-
-          // 選択肢削除
-          choiceContainer.style.display = "none";
-          choiceContainer.innerHTML = "";
-
-          // テキスト・名前再表示
-          textBox.style.opacity = 1;
-          nameBox.style.opacity = 1;
-
+          choiceContainer.remove();  // 選択肢削除
+          textBoxWrapper.style.opacity = 1; // テキスト再表示
           showLine();
         }
       }
