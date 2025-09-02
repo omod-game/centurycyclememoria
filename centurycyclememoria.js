@@ -110,7 +110,6 @@ const scenario = [
   ];
 
 
-// シナリオ表示
 function showLine() {
   const line = scenario[currentLine];
   if (!line) return;
@@ -128,7 +127,7 @@ function showLine() {
     bgImage.src = line.bg;
   }
 
-  // キャラ画像（必要ならline.charで設定可能）
+  // キャラ画像
   if (line.char) {
     charImage.src = line.char;
     charImage.style.display = "block";
@@ -148,6 +147,7 @@ function showLine() {
     nameBox.style.display = "none";
     textBox.textContent = line.text;
   }
+
   // affection 反映
   if (line.affection) {
     for (const key in line.affection) {
@@ -155,7 +155,17 @@ function showLine() {
       console.log(`${key} affection: ${affection[key]}`);
     }
   }
+
+  // 光る演出
+  if (line.flash) {
+    const textboxContainer = document.getElementById("centurycyclememoria-textbox");
+    textboxContainer.classList.add("textbox-flash");
+    setTimeout(() => {
+      textboxContainer.classList.remove("textbox-flash");
+    }, 2000);
+  }
 }
+
 // ----------------------------
 // 選択肢表示（順次表示・背景変更対応）
 // ----------------------------
@@ -176,7 +186,7 @@ function displayChoice(choiceLine) {
     // 選択肢ボタン生成
     const btn = document.createElement("button");
     btn.textContent = opt.text;
-    btn.className = "scenario-choice"; // CSSでリッチ化
+    btn.className = "scenario-choice fade-in"; // CSSでリッチ化・フェードイン
     btn.addEventListener("click", () => {
       // affection反映
       if (opt.affection) {
@@ -196,9 +206,9 @@ function displayChoice(choiceLine) {
         }
       }
 
-      btn.remove();
+      btn.remove(); // 選択肢削除
       optionIndex++;
-      showNextOption();
+      showNextOption(); // 次の選択肢を表示
     });
 
     textBox.appendChild(btn);
@@ -217,21 +227,11 @@ gameScreen.addEventListener("click", () => {
   if (currentLine < scenario.length) showLine();
 });
 
+// ----------------------------
 // ページ読み込みで即ナレーション開始
+// ----------------------------
 window.addEventListener("load", () => {
   currentLine = 0;
   showLine();
 });
-
-// テキスト更新
-textBox.innerHTML = line.text;
-
-// 光る演出（汎用化）
-const textboxContainer = document.getElementById("centurycyclememoria-textbox");
-if (line.flash) {
-  textboxContainer.classList.add("textbox-flash");
-  setTimeout(() => {
-    textboxContainer.classList.remove("textbox-flash");
-  }, 2000);
-}
 
