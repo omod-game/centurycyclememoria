@@ -13,17 +13,13 @@ body {
   height: 100vh;
 }
 
-#centurycyclememoria-background img {
+#centurycyclememoria-bg-image {
   width: 100%;
   height: 100%;
   object-fit: cover;
 }
 
-/* 黒背景（ナレーション導入用） */
-#centurycyclememoria-background img[src="ccm_black.jpg"] {
-  background: #000;
-}
-
+/* オーバーレイ */
 #centurycyclememoria-overlay {
   position: absolute;
   top: 0; left: 0;
@@ -34,7 +30,8 @@ body {
   transition: opacity 2s ease;
 }
 
-#centurycyclememoria-character img {
+/* キャラクター */
+#centurycyclememoria-char-image {
   position: absolute;
   bottom: 0;
   left: 50%;
@@ -57,43 +54,36 @@ body {
   display: inline-block;
   background: rgba(0, 0, 0, 0.6);
   border: 2px solid #fff;
-  border-radius: 8px;
+  border-radius: 12px;
   padding: 5px 15px;
   font-size: 18px;
-  margin-bottom: 5px;
+  margin-bottom: 8px;
   color: #ff69b4; /* 名前はピンク */
+  text-shadow: 0 0 5px #fff;
 }
 
 /* セリフテキストボックス */
 #centurycyclememoria-textbox {
   width: 100%;
-  min-height: 140px;
-  background: rgba(0, 0, 0, 0.6);
+  min-height: 160px;
+  background: rgba(0, 0, 0, 0.7);
   border: 2px solid #fff;
-  border-radius: 12px;
+  border-radius: 16px;
   padding: 20px;
   text-align: left;
   color: #fff;
   font-size: 20px;
   line-height: 1.8;
-  box-shadow: 0 0 15px rgba(0,0,0,0.5);
+  box-shadow: 0 0 20px rgba(0,0,0,0.6);
+  backdrop-filter: blur(4px);
+  position: relative;
+  overflow: hidden;
 }
 
 /* セリフ本文 */
 #centurycyclememoria-text {
   margin: 0;
   white-space: pre-line;
-  position: relative;
-  z-index: 10;
-}
-
-/* サイトの調整 */
-.site-header, .site-footer {
-  background-color: rgba(0, 0, 0, 0.7);
-}
-
-.container {
-  backdrop-filter: blur(6px);
 }
 
 /* 光る演出（重要シーン用） */
@@ -107,49 +97,40 @@ body {
   100% { box-shadow: 0 0 15px rgba(255, 200, 200, 0.2); }
 }
 
-/* =============================== */
-/* 選択肢ボタンリッチ化 */
+/* -----------------------------
+   選択肢ボタン
+   ----------------------------- */
 .scenario-choice {
   display: block;
-  width: 80%;
+  width: 90%;
   max-width: 400px;
-  margin: 10px auto;
+  margin: 12px auto;
   padding: 12px 20px;
+  background: linear-gradient(145deg, rgba(255, 105, 180, 0.8), rgba(255, 182, 193, 0.8));
+  border: 2px solid #fff;
+  border-radius: 20px;
   font-size: 18px;
-  font-weight: bold;
-  text-align: center;
   color: #fff;
-  background: rgba(0, 0, 0, 0.6);
-  border: 2px solid rgba(255, 255, 255, 0.6);
-  border-radius: 15px;
+  text-align: center;
   cursor: pointer;
-  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
+  box-shadow: 0 0 12px rgba(255,105,180,0.6);
   transition: all 0.3s ease;
-  text-shadow: 1px 1px 2px rgba(0,0,0,0.7);
-  position: relative;
-  z-index: 20;
-}
-
-/* ホバー時の光彩演出 */
-.scenario-choice:hover {
-  background: rgba(255, 255, 255, 0.2);
-  border-color: #fff;
-  box-shadow: 0 0 20px rgba(255, 255, 255, 0.8), 0 4px 10px rgba(0, 0, 0, 0.3);
-  transform: translateY(-2px);
-}
-
-/* クリック時の押し込みアニメーション */
-.scenario-choice:active {
-  transform: translateY(0px);
-  box-shadow: 0 2px 6px rgba(0,0,0,0.3);
-}
-
-/* フェードイン用アニメーション */
-.scenario-choice.fade-in {
   opacity: 0;
-  animation: fadeIn 0.5s forwards;
 }
 
-@keyframes fadeIn {
-  to { opacity: 1; }
+/* ホバーエフェクト */
+.scenario-choice:hover {
+  transform: scale(1.05);
+  background: linear-gradient(145deg, rgba(255, 105, 180, 1), rgba(255, 182, 193, 1));
+  box-shadow: 0 0 25px rgba(255,105,180,0.9);
+}
+
+/* フェードイン */
+.fade-in {
+  animation: fadeInChoice 0.5s forwards;
+}
+
+@keyframes fadeInChoice {
+  from { opacity: 0; transform: translateY(20px); }
+  to   { opacity: 1; transform: translateY(0); }
 }
