@@ -78,10 +78,10 @@ const scenario = [
     choice: true,
     text: "放課後、どうする？",
     options: [
-      { text: "未来と一緒に帰る", next: "miku_root", affection: { miku: 1 } },
-      { text: "図書室に寄る", next: "shizuka_root", affection: { shizuka: 1 } },
-      { text: "生徒会室に寄る", next: "rena_root", affection: { rena: 1 } },
-      { text: "一人で帰る", next: "solo_root" }
+      { text: "未来と一緒に帰る", next: "miku_root", bg: "bg_school_gate_evening.jpg", affection: { miku: 1 } },
+      { text: "図書室に寄る", next: "shizuka_root", bg: "bg_library_inside_evening.jpg", affection: { shizuka: 1 } },
+      { text: "生徒会室に寄る", next: "rena_root", bg: "bg_council_inside_evening.jpg", affection: { rena: 1 } },
+      { text: "一人で帰る", next: "solo_root", bg: "bg_street_evening.jpg" }
     ]
   },
   
