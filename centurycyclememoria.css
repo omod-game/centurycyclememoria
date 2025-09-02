@@ -93,3 +93,13 @@ body {
 .container {
   backdrop-filter: blur(6px);
 }
+/* 光る演出（重要シーン用） */
+.textbox-flash {
+  animation: flashBox 2s ease-in-out;
+}
+
+@keyframes flashBox {
+  0%   { box-shadow: 0 0 15px rgba(255, 200, 200, 0.2); }
+  50%  { box-shadow: 0 0 40px rgba(255, 150, 200, 0.8); }
+  100% { box-shadow: 0 0 15px rgba(255, 200, 200, 0.2); }
+}
