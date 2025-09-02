@@ -6,6 +6,8 @@ const overlay = document.getElementById("centurycyclememoria-overlay");
 const nameBox = document.getElementById("centurycyclememoria-name");
 
 let currentLine = 0;
+let waitingChoice = null;  // 選択肢表示中フラグ
+let affection = { miku: 0, shizuka: 0, rena: 0 };
 
 // シナリオ
 const scenario = [
@@ -32,9 +34,9 @@ const scenario = [
   // ▼選択肢を追加
   { 
     choice: true,
-    text: "放課後、未来の案内をどうする？",
+    text: "未来の案内をどうする？",
     options: [
-      { text: "未来と一緒に学校を見て回る", next: "library_intro" },
+      { text: "未来と一緒に学校を見て回る", next: "library_intro", affection: { miku: 1 } },
       { text: "一人で校内を歩いてみたい", next: "self_walk" }
     ]
   },
@@ -76,9 +78,9 @@ const scenario = [
     choice: true,
     text: "放課後、どうする？",
     options: [
-      { text: "未来と一緒に帰る", next: "miku_root", affection: { miku: +1 } },
-      { text: "図書室に寄る", next: "shizuka_root", affection: { shizuka: +1 } },
-      { text: "生徒会室に寄る", next: "rena_root", affection: { rena: +1 } },
+      { text: "未来と一緒に帰る", next: "miku_root", affection: { miku: 1 } },
+      { text: "図書室に寄る", next: "shizuka_root", affection: { shizuka: 1 } },
+      { text: "生徒会室に寄る", next: "rena_root", affection: { rena: 1 } },
       { text: "一人で帰る", next: "solo_root" }
     ]
   },
@@ -113,6 +115,14 @@ function showLine() {
   const line = scenario[currentLine];
   if (!line) return;
 
+  // 選択肢処理
+  if (line.choice) {
+    waitingChoice = line;
+    displayChoice(line);
+    return;
+  }
+  waitingChoice = null;
+
   // 背景切替
   if (line.bg) {
     bgImage.src = line.bg;
@@ -138,6 +148,51 @@ function showLine() {
     nameBox.style.display = "none";
     textBox.textContent = line.text;
   }
+  // affection 反映
+  if (line.affection) {
+    for (const key in line.affection) {
+      affection[key] += line.affection[key];
+      console.log(`${key} affection: ${affection[key]}`);
+    }
+  }
+}
+// 選択肢表示
+function displayChoice(choiceLine) {
+  textBox.innerHTML = choiceLine.text;
+
+  const choiceContainer = document.createElement("div");
+  choiceContainer.id = "choice-container";
+  choiceContainer.style.marginTop = "10px";
+
+  choiceLine.options.forEach(opt => {
+    const btn = document.createElement("button");
+    btn.textContent = opt.text;
+    btn.style.display = "block";
+    btn.style.margin = "5px 0";
+    btn.addEventListener("click", () => {
+      // affection反映
+      if (opt.affection) {
+        for (const key in opt.affection) {
+          affection[key] += opt.affection[key];
+          console.log(`${key} affection: ${affection[key]}`);
+        }
+      }
+
+      // nextジャンプ
+      if (opt.next) {
+        const nextIndex = scenario.findIndex(l => l.id === opt.next);
+        if (nextIndex >= 0) {
+          currentLine = nextIndex;
+          showLine();
+        }
+      }
+
+      choiceContainer.remove();
+    });
+    choiceContainer.appendChild(btn);
+  });
+
+  textBox.appendChild(choiceContainer);
 }
 
 // クリックで次へ
