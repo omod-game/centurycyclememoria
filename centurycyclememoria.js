@@ -21,7 +21,7 @@ const scenario = [
   { speaker: "桜井 未来", text: "よろしくね！", bg: "bg_classroom_morning.jpg", char: "char_miku_smile.png" },
   { text: "偶然のようでいて、なぜかずっと前から決まっていた気がした。", bg: "bg_classroom_morning.jpg", char: "char_miku_dream.png", overlay: true },
   { speaker: "桜井 未来", text: "転校生なんだよね？ どこから来たの？", bg: "bg_classroom_morning.jpg", char: "char_miku_smile.png" },
-  { text: "……ああ、ちょっと遠くから", bg: "bg_classroom_morning.jpg" },
+  { text: "……ああ、ちょっと遠くから。", bg: "bg_classroom_morning.jpg" },
   { speaker: "桜井 未来", text: "へえ！　なんだか楽しみだね。クラス替えもあったし、ちょうど新しいスタートだよ", bg: "bg_classroom_morning.jpg", char: "char_miku_smile.png" },
   { text: "その言葉に、不安が少しだけ和らいだ。", bg: "bg_classroom_morning.jpg" },
   { text: "窓の外、春風に舞う桜の花びらが、未来の笑顔を一層まぶしくしていた。", bg: "bg_classroom_sakura.jpg" },
@@ -29,53 +29,84 @@ const scenario = [
   { text: "唐突な誘いに、胸の奥が熱くなる。", bg: "bg_classroom_sakura.jpg" },
   { text: "まるで、ずっと前から待ち望んでいた約束のように。", bg: "bg_dream_overlay.jpg", overlay: true },
 
-  { text: "未来に連れられて、静かな図書室へと足を踏み入れる。", bg: "bg_library_inside.jpg" },
+  // ▼選択肢を追加
+  { 
+    choice: true,
+    text: "放課後、未来の案内をどうする？",
+    options: [
+      { text: "未来と一緒に学校を見て回る", next: "library_intro" },
+      { text: "一人で校内を歩いてみたい", next: "self_walk" }
+    ]
+  },
+
+  // ──未来ルート
+  { id: "library_intro", text: "未来に連れられて、静かな図書室へと足を踏み入れる。", bg: "bg_library_inside.jpg" },
   { text: "本の匂いと、窓から差す夕陽の柔らかな光。時間が止まったような空気だった。", bg: "bg_library_inside.jpg" },
   { speaker: "桜井 未来", text: "ここには、よく静がいるんだよ", bg: "bg_library_inside.jpg", char: "char_miku_smile.png" },
   { speaker: "桜井 未来", text: "本に夢中になってて、声をかけても気づかないことがあるくらい", bg: "bg_library_inside.jpg", char: "char_miku_smile.png" },
   { text: "……静かに本をめくる姿が、容易に想像できた。", bg: "bg_library_inside.jpg" },
 
-  { text: "図書室を出て、次に案内されたのは生徒会室。", bg: "bg_council_door.jpg" },
+  // ──自分で歩くルート
+  { id: "self_walk", text: "一人で校内を歩いてみることにした。", bg: "bg_school_corridor_noon.jpg" },
+  { text: "静かな廊下を歩いていると、ふと開いたドアの奥で、本を読んでいる少女の姿が目に入る。", bg: "bg_library_inside.jpg" },
+  { text: "──おそらく、未来が言っていた『静』だろう。", bg: "bg_library_inside.jpg" },
+  { speaker: "？？？", text: "……あ、えっと……転校生……？", bg: "bg_library_inside.jpg", char: "char_shizuka_shy.png" },
+  { text: "お互いにぎこちない挨拶を交わした。", bg: "bg_library_inside.jpg" },
+
+  // 共通で次のキャラに繋がる
+  { text: "図書室を後にし、やがて生徒会室の前に立つ。", bg: "bg_council_door.jpg" },
   { speaker: "桜井 未来", text: "ここは玲奈がよくいるところ。生徒会長なんだ", bg: "bg_council_door.jpg", char: "char_miku_smile.png" },
   { text: "扉の奥からは、誰かが書類をめくる音がかすかに聞こえた。", bg: "bg_council_door.jpg" },
   { speaker: "桜井 未来", text: "真面目でしっかりしてるけど……ちょっと厳しいところもあるかな", bg: "bg_council_door.jpg", char: "char_miku_smile.png" },
   { text: "未来の声には、尊敬とほんの少しの緊張が混じっていた。", bg: "bg_council_door.jpg" },
-  
-  // 9月2日これ以下は、まだイラストを追加していない
+
+  // 以下、屋上の流れへ
   { text: "案内はひと通り終わり、気づけば夕暮れ時になっていた。", bg: "bg_school_corridor_evening.jpg" },
   { speaker: "桜井 未来", text: "最後に……特別な場所、見せてあげる！", bg: "bg_school_corridor_evening.jpg" },
-  
   { text: "未来に手を引かれ、階段を上る。", bg: "bg_school_stairs_evening.jpg" },
   { text: "扉を開けた先に広がっていたのは──", bg: "bg_rooftop_evening.jpg" },
   { text: "茜色の空と、遠くに見える街並み。", bg: "bg_rooftop_evening.jpg" },
   { speaker: "桜井 未来", text: "ここ、私のお気に入りなんだ。嫌なことがあっても……ここに来ると落ち着くの", bg: "bg_rooftop_evening.jpg" },
   { text: "未来の横顔は、夕陽に照らされて金色に輝いていた。", bg: "bg_rooftop_evening.jpg", overlay: true },
-  
   { text: "風が吹き抜け、桜の花びらが舞い込む。", bg: "bg_rooftop_evening.jpg" },
   { speaker: "桜井 未来", text: "ねえ……また、ここに来てくれる？", bg: "bg_rooftop_evening.jpg" },
   { text: "その問いに、自然と頷いていた。", bg: "bg_rooftop_evening.jpg" },
-  
-  { text: "──放課後。", bg: "bg_school_gate_evening.jpg" },
-  { text: "未来と並んで歩く帰り道。", bg: "bg_street_evening.jpg" },
-  { speaker: "桜井 未来", text: "転校してきて、どう？ 少しは慣れそう？", bg: "bg_street_evening.jpg" },
-  { text: "……うん、未来のおかげで。", bg: "bg_street_evening.jpg" },
-  { speaker: "桜井 未来", text: "ふふっ、それならよかった！", bg: "bg_street_evening.jpg" },
-  
+  // 選択肢
   { 
-    text: "──その笑顔を見ていると、不思議な <ruby>déjà vu<rt>デジャヴ</rt></ruby> が胸をよぎった。", 
-    bg: "char_miku_smile.png", 
-    flash: true 
+    choice: true,
+    text: "放課後、どうする？",
+    options: [
+      { text: "未来と一緒に帰る", next: "miku_root", affection: { miku: +1 } },
+      { text: "図書室に寄る", next: "shizuka_root", affection: { shizuka: +1 } },
+      { text: "生徒会室に寄る", next: "rena_root", affection: { rena: +1 } },
+      { text: "一人で帰る", next: "solo_root" }
+    ]
   },
   
-  { 
-    text: "まるで、ずっと前から待ち望んでいた約束のように。", 
-    bg: "bg_dream_overlay.jpg", 
-    overlay: true, 
-    flash: true 
-  },
-  { text: "──まるで、この道を一緒に歩いたことがあるような……。", bg: "bg_street_evening.jpg" }
+  // 未来ルート
+  { id: "miku_root", text: "校門を出ると、未来が少し照れたようにこちらを見た。", bg: "bg_school_gate_evening.jpg", char: "char_miku_smile.png" },
+  { speaker: "桜井 未来", text: "ねえ……一緒に帰ってもいい？", bg: "bg_school_gate_evening.jpg", char: "char_miku_blush.png" },
+  { text: "不思議と自然に『うん』と答えていた。", bg: "bg_street_evening.jpg" },
+  { text: "並んで歩く道は、さっきよりもずっと近く感じられた。", bg: "bg_street_evening.jpg", overlay: true },
+  // affection.miku += 1
+  
+  // 静ルート
+  { id: "shizuka_root", text: "未来と別れ、図書室に足を運んだ。", bg: "bg_library_inside_evening.jpg" },
+  { text: "夕陽に照らされる窓辺で、一人の少女が静かに本を読んでいた。", bg: "bg_library_inside_evening.jpg" },
+  { speaker: "？？？", text: "……転校生？", bg: "bg_library_inside_evening.jpg", char: "char_shizuka_shy.png" },
+  { text: "本を閉じ、はにかむように微笑む彼女の姿に、不思議と落ち着きを感じた。", bg: "bg_library_inside_evening.jpg" },
+  // affection.shizuka += 1
+  
+  // 玲奈ルート
+  { id: "rena_root", text: "生徒会室の扉をノックすると、中から凛とした声が返ってきた。", bg: "bg_council_inside_evening.jpg" },
+  { speaker: "？？？", text: "入っていいわよ。……転校生ね？", bg: "bg_council_inside_evening.jpg", char: "char_rena_cool.png" },
+  { text: "整然と並ぶ書類と、机に座る少女の姿。", bg: "bg_council_inside_evening.jpg" },
+  { speaker: "玲奈", text: "私は生徒会長の一ノ瀬玲奈。困ったことがあれば言いなさい。ただし、甘えは許さないわよ", bg: "bg_council_inside_evening.jpg", char: "char_rena_serious.png" },
+  // affection.rena += 1
+  
 
-];
+  ];
+
 
 // シナリオ表示
 function showLine() {
