@@ -1,15 +1,17 @@
-// HTML要素取得
-const bgImage = document.getElementById("centurycyclememoria-bg-image");
-const overlay = document.getElementById("centurycyclememoria-overlay");
-const charImage = document.getElementById("centurycyclememoria-char-image");
-const textBoxWrapper = document.getElementById("centurycyclememoria-textbox-wrapper");
-const textBox = document.getElementById("centurycyclememoria-text");
-const nameBox = document.getElementById("centurycyclememoria-name");
-const choiceContainer = document.getElementById("choice-container");
+window.addEventListener("DOMContentLoaded", () => {
+  // HTML要素取得
+  const bgImage = document.getElementById("centurycyclememoria-bg-image");
+  const overlay = document.getElementById("centurycyclememoria-overlay");
+  const charImage = document.getElementById("centurycyclememoria-char-image");
+  const textBoxWrapper = document.getElementById("centurycyclememoria-textbox-wrapper");
+  const textBox = document.getElementById("centurycyclememoria-text");
+  const nameBox = document.getElementById("centurycyclememoria-name");
+  const choiceContainer = document.getElementById("choice-container");
 
-let currentLine = 0;
-let waitingChoice = null;
-let affection = { miku: 0, shizuka: 0, rena: 0 };
+  let currentLine = 0;
+  let waitingChoice = null;
+  let lastBg = null;
+  let affection = { miku: 0, shizuka: 0, rena: 0 };
 
 // シナリオ
 const scenario = [
@@ -105,130 +107,130 @@ const scenario = [
   { id: "rena_root", text: "生徒会室の扉をノックすると、中から凛とした声が返ってきた。", bg: "bg_council_inside_evening.jpg" },
   { speaker: "？？？", text: "入っていいわよ。……転校生ね？", bg: "bg_council_inside_evening.jpg", char: "char_rena_cool.png" },
   { text: "整然と並ぶ書類と、机に座る少女の姿。", bg: "bg_council_inside_evening.jpg" },
-  { speaker: "玲奈", text: "私は生徒会長の一ノ瀬玲奈。困ったことがあれば言いなさい。ただし、甘えは許さないわよ", bg: "bg_council_inside_evening.jpg", char: "char_rena_serious.png" },
+  { speaker: "玲奈", text: "私は生徒会長の一ノ瀬玲奈。困ったことがあれば言いなさい。ただし、甘えは許さないわよ", bg: "bg_council_inside_evening.jpg", char: "char_rena_serious.png" }
   // affection.rena += 1
   
 
 ];
 function showLine() {
-  const line = scenario[currentLine];
-  if (!line) return;
+    const line = scenario[currentLine];
+    if (!line) return;
 
-  // 選択肢処理
-  if (line.choice) {
-    displayChoice(line);
-    return;
-  }
+    // 選択肢処理
+    if (line.choice) {
+      displayChoice(line);
+      return;
+    }
 
-  waitingChoice = null;
+    waitingChoice = null;
 
-  // 背景切替
-  if (line.bg && bgImage.src !== line.bg) {
-    bgImage.style.opacity = 0;
-    setTimeout(() => {
-      bgImage.src = line.bg;
-      bgImage.style.opacity = 1;
-    }, 200);
-  }
+    // 背景切替
+    if (line.bg && line.bg !== lastBg) {
+      bgImage.style.opacity = 0;
+      setTimeout(() => {
+        bgImage.src = line.bg;
+        bgImage.style.opacity = 1;
+        lastBg = line.bg;
+      }, 200);
+    }
 
-  // キャラ画像
-  if (line.char) {
-    charImage.src = line.char;
-    charImage.style.display = "block";
-  } else {
-    charImage.style.display = "none";
-  }
+    // キャラ画像
+    if (line.char) {
+      charImage.src = line.char;
+      charImage.style.display = "block";
+    } else {
+      charImage.style.display = "none";
+    }
 
-  // オーバーレイ
-  overlay.style.opacity = line.overlay ? 1 : 0;
+    // オーバーレイ
+    overlay.style.opacity = line.overlay ? 1 : 0;
 
-  // 名前とセリフ
-  if (line.speaker) {
-    nameBox.textContent = line.speaker;
-    nameBox.style.display = "inline-block";
-    textBox.textContent = `「${line.text}」`;
-  } else {
-    nameBox.style.display = "none";
-    textBox.textContent = line.text;
-  }
+    // 名前とセリフ
+    if (line.speaker) {
+      nameBox.textContent = line.speaker;
+      nameBox.style.display = "inline-block";
+      textBox.textContent = `「${line.text}」`;
+    } else {
+      nameBox.style.display = "none";
+      textBox.textContent = line.text;
+    }
 
-  // affection 反映
-  if (line.affection) {
-    for (const key in line.affection) {
-      if (!affection[key]) affection[key] = 0;
-      affection[key] += line.affection[key];
-      console.log(`${key} affection: ${affection[key]}`);
+    // affection 反映
+    if (line.affection) {
+      for (const key in line.affection) {
+        if (!affection[key]) affection[key] = 0;
+        affection[key] += line.affection[key];
+        console.log(`${key} affection: ${affection[key]}`);
+      }
+    }
+
+    // 光る演出
+    if (line.flash) {
+      textBoxWrapper.classList.add("textbox-flash");
+      setTimeout(() => textBoxWrapper.classList.remove("textbox-flash"), 2000);
     }
   }
 
-  // 光る演出
-  if (line.flash) {
-    textBoxWrapper.classList.add("textbox-flash");
-    setTimeout(() => textBoxWrapper.classList.remove("textbox-flash"), 2000);
+  // ----------------------------
+  // 選択肢表示（中央）
+  function displayChoice(choiceLine) {
+    waitingChoice = choiceLine;
+    choiceContainer.innerHTML = "";
+    choiceContainer.style.display = "flex";
+
+    choiceLine.options.forEach((opt) => {
+      const btn = document.createElement("button");
+      btn.textContent = opt.text;
+      btn.className = "scenario-choice";
+
+      // 背景フェード
+      btn.addEventListener("mouseenter", () => {
+        if (opt.bg && opt.bg !== lastBg) {
+          bgImage.style.opacity = 0;
+          setTimeout(() => {
+            bgImage.src = opt.bg;
+            bgImage.style.opacity = 1;
+            lastBg = opt.bg;
+          }, 200);
+        }
+      });
+
+      btn.addEventListener("click", () => {
+        // affection 反映
+        if (opt.affection) {
+          for (const key in opt.affection) {
+            if (!affection[key]) affection[key] = 0;
+            affection[key] += opt.affection[key];
+            console.log(`${key} affection: ${affection[key]}`);
+          }
+        }
+
+        // 次のシナリオへ
+        if (opt.next) {
+          const nextIndex = scenario.findIndex(l => l.id === opt.next);
+          if (nextIndex >= 0) {
+            currentLine = nextIndex;
+            waitingChoice = null;
+            choiceContainer.innerHTML = "";
+            showLine();
+          }
+        }
+      });
+
+      choiceContainer.appendChild(btn);
+    });
   }
-}
 
-// ----------------------------
-// 選択肢表示（中央）
-function displayChoice(choiceLine) {
-  waitingChoice = choiceLine;
-
-  // 選択肢削除＆テキストボックスを残す
-  choiceContainer.innerHTML = "";
-
-  choiceLine.options.forEach((opt, index) => {
-    const btn = document.createElement("button");
-    btn.textContent = opt.text;
-    btn.className = "scenario-choice";
-
-    // 背景フェード用マウスオーバー
-    btn.addEventListener("mouseenter", () => {
-      if (opt.bg && bgImage.src !== opt.bg) {
-        bgImage.style.opacity = 0;
-        setTimeout(() => {
-          bgImage.src = opt.bg;
-          bgImage.style.opacity = 1;
-        }, 200);
-      }
+  // ----------------------------
+  // クリックで次へ
+  document.getElementById("centurycyclememoria-game-screen")
+    .addEventListener("click", () => {
+      if (waitingChoice) return;
+      currentLine++;
+      if (currentLine < scenario.length) showLine();
     });
 
-    // 選択肢クリック
-    btn.addEventListener("click", () => {
-      // affection 反映
-      if (opt.affection) {
-        for (const key in opt.affection) {
-          if (!affection[key]) affection[key] = 0;
-          affection[key] += opt.affection[key];
-          console.log(`${key} affection: ${affection[key]}`);
-        }
-      }
-
-      // 次のシナリオ
-      if (opt.next) {
-        const nextIndex = scenario.findIndex(l => l.id === opt.next);
-        if (nextIndex >= 0) {
-          currentLine = nextIndex;
-          waitingChoice = null;
-          choiceContainer.innerHTML = "";
-          showLine();
-        }
-      }
-    });
-
-    choiceContainer.appendChild(btn);
-  });
-}
-
-// ----------------------------
-// クリックで次へ
-gameScreen.addEventListener("click", () => {
-  if (waitingChoice) return;
-  currentLine++;
-  if (currentLine < scenario.length) showLine();
-});
-
-// ページロード時
-window.addEventListener("load", () => {
+  // 初期表示
   currentLine = 0;
   showLine();
 });
