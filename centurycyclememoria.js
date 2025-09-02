@@ -153,38 +153,52 @@ document.addEventListener("DOMContentLoaded", () => {
 
   // ----------------------------
   function displayChoice(line) {
-    choiceContainer.innerHTML = "";
-    line.options.forEach(opt => {
-      const btn = document.createElement("button");
-      btn.textContent = opt.text;
-      btn.className = "scenario-choice";
+  choiceContainer.innerHTML = "";
+  choiceContainer.style.display = "flex"; // 中央揃え用
+  waitingChoice = line;
 
-      // 背景
-      if (opt.bg) bgImage.src = opt.bg;
+  line.options.forEach(opt => {
+    const btn = document.createElement("button");
+    btn.textContent = opt.text;
+    btn.className = "scenario-choice fade-in"; // CSSでフェードイン
 
-      btn.addEventListener("click", () => {
-        // affection
-        if (opt.affection) {
-          for (const key in opt.affection) {
-            affection[key] += opt.affection[key];
-            console.log(`${key} affection: ${affection[key]}`);
-          }
-        }
-        // 次の行へ
-        if (opt.next) {
-          const nextIndex = scenario.findIndex(l => l.id === opt.next);
-          if (nextIndex >= 0) currentLine = nextIndex;
-        } else {
-          currentLine++;
-        }
-        waitingChoice = false;
-        choiceContainer.innerHTML = "";
-        showLine();
-      });
-
-      choiceContainer.appendChild(btn);
+    // マウスオーバーで背景切替
+    btn.addEventListener("mouseenter", () => {
+      if (opt.bg && opt.bg !== bgImage.src) {
+        bgImage.style.opacity = 0;
+        setTimeout(() => {
+          bgImage.src = opt.bg;
+          bgImage.style.opacity = 1;
+        }, 200);
+      }
     });
-  }
+
+    btn.addEventListener("click", () => {
+      // affection反映
+      if (opt.affection) {
+        for (const key in opt.affection) {
+          affection[key] += opt.affection[key];
+          console.log(`${key} affection: ${affection[key]}`);
+        }
+      }
+
+      // 次の行へ
+      if (opt.next) {
+        const nextIndex = scenario.findIndex(l => l.id === opt.next);
+        if (nextIndex >= 0) currentLine = nextIndex;
+      } else {
+        currentLine++;
+      }
+
+      waitingChoice = null;
+      choiceContainer.innerHTML = "";
+      showLine();
+    });
+
+    choiceContainer.appendChild(btn);
+  });
+}
+
 
   // ----------------------------
   gameScreen.addEventListener("click", () => {
