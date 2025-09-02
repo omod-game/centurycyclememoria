@@ -179,24 +179,38 @@ function showLine() {
 function displayChoice(choiceLine) {
   waitingChoice = choiceLine;
 
+  // 選択肢前のテキストをフェードアウト
+  textBox.style.transition = "opacity 0.4s ease";
+  textBox.style.opacity = 0;
+  nameBox.style.transition = "opacity 0.4s ease";
+  nameBox.style.opacity = 0;
+
   // choice-container を用意
   let choiceContainer = document.getElementById("choice-container");
   if (!choiceContainer) {
     choiceContainer = document.createElement("div");
     choiceContainer.id = "choice-container";
+    choiceContainer.style.position = "absolute";
+    choiceContainer.style.bottom = "10%";
+    choiceContainer.style.left = "50%";
+    choiceContainer.style.transform = "translateX(-50%)";
+    choiceContainer.style.display = "flex";
+    choiceContainer.style.flexDirection = "column";
+    choiceContainer.style.alignItems = "center";
+    choiceContainer.style.zIndex = 30;
     document.getElementById("centurycyclememoria-game-screen").appendChild(choiceContainer);
   }
   choiceContainer.innerHTML = "";
 
-  choiceLine.options.forEach((opt) => {
+  choiceLine.options.forEach((opt, index) => {
     const btn = document.createElement("button");
     btn.textContent = opt.text;
     btn.className = "scenario-choice fade-in";
-    
-    // 背景フェード用クリック前に設定
+    btn.style.animationDelay = `${index * 0.1}s`;
+
+    // 背景フェード用
     btn.addEventListener("mouseenter", () => {
       if (opt.bg) {
-        // 背景フェード切り替え
         bgImage.style.transition = "opacity 0.6s ease";
         bgImage.style.opacity = 0;
         setTimeout(() => {
@@ -215,13 +229,15 @@ function displayChoice(choiceLine) {
         }
       }
 
-      // 次のシナリオへジャンプ
+      // nextジャンプ
       if (opt.next) {
         const nextIndex = scenario.findIndex(l => l.id === opt.next);
         if (nextIndex >= 0) {
           currentLine = nextIndex;
           waitingChoice = null;
-          choiceContainer.innerHTML = "";
+          choiceContainer.remove();  // 選択肢削除
+          textBox.style.opacity = 1; // テキスト再表示
+          nameBox.style.opacity = 1;
           showLine();
         }
       }
@@ -230,6 +246,7 @@ function displayChoice(choiceLine) {
     choiceContainer.appendChild(btn);
   });
 }
+
 // ----------------------------
 // クリックで次へ
 // ----------------------------
