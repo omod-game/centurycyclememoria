@@ -156,19 +156,27 @@ function showLine() {
     }
   }
 }
-// 選択肢表示
+// ----------------------------
+// 選択肢表示（順次表示・背景変更対応）
+// ----------------------------
 function displayChoice(choiceLine) {
-  textBox.innerHTML = choiceLine.text;
+  waitingChoice = choiceLine;
+  textBox.innerHTML = ""; // 一旦テキスト消す
 
-  const choiceContainer = document.createElement("div");
-  choiceContainer.id = "choice-container";
-  choiceContainer.style.marginTop = "10px";
+  let optionIndex = 0;
 
-  choiceLine.options.forEach(opt => {
+  function showNextOption() {
+    if (optionIndex >= choiceLine.options.length) return;
+
+    const opt = choiceLine.options[optionIndex];
+
+    // 選択肢用背景があれば反映
+    if (opt.bg) bgImage.src = opt.bg;
+
+    // 選択肢ボタン生成
     const btn = document.createElement("button");
     btn.textContent = opt.text;
-    btn.style.display = "block";
-    btn.style.margin = "5px 0";
+    btn.className = "scenario-choice"; // CSSでリッチ化
     btn.addEventListener("click", () => {
       // affection反映
       if (opt.affection) {
@@ -183,24 +191,30 @@ function displayChoice(choiceLine) {
         const nextIndex = scenario.findIndex(l => l.id === opt.next);
         if (nextIndex >= 0) {
           currentLine = nextIndex;
+          waitingChoice = null;
           showLine();
         }
       }
 
-      choiceContainer.remove();
+      btn.remove();
+      optionIndex++;
+      showNextOption();
     });
-    choiceContainer.appendChild(btn);
-  });
 
-  textBox.appendChild(choiceContainer);
+    textBox.appendChild(btn);
+  }
+
+  // 最初の選択肢を表示
+  showNextOption();
 }
 
+// ----------------------------
 // クリックで次へ
+// ----------------------------
 gameScreen.addEventListener("click", () => {
+  if (waitingChoice) return; // 選択肢表示中は進まない
   currentLine++;
-  if (currentLine < scenario.length) {
-    showLine();
-  }
+  if (currentLine < scenario.length) showLine();
 });
 
 // ページ読み込みで即ナレーション開始
