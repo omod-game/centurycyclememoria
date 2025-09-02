@@ -185,30 +185,32 @@ function displayChoice(choiceLine) {
   nameBox.style.transition = "opacity 0.4s ease";
   nameBox.style.opacity = 0;
 
-  // choice-container を用意
+  // choice-container を用意（画面中央表示）
   let choiceContainer = document.getElementById("choice-container");
   if (!choiceContainer) {
     choiceContainer = document.createElement("div");
     choiceContainer.id = "choice-container";
     choiceContainer.style.position = "absolute";
-    choiceContainer.style.bottom = "10%";
+    choiceContainer.style.top = "50%";
     choiceContainer.style.left = "50%";
-    choiceContainer.style.transform = "translateX(-50%)";
+    choiceContainer.style.transform = "translate(-50%, -50%)";
     choiceContainer.style.display = "flex";
     choiceContainer.style.flexDirection = "column";
     choiceContainer.style.alignItems = "center";
-    choiceContainer.style.zIndex = 30;
+    choiceContainer.style.gap = "15px";
+    choiceContainer.style.zIndex = 50;
     document.getElementById("centurycyclememoria-game-screen").appendChild(choiceContainer);
   }
   choiceContainer.innerHTML = "";
 
+  // 選択肢ボタン作成
   choiceLine.options.forEach((opt, index) => {
     const btn = document.createElement("button");
     btn.textContent = opt.text;
     btn.className = "scenario-choice fade-in";
-    btn.style.animationDelay = `${index * 0.1}s`;
+    btn.style.animationDelay = `${index * 0.1}s`; // 順次フェードイン
 
-    // 背景フェード用
+    // 背景フェード用（ホバー時）
     btn.addEventListener("mouseenter", () => {
       if (opt.bg) {
         bgImage.style.transition = "opacity 0.6s ease";
@@ -229,15 +231,18 @@ function displayChoice(choiceLine) {
         }
       }
 
-      // nextジャンプ
+      // 選択後のシナリオジャンプ
       if (opt.next) {
         const nextIndex = scenario.findIndex(l => l.id === opt.next);
         if (nextIndex >= 0) {
           currentLine = nextIndex;
           waitingChoice = null;
-          choiceContainer.remove();  // 選択肢削除
-          textBox.style.opacity = 1; // テキスト再表示
+          choiceContainer.remove(); // 選択肢削除
+
+          // テキストボックス再表示
+          textBox.style.opacity = 1;
           nameBox.style.opacity = 1;
+
           showLine();
         }
       }
