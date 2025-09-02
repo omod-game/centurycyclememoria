@@ -179,38 +179,30 @@ function showLine() {
 function displayChoice(choiceLine) {
   waitingChoice = choiceLine;
 
-  // 選択肢前のテキストをフェードアウト
+  // テキスト・名前をフェードアウト
   textBox.style.transition = "opacity 0.4s ease";
   textBox.style.opacity = 0;
   nameBox.style.transition = "opacity 0.4s ease";
   nameBox.style.opacity = 0;
 
-  // choice-container を用意（画面中央表示）
+  // choice-container を用意
   let choiceContainer = document.getElementById("choice-container");
   if (!choiceContainer) {
     choiceContainer = document.createElement("div");
     choiceContainer.id = "choice-container";
-    choiceContainer.style.position = "absolute";
-    choiceContainer.style.top = "50%";
-    choiceContainer.style.left = "50%";
-    choiceContainer.style.transform = "translate(-50%, -50%)";
-    choiceContainer.style.display = "flex";
-    choiceContainer.style.flexDirection = "column";
-    choiceContainer.style.alignItems = "center";
-    choiceContainer.style.gap = "15px";
-    choiceContainer.style.zIndex = 50;
     document.getElementById("centurycyclememoria-game-screen").appendChild(choiceContainer);
   }
-  choiceContainer.innerHTML = "";
+  choiceContainer.innerHTML = ""; // 前の選択肢削除
+  choiceContainer.style.display = "flex";
 
-  // 選択肢ボタン作成
+  // 選択肢を順次生成
   choiceLine.options.forEach((opt, index) => {
     const btn = document.createElement("button");
     btn.textContent = opt.text;
     btn.className = "scenario-choice fade-in";
-    btn.style.animationDelay = `${index * 0.1}s`; // 順次フェードイン
+    btn.style.animationDelay = `${index * 0.1}s`; // フェードイン順番
 
-    // 背景フェード用（ホバー時）
+    // 背景フェード切り替え（ホバー時）
     btn.addEventListener("mouseenter", () => {
       if (opt.bg) {
         bgImage.style.transition = "opacity 0.6s ease";
@@ -222,6 +214,7 @@ function displayChoice(choiceLine) {
       }
     });
 
+    // 選択肢クリック処理
     btn.addEventListener("click", () => {
       // affection反映
       if (opt.affection) {
@@ -231,15 +224,18 @@ function displayChoice(choiceLine) {
         }
       }
 
-      // 選択後のシナリオジャンプ
+      // 次のシナリオへジャンプ
       if (opt.next) {
         const nextIndex = scenario.findIndex(l => l.id === opt.next);
         if (nextIndex >= 0) {
           currentLine = nextIndex;
           waitingChoice = null;
-          choiceContainer.remove(); // 選択肢削除
 
-          // テキストボックス再表示
+          // 選択肢削除
+          choiceContainer.style.display = "none";
+          choiceContainer.innerHTML = "";
+
+          // テキスト・名前再表示
           textBox.style.opacity = 1;
           nameBox.style.opacity = 1;
 
@@ -251,6 +247,7 @@ function displayChoice(choiceLine) {
     choiceContainer.appendChild(btn);
   });
 }
+
 
 // ----------------------------
 // クリックで次へ
