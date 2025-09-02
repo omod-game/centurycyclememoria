@@ -83,6 +83,8 @@ body {
 #centurycyclememoria-text {
   margin: 0;
   white-space: pre-line;
+  position: relative;
+  z-index: 10;
 }
 
 /* サイトの調整 */
@@ -93,6 +95,7 @@ body {
 .container {
   backdrop-filter: blur(6px);
 }
+
 /* 光る演出（重要シーン用） */
 .textbox-flash {
   animation: flashBox 2s ease-in-out;
@@ -102,4 +105,51 @@ body {
   0%   { box-shadow: 0 0 15px rgba(255, 200, 200, 0.2); }
   50%  { box-shadow: 0 0 40px rgba(255, 150, 200, 0.8); }
   100% { box-shadow: 0 0 15px rgba(255, 200, 200, 0.2); }
+}
+
+/* =============================== */
+/* 選択肢ボタンリッチ化 */
+.scenario-choice {
+  display: block;
+  width: 80%;
+  max-width: 400px;
+  margin: 10px auto;
+  padding: 12px 20px;
+  font-size: 18px;
+  font-weight: bold;
+  text-align: center;
+  color: #fff;
+  background: rgba(0, 0, 0, 0.6);
+  border: 2px solid rgba(255, 255, 255, 0.6);
+  border-radius: 15px;
+  cursor: pointer;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
+  transition: all 0.3s ease;
+  text-shadow: 1px 1px 2px rgba(0,0,0,0.7);
+  position: relative;
+  z-index: 20;
+}
+
+/* ホバー時の光彩演出 */
+.scenario-choice:hover {
+  background: rgba(255, 255, 255, 0.2);
+  border-color: #fff;
+  box-shadow: 0 0 20px rgba(255, 255, 255, 0.8), 0 4px 10px rgba(0, 0, 0, 0.3);
+  transform: translateY(-2px);
+}
+
+/* クリック時の押し込みアニメーション */
+.scenario-choice:active {
+  transform: translateY(0px);
+  box-shadow: 0 2px 6px rgba(0,0,0,0.3);
+}
+
+/* フェードイン用アニメーション */
+.scenario-choice.fade-in {
+  opacity: 0;
+  animation: fadeIn 0.5s forwards;
+}
+
+@keyframes fadeIn {
+  to { opacity: 1; }
 }
