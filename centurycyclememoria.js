@@ -61,7 +61,18 @@ const scenario = [
   { text: "……うん、未来のおかげで。", bg: "bg_street_evening.jpg" },
   { speaker: "桜井 未来", text: "ふふっ、それならよかった！", bg: "bg_street_evening.jpg" },
   
-  { text: "その笑顔を見ていると、不思議な déjà vu が胸をよぎった。", bg: "bg_street_evening.jpg", overlay: true },
+  { 
+    text: "──その笑顔を見ていると、不思議な <ruby>déjà vu<rt>デジャヴ</rt></ruby> が胸をよぎった。", 
+    bg: "char_miku_smile.png", 
+    flash: true 
+  },
+  
+  { 
+    text: "まるで、ずっと前から待ち望んでいた約束のように。", 
+    bg: "bg_dream_overlay.jpg", 
+    overlay: true, 
+    flash: true 
+  },
   { text: "──まるで、この道を一緒に歩いたことがあるような……。", bg: "bg_street_evening.jpg" }
 
 ];
@@ -111,3 +122,16 @@ window.addEventListener("load", () => {
   currentLine = 0;
   showLine();
 });
+
+// テキスト更新
+textBox.innerHTML = line.text;
+
+// 光る演出（汎用化）
+const textboxContainer = document.getElementById("centurycyclememoria-textbox");
+if (line.flash) {
+  textboxContainer.classList.add("textbox-flash");
+  setTimeout(() => {
+    textboxContainer.classList.remove("textbox-flash");
+  }, 2000);
+}
+
