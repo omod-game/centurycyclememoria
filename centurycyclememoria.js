@@ -110,6 +110,9 @@ const scenario = [
   ];
 
 
+// ----------------------------
+// シナリオ表示
+// ----------------------------
 function showLine() {
   const line = scenario[currentLine];
   if (!line) return;
@@ -121,6 +124,10 @@ function showLine() {
     return;
   }
   waitingChoice = null;
+
+  // 選択肢表示をクリア
+  const choiceContainer = document.getElementById("choice-container");
+  if (choiceContainer) choiceContainer.innerHTML = "";
 
   // 背景切替
   if (line.bg) {
@@ -167,26 +174,38 @@ function showLine() {
 }
 
 // ----------------------------
-// 選択肢表示（順次表示・背景変更対応）
+// 選択肢表示（中央一覧表示・背景変更対応）
 // ----------------------------
 function displayChoice(choiceLine) {
   waitingChoice = choiceLine;
-  textBox.innerHTML = ""; // 一旦テキスト消す
 
-  let optionIndex = 0;
+  // choice-container を用意
+  let choiceContainer = document.getElementById("choice-container");
+  if (!choiceContainer) {
+    choiceContainer = document.createElement("div");
+    choiceContainer.id = "choice-container";
+    document.getElementById("centurycyclememoria-game-screen").appendChild(choiceContainer);
+  }
+  choiceContainer.innerHTML = "";
 
-  function showNextOption() {
-    if (optionIndex >= choiceLine.options.length) return;
-
-    const opt = choiceLine.options[optionIndex];
-
-    // 選択肢用背景があれば反映
-    if (opt.bg) bgImage.src = opt.bg;
-
-    // 選択肢ボタン生成
+  choiceLine.options.forEach((opt) => {
     const btn = document.createElement("button");
     btn.textContent = opt.text;
-    btn.className = "scenario-choice fade-in"; // CSSでリッチ化・フェードイン
+    btn.className = "scenario-choice fade-in";
+    
+    // 背景フェード用クリック前に設定
+    btn.addEventListener("mouseenter", () => {
+      if (opt.bg) {
+        // 背景フェード切り替え
+        bgImage.style.transition = "opacity 0.6s ease";
+        bgImage.style.opacity = 0;
+        setTimeout(() => {
+          bgImage.src = opt.bg;
+          bgImage.style.opacity = 1;
+        }, 200);
+      }
+    });
+
     btn.addEventListener("click", () => {
       // affection反映
       if (opt.affection) {
@@ -196,28 +215,21 @@ function displayChoice(choiceLine) {
         }
       }
 
-      // nextジャンプ
+      // 次のシナリオへジャンプ
       if (opt.next) {
         const nextIndex = scenario.findIndex(l => l.id === opt.next);
         if (nextIndex >= 0) {
           currentLine = nextIndex;
           waitingChoice = null;
+          choiceContainer.innerHTML = "";
           showLine();
         }
       }
-
-      btn.remove(); // 選択肢削除
-      optionIndex++;
-      showNextOption(); // 次の選択肢を表示
     });
 
-    textBox.appendChild(btn);
-  }
-
-  // 最初の選択肢を表示
-  showNextOption();
+    choiceContainer.appendChild(btn);
+  });
 }
-
 // ----------------------------
 // クリックで次へ
 // ----------------------------
@@ -234,4 +246,3 @@ window.addEventListener("load", () => {
   currentLine = 0;
   showLine();
 });
-
