@@ -107,7 +107,7 @@ document.addEventListener("DOMContentLoaded", () => {
   function showLine() {
     const line = scenario[currentLine];
     if (!line) return;
-
+  
     // 選択肢
     if (line.choice) {
       waitingChoice = true;
@@ -115,7 +115,7 @@ document.addEventListener("DOMContentLoaded", () => {
       return;
     } else {
       waitingChoice = false;
-      choiceContainer.innerHTML = "";
+      choiceContainer.style.display = "none"; // 選択肢を消す
     }
 
     // 背景
@@ -153,14 +153,22 @@ document.addEventListener("DOMContentLoaded", () => {
 
   // ----------------------------
   function displayChoice(line) {
-  choiceContainer.innerHTML = "";
-  choiceContainer.style.display = "flex"; // 中央揃え用
-  waitingChoice = line;
-
-  line.options.forEach(opt => {
-    const btn = document.createElement("button");
-    btn.textContent = opt.text;
-    btn.className = "scenario-choice fade-in"; // CSSでフェードイン
+    choiceContainer.innerHTML = "";
+    choiceContainer.style.display = "flex"; 
+    waitingChoice = line;
+  
+    // プロンプト文を表示
+    const prompt = document.createElement("div");
+    prompt.id = "choice-prompt";
+    prompt.className = "choice-prompt";
+    prompt.textContent = line.text;
+    choiceContainer.appendChild(prompt);
+  
+    // 選択肢ボタンを生成
+    line.options.forEach(opt => {
+      const btn = document.createElement("button");
+      btn.textContent = opt.text;
+      btn.className = "scenario-choice fade-in";
 
     // マウスオーバーで背景切替
     btn.addEventListener("mouseenter", () => {
@@ -197,6 +205,9 @@ document.addEventListener("DOMContentLoaded", () => {
 
     choiceContainer.appendChild(btn);
   });
+  // テキストボックスは隠す
+  textBox.textContent = "";
+  nameBox.style.display = "none";
 }
 
 
