@@ -113,20 +113,31 @@ body {
   transform: translateX(-50%);
   display: flex;
   flex-direction: column;
-  gap: 10px;
+  gap: 16px; /* 間隔広めでゆったり */
+  align-items: center;
 }
 
 .scenario-choice {
-  padding: 10px 20px;
-  font-size: 1.1em;
-  background: rgba(255,255,255,0.85);
-  border: 2px solid #333;
-  border-radius: 8px;
+  background: linear-gradient(135deg, #ff7fbf, #7f7fff); /* ピンク～ブルーのグラデ */
+  padding: 14px 36px;
+  font-size: 1.2em;
+  font-weight: bold;
+  color: #fff;
+  border: none;
+  border-radius: 9999px; /* 丸み最大化 */
   cursor: pointer;
+  box-shadow: 0 4px 16px rgba(0,0,0,0.25);
+  transition: transform 0.2s ease, opacity 0.2s ease, box-shadow 0.3s ease;
 }
-/* ホバーエフェクト */
+
+/* ホバー時のエフェクト */
 .scenario-choice:hover {
+  opacity: 0.9;
   transform: scale(1.05);
-  background: linear-gradient(145deg, rgba(255,105,180,1), rgba(255,182,193,1));
-  box-shadow: 0 0 40px rgba(255,105,180,1);
+  box-shadow: 0 0 25px rgba(255,105,180,0.7), 0 0 40px rgba(127,127,255,0.7);
+}
+
+/* 押したときの感触 */
+.scenario-choice:active {
+  transform: scale(0.95);
 }
