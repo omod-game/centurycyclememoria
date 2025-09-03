@@ -113,31 +113,47 @@ body {
   transform: translateX(-50%);
   display: flex;
   flex-direction: column;
-  gap: 16px; /* 間隔広めでゆったり */
   align-items: center;
+  gap: 12px;
+  width: 40%; /* 全体の幅を少し狭める（自然に収まる） */
+  max-width: 500px;
+  min-width: 280px;
 }
 
-.scenario-choice {
-  background: linear-gradient(135deg, #ff7fbf, #7f7fff); /* ピンク～ブルーのグラデ */
-  padding: 14px 36px;
+/* 上段の案内文 */
+#choice-prompt {
   font-size: 1.2em;
   font-weight: bold;
+  margin-bottom: 10px;
   color: #fff;
-  border: none;
-  border-radius: 9999px; /* 丸み最大化 */
+  text-shadow: 0 0 6px rgba(0,0,0,0.6);
+  text-align: center;
+  width: 100%;
+}
+
+/* 選択肢ボタン */
+.scenario-choice {
+  width: 100%; /* container に合わせて統一 */
+  padding: 14px 20px;
+  font-size: 1.05em;
+  font-weight: bold;
+  background: rgba(255,255,255,0.75); /* 半透明 */
+  color: #333;
+  border: 2px solid rgba(255,255,255,0.9);
+  border-radius: 12px;
   cursor: pointer;
-  box-shadow: 0 4px 16px rgba(0,0,0,0.25);
-  transition: transform 0.2s ease, opacity 0.2s ease, box-shadow 0.3s ease;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.2);
+  transition: transform 0.2s ease, background 0.3s ease, box-shadow 0.3s ease;
 }
 
-/* ホバー時のエフェクト */
+/* ホバー */
 .scenario-choice:hover {
-  opacity: 0.9;
   transform: scale(1.05);
-  box-shadow: 0 0 25px rgba(255,105,180,0.7), 0 0 40px rgba(127,127,255,0.7);
+  background: rgba(255,255,255,0.9);
+  box-shadow: 0 0 20px rgba(255,105,180,0.6);
 }
 
-/* 押したときの感触 */
+/* 押した時 */
 .scenario-choice:active {
-  transform: scale(0.95);
+  transform: scale(0.96);
 }
