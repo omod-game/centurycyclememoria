@@ -108,14 +108,18 @@ document.addEventListener("DOMContentLoaded", () => {
     const line = scenario[currentLine];
     if (!line) return;
   
-    // 選択肢
+    // 選択肢のとき
     if (line.choice) {
       waitingChoice = true;
       displayChoice(line);
+  
+      // テキストボックスを隠す
+      document.getElementById("centurycyclememoria-textbox-wrapper").style.display = "none";
       return;
     } else {
       waitingChoice = false;
-      choiceContainer.style.display = "none"; // 選択肢を消す
+      document.getElementById("choice-container").style.display = "none"; // 選択肢を消す
+      document.getElementById("centurycyclememoria-textbox-wrapper").style.display = "block"; // テキストボックスを戻す
     }
 
     // 背景
