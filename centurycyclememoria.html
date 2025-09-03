@@ -16,25 +16,30 @@
 <body>
   <!-- ゲーム画面 -->
   <div id="centurycyclememoria-game-screen">
-  <div id="centurycyclememoria-background">
-    <img id="centurycyclememoria-bg-image" src="" alt="背景">
-    <div id="centurycyclememoria-overlay"></div>
-  </div>
-  <div id="centurycyclememoria-character">
-    <img id="centurycyclememoria-char-image" src="" alt="キャラクター">
-  </div>
+    <div id="centurycyclememoria-background">
+      <img id="centurycyclememoria-bg-image" src="" alt="背景">
+      <div id="centurycyclememoria-overlay"></div>
+    </div>
+    <div id="centurycyclememoria-character">
+      <img id="centurycyclememoria-char-image" src="" alt="キャラクター">
+    </div>
 
-  <!-- テキストボックス -->
-  <div id="centurycyclememoria-textbox-wrapper">
-    <div id="centurycyclememoria-name"></div>
-    <div id="centurycyclememoria-textbox">
-      <p id="centurycyclememoria-text"></p>
+    <!-- テキストボックス -->
+    <div id="centurycyclememoria-textbox-wrapper">
+      <div id="centurycyclememoria-name"></div>
+      <div id="centurycyclememoria-textbox">
+        <p id="centurycyclememoria-text"></p>
+      </div>
+    </div>
+
+    <!-- 選択肢表示 -->
+    <div id="choice-container">
+      <!-- 質問文を表示する専用 -->
+      <div id="choice-question"></div>
+      <!-- 選択肢ボタンがここに並ぶ -->
+      <div id="choice-options"></div>
     </div>
   </div>
-
-  <!-- ここに選択肢表示 -->
-  <div id="choice-container"></div>
-</div>
 
   <script src="centurycyclememoria.js"></script>
 </body>
