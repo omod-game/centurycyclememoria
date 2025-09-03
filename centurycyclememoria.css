@@ -108,31 +108,30 @@ body {
    ========================== */
 #choice-container {
   position: absolute;
-  bottom: 30%;
+  top: 40%; /* 画面中央に配置 */
   left: 50%;
-  transform: translateX(-50%);
+  transform: translate(-50%, -50%);
   display: flex;
   flex-direction: column;
   align-items: center;
-  gap: 18px; /* ボタン同士の間隔を少し広く */
+  gap: 16px; /* ボタン同士の間隔 */
   width: 40%;
   max-width: 500px;
   min-width: 280px;
 }
 
-/* 上段の案内文 */
+/* 上段の案内文（ラベル風） */
 #choice-prompt {
-  font-size: 1.3em;
+  font-size: 1.4em;
   font-weight: bold;
-  margin-bottom: 10px;
   color: #fff;
   text-align: center;
-  width: 100%;
-  padding: 10px 20px;
-  background: rgba(0, 0, 0, 0.6);
-  border-radius: 12px;
-  text-shadow: 0 0 8px rgba(0,0,0,0.7);
-  backdrop-filter: blur(6px); /* 背景ぼかし */
+  margin-bottom: 12px;
+  padding: 8px 16px;
+
+  border-radius: 8px;
+  text-shadow: 0 0 5px rgba(0,0,0,0.7);
+  backdrop-filter: blur(4px); /* 背景を少しぼかす */
 }
 
 /* 選択肢ボタン */
@@ -141,7 +140,7 @@ body {
   padding: 14px 20px;
   font-size: 1.05em;
   font-weight: bold;
-  background: rgba(0,0,0,0.6); /* 黒系に変更 */
+  background: rgba(0,0,0,0.6); /* 黒半透明 */
   color: #fff;
   border: 2px solid rgba(255,255,255,0.3);
   border-radius: 12px;
