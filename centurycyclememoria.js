@@ -285,6 +285,9 @@ document.addEventListener("DOMContentLoaded", () => {
     window.location.href = "index.html"; // ← ここでトップページへ遷移
   });
 
+  // ----------------- 状態管理用の変数 -----------------
+  let wasChoiceVisible = false;
+
   // ----------------- ログ表示 -----------------
   logButton.addEventListener("click", () => {
     updateLog();
