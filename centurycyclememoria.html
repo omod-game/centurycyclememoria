@@ -1,18 +1,3 @@
-<!DOCTYPE html>
-<html lang="ja">
-<head>
-  <meta charset="UTF-8">
-  <title>世紀輪廻メモリア</title>
-  <link rel="stylesheet" href="centurycyclememoria.css">
-  <link rel="manifest" href="manifest.json">
-  <link rel="icon" href="icon.jpg" type="image/jpeg">
-  <meta name="theme-color" content="#000000">
-  <script>
-    if ("serviceWorker" in navigator) {
-      navigator.serviceWorker.register("service-worker.js");
-    }
-  </script>
-</head>
 <body>
   <!-- ゲーム画面 -->
   <div id="centurycyclememoria-game-screen">
@@ -34,13 +19,23 @@
 
     <!-- 選択肢表示 -->
     <div id="choice-container">
-      <!-- 質問文を表示する専用 -->
       <div id="choice-question"></div>
-      <!-- 選択肢ボタンがここに並ぶ -->
       <div id="choice-options"></div>
     </div>
+
+    <!-- メニュー -->
+    <div id="game-menu">
+      <button id="btn-log">ログ</button>
+      <button id="btn-save">セーブ</button>
+      <button id="btn-load">ロード</button>
+    </div>
+  </div>
+
+  <!-- ログ画面 -->
+  <div id="log-screen" style="display:none;">
+    <div id="log-content"></div>
+    <button id="btn-log-close">閉じる</button>
   </div>
 
   <script src="centurycyclememoria.js"></script>
 </body>
-</html>
