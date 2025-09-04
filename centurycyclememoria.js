@@ -49,12 +49,19 @@ document.addEventListener("DOMContentLoaded", () => {
   }
 
   document.addEventListener("DOMContentLoaded", () => {
-    // ホーム画面で「途中から」を選んだ場合はロードする
-    if (localStorage.getItem("loadOnStart") === "true") {
-      loadGame();
-      localStorage.removeItem("loadOnStart"); // フラグは消す
+    // ロードフラグの確認
+    const shouldLoad = localStorage.getItem("loadOnStart") === "true";
+  
+    if (shouldLoad) {
+      localStorage.removeItem("loadOnStart"); // フラグを消す
+      const loaded = loadGame(false); // 自動ロード、アラートなし
+      if (!loaded) {
+        alert("セーブデータがありません。最初から開始します。");
+        showLine();
+      }
     } else {
-      showLine(); // 新規スタート
+      // 新規開始
+      showLine();
     }
   });
 
