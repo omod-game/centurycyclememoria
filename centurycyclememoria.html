@@ -26,7 +26,7 @@
     }
 
     #menu-panel {
-      display: none;
+      display: flex; /* 常にflexに */
       flex-direction: column;
       background-color: rgba(0,0,0,0.9); /* 半透明黒 */
       padding: 20px;
@@ -37,12 +37,13 @@
       transform: scale(0.95);
       transition: transform 0.2s ease, opacity 0.2s ease;
       opacity: 0;
+      pointer-events: none; /* 初期はクリック不可 */
     }
-
-    /* メニュー開いたとき */
+    
     #menu-panel.show {
       transform: scale(1);
       opacity: 1;
+      pointer-events: auto; /* 開いたときクリック可能 */
     }
     
     /* メニュー内ボタン */
@@ -137,7 +138,7 @@
     <!-- 三本線メニュー -->
     <button id="menu-button">☰</button>
     <div id="menu-panel">
-      <button id="menuHome">ホームに戻る</button>
+      <button id="menu-home">ホームに戻る</button>
       <button id="save-button">セーブ</button>
       <button id="load-button">ロード</button>
       <button id="log-button">ログ</button>
