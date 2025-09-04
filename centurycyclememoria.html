@@ -26,24 +26,19 @@
     }
 
     #menu-panel {
+      display: none;
+      flex-direction: column;
+      background-color: rgba(0,0,0,0.9); /* 半透明黒 */
+      padding: 20px;
       position: absolute;
       top: 60px;
       right: 20px;
-      background: rgba(0, 0, 0, 0.8);
-      padding: 10px;
-      border-radius: 8px;
-      display: none;
-      flex-direction: column;
-      z-index: 1001;
+      border-radius: 10px;
+      transform: scale(0.95);
+      transition: transform 0.2s ease, opacity 0.2s ease;
+      opacity: 0;
     }
 
-    #menu-panel button {
-      background: none;
-      border: none;
-      color: white;
-      margin: 5px 0;
-      cursor: pointer;
-    }
     /* メニュー開いたとき */
     #menu-panel.show {
       transform: scale(1);
