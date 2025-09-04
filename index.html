@@ -25,8 +25,8 @@
     <section class="box">
       <h2>🌸 輪廻と記憶の物語へようこそ</h2>
       <p>月夜に舞う桜の下、静かに始まるひとつの出会い。<br>それはやがて、百年をめぐる約束を呼び覚ます──。</p>
-      <a href="centurycyclememoria.html" id="start-new" class="btn">▶ 運命の始まりへ</a>
-      <a href="centurycyclememoria.html" id="start-load" class="btn">▶ 過去の記憶から再開</a>
+      <a href="centurycyclememoria.html" id="startButton" class="btn">▶ 運命の始まりへ</a>
+      <a href="centurycyclememoria.html" id="loadButton" class="btn">▶ 過去の記憶から再開</a>
     </section>
 
     <section class="box">
@@ -46,12 +46,26 @@
       <script>
         (adsbygoogle = window.adsbygoogle || []).push({});
         // ボタンの挙動を制御
-        document.getElementById("start-new").addEventListener("click", () => {
-          localStorage.removeItem("loadOnStart"); // 新規はロードしない
-        });
-      
-        document.getElementById("start-load").addEventListener("click", () => {
-          localStorage.setItem("loadOnStart", "true"); // フラグを保存
+        document.addEventListener("DOMContentLoaded", () => {
+          const loadButton = document.getElementById("loadButton");
+        
+          // セーブデータが存在しなければ無効化
+          if (!localStorage.getItem("centurycyclememoria-save")) {
+            loadButton.disabled = true;
+          }
+        
+          // 「つづきから」押下時の処理
+          loadButton.addEventListener("click", () => {
+            // フラグを立ててゲーム画面へ遷移
+            localStorage.setItem("loadOnStart", "true");
+            window.location.href = "centurycyclememoria.html";
+          });
+        
+          // 「はじめから」押下時の処理
+          document.getElementById("startButton").addEventListener("click", () => {
+            localStorage.removeItem("loadOnStart");
+            window.location.href = "centurycyclememoria.html";
+          });
         });
       </script>
     </section>
