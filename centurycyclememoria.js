@@ -256,11 +256,27 @@ document.addEventListener("DOMContentLoaded", () => {
     showLine();
   }
 
-  // ----------------- メニュー操作 -----------------
+  // ハンバーガー開閉
   menuButton.addEventListener("click", () => {
-    menuPanel.style.display = menuPanel.style.display === "flex" ? "none" : "flex";
-    menuPanel.style.flexDirection = "column";
+    const isOpen = menuPanel.classList.toggle("show");
+    menuButton.setAttribute("aria-expanded", isOpen ? "true" : "false");
   });
+  
+  // パネルの「閉じる」ボタン
+  menuClose.addEventListener("click", () => {
+    menuPanel.classList.remove("show");
+    menuButton.setAttribute("aria-expanded", "false");
+  });
+  
+  // パネルの外側クリックで閉じる（任意）
+  document.addEventListener("click", (e) => {
+    if (!menuPanel.contains(e.target) && e.target !== menuButton) {
+      menuPanel.classList.remove("show");
+      menuButton.setAttribute("aria-expanded", "false");
+    }
+  });
+  
+  // 既存のイベント
   saveButton.addEventListener("click", saveGame);
   loadButton.addEventListener("click", loadGame);
 
