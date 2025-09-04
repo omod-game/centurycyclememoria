@@ -25,8 +25,8 @@
     <section class="box">
       <h2>🌸 輪廻と記憶の物語へようこそ</h2>
       <p>月夜に舞う桜の下、静かに始まるひとつの出会い。<br>それはやがて、百年をめぐる約束を呼び覚ます──。</p>
-      <a href="centurycyclememoria.html" id="startButton" class="btn">▶ 運命の始まりへ</a>
-      <a href="centurycyclememoria.html" id="loadButton" class="btn">▶ 過去の記憶から再開</a>
+      <a href="#" id="startButton" class="btn">▶ 運命の始まりへ</a>
+      <a href="#" id="loadButton" class="btn">▶ 過去の記憶から再開</a>
     </section>
 
     <section class="box">
@@ -47,22 +47,25 @@
         (adsbygoogle = window.adsbygoogle || []).push({});
         // ボタンの挙動を制御
         document.addEventListener("DOMContentLoaded", () => {
+          const startButton = document.getElementById("startButton");
           const loadButton = document.getElementById("loadButton");
         
           // セーブデータが存在しなければ無効化
           if (!localStorage.getItem("centurycyclememoria-save")) {
-            loadButton.disabled = true;
+            loadButton.classList.add("disabled"); // 見た目をグレーに
+            loadButton.style.pointerEvents = "none"; // クリック無効化
           }
         
           // 「つづきから」押下時の処理
-          loadButton.addEventListener("click", () => {
-            // フラグを立ててゲーム画面へ遷移
+          loadButton.addEventListener("click", (e) => {
+            e.preventDefault();
             localStorage.setItem("loadOnStart", "true");
             window.location.href = "centurycyclememoria.html";
           });
         
           // 「はじめから」押下時の処理
-          document.getElementById("startButton").addEventListener("click", () => {
+          startButton.addEventListener("click", (e) => {
+            e.preventDefault();
             localStorage.removeItem("loadOnStart");
             window.location.href = "centurycyclememoria.html";
           });
