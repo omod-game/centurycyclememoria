@@ -45,6 +45,14 @@
            data-full-width-responsive="true"></ins>
       <script>
         (adsbygoogle = window.adsbygoogle || []).push({});
+        // ボタンの挙動を制御
+        document.getElementById("start-new").addEventListener("click", () => {
+          localStorage.removeItem("loadOnStart"); // 新規はロードしない
+        });
+      
+        document.getElementById("start-load").addEventListener("click", () => {
+          localStorage.setItem("loadOnStart", "true"); // フラグを保存
+        });
       </script>
     </section>
   </main>
