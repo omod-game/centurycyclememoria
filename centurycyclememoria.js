@@ -7,10 +7,19 @@ document.addEventListener("DOMContentLoaded", () => {
   const nameBox = document.getElementById("centurycyclememoria-name");
   const choiceContainer = document.getElementById("choice-container");
 
+  // メニューとログ
+  const btnLog = document.getElementById("btn-log");
+  const btnSave = document.getElementById("btn-save");
+  const btnLoad = document.getElementById("btn-load");
+  const logScreen = document.getElementById("log-screen");
+  const logContent = document.getElementById("log-content");
+  const btnLogClose = document.getElementById("btn-log-close");
+
   let currentLine = 0;
   let waitingChoice = false;
 
   const affection = { miku: 0, shizuka: 0, rena: 0 };
+  const logData = []; // ログ蓄積用
 
   const scenario = [
     { text: "──闇の中、ただひとつの光が浮かんでいた。", bg: "bg_black.jpg" },
@@ -103,40 +112,69 @@ document.addEventListener("DOMContentLoaded", () => {
     { speaker: "玲奈", text: "私は生徒会長の一ノ瀬玲奈。困ったことがあれば言いなさい。ただし、甘えは許さないわよ", bg: "bg_council_inside_evening.jpg", char: "char_rena_serious.png" }
   ];
 
+  function addLogEntry(line, chosenOption = null) {
+    const entry = {
+      speaker: line.speaker || "",
+      text: chosenOption ? `【選択】${chosenOption}` : line.text,
+      bg: line.bg || bgImage.src,
+      char: line.char || ""
+    };
+    logData.push(entry);
+  }
+
+  function updateLogScreen() {
+    logContent.innerHTML = "";
+    logData.forEach(e => {
+      const row = document.createElement("div");
+      row.className = "log-entry";
+
+      if (e.bg) {
+        const bgThumb = document.createElement("img");
+        bgThumb.src = e.bg;
+        bgThumb.className = "log-thumb";
+        row.appendChild(bgThumb);
+      }
+      if (e.char) {
+        const charThumb = document.createElement("img");
+        charThumb.src = e.char;
+        charThumb.className = "log-thumb";
+        row.appendChild(charThumb);
+      }
+
+      const textSpan = document.createElement("span");
+      textSpan.textContent = e.speaker ? `${e.speaker}：「${e.text}」` : e.text;
+      row.appendChild(textSpan);
+
+      logContent.appendChild(row);
+    });
+  }
+
   // ----------------------------
   function showLine() {
     const line = scenario[currentLine];
     if (!line) return;
-  
+
     // 選択肢のとき
     if (line.choice) {
       waitingChoice = true;
       displayChoice(line);
-  
-      // テキストボックスを隠す
       document.getElementById("centurycyclememoria-textbox-wrapper").style.display = "none";
       return;
     } else {
       waitingChoice = false;
-      document.getElementById("choice-container").style.display = "none"; // 選択肢を消す
-      document.getElementById("centurycyclememoria-textbox-wrapper").style.display = "block"; // テキストボックスを戻す
+      document.getElementById("choice-container").style.display = "none";
+      document.getElementById("centurycyclememoria-textbox-wrapper").style.display = "block";
     }
 
-    // 背景
     if (line.bg) bgImage.src = line.bg;
-
-    // キャラ
     if (line.char) {
       charImage.src = line.char;
       charImage.style.display = "block";
     } else {
       charImage.style.display = "none";
     }
-
-    // オーバーレイ
     overlay.style.opacity = line.overlay ? 1 : 0;
 
-    // 名前とテキスト
     if (line.speaker) {
       nameBox.style.display = "inline-block";
       nameBox.textContent = line.speaker;
@@ -146,80 +184,99 @@ document.addEventListener("DOMContentLoaded", () => {
       textBox.textContent = line.text;
     }
 
-    // affection
     if (line.affection) {
       for (const key in line.affection) {
         affection[key] += line.affection[key];
-        console.log(`${key} affection: ${affection[key]}`);
       }
     }
+
+    // ログ追加
+    addLogEntry(line);
   }
 
   // ----------------------------
   function displayChoice(line) {
     choiceContainer.innerHTML = "";
-    choiceContainer.style.display = "flex"; 
+    choiceContainer.style.display = "flex";
     waitingChoice = line;
-  
-    // プロンプト文を表示
+
     const prompt = document.createElement("div");
     prompt.id = "choice-prompt";
     prompt.className = "choice-prompt";
     prompt.textContent = line.text;
     choiceContainer.appendChild(prompt);
-  
-    // 選択肢ボタンを生成
+
     line.options.forEach(opt => {
       const btn = document.createElement("button");
       btn.textContent = opt.text;
       btn.className = "scenario-choice fade-in";
 
-    // マウスオーバーで背景切替
-    btn.addEventListener("mouseenter", () => {
-      if (opt.bg && opt.bg !== bgImage.src) {
-        bgImage.style.opacity = 0;
-        setTimeout(() => {
-          bgImage.src = opt.bg;
-          bgImage.style.opacity = 1;
-        }, 200);
-      }
-    });
-
-    btn.addEventListener("click", () => {
-      // affection反映
-      if (opt.affection) {
-        for (const key in opt.affection) {
-          affection[key] += opt.affection[key];
-          console.log(`${key} affection: ${affection[key]}`);
+      btn.addEventListener("click", () => {
+        if (opt.affection) {
+          for (const key in opt.affection) {
+            affection[key] += opt.affection[key];
+          }
         }
-      }
 
-      // 次の行へ
-      if (opt.next) {
-        const nextIndex = scenario.findIndex(l => l.id === opt.next);
-        if (nextIndex >= 0) currentLine = nextIndex;
-      } else {
-        currentLine++;
-      }
+        addLogEntry(line, opt.text); // 選択肢をログに残す
 
-      waitingChoice = null;
-      choiceContainer.innerHTML = "";
-      showLine();
+        if (opt.next) {
+          const nextIndex = scenario.findIndex(l => l.id === opt.next);
+          if (nextIndex >= 0) currentLine = nextIndex;
+        } else {
+          currentLine++;
+        }
+        waitingChoice = null;
+        choiceContainer.innerHTML = "";
+        showLine();
+      });
+
+      choiceContainer.appendChild(btn);
     });
 
-    choiceContainer.appendChild(btn);
-  });
-  // テキストボックスは隠す
-  textBox.textContent = "";
-  nameBox.style.display = "none";
-}
-
+    textBox.textContent = "";
+    nameBox.style.display = "none";
+  }
 
   // ----------------------------
   gameScreen.addEventListener("click", () => {
     if (waitingChoice) return;
     currentLine++;
     if (currentLine < scenario.length) showLine();
+  });
+
+  // ----------------------------
+  // メニュー操作
+  btnLog.addEventListener("click", () => {
+    updateLogScreen();
+    logScreen.style.display = "block";
+  });
+  btnLogClose.addEventListener("click", () => {
+    logScreen.style.display = "none";
+  });
+
+  btnSave.addEventListener("click", () => {
+    const saveData = {
+      currentLine,
+      affection,
+      logData
+    };
+    localStorage.setItem("ccm_save", JSON.stringify(saveData));
+    alert("セーブしました");
+  });
+
+  btnLoad.addEventListener("click", () => {
+    const saveData = JSON.parse(localStorage.getItem("ccm_save"));
+    if (saveData) {
+      currentLine = saveData.currentLine;
+      Object.assign(affection, saveData.affection);
+      logData.length = 0;
+      logData.push(...saveData.logData);
+      showLine();
+      alert("ロードしました");
+    } else {
+      alert("セーブデータがありません");
+    }
   });
 
   // 初期表示
