@@ -65,6 +65,7 @@ section p { margin-bottom:1rem; }
   color:#fff;
   text-decoration:none;
   transition:background 0.3s;
+  width: 40%;
 }
 .btn:hover { background: rgba(255,255,255,0.3); }
 
