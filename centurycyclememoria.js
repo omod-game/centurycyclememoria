@@ -179,7 +179,6 @@ document.addEventListener("DOMContentLoaded", () => {
   ];
 
   function showLine() {
-    textBox.textContent = "ここから物語が始まります。";
     const line = scenario[currentLine];
     if (!line) return;
 
