@@ -256,23 +256,23 @@ document.addEventListener("DOMContentLoaded", () => {
     showLine();
   }
 
-  // ----------------- メニュー開閉 -----------------
+  // メニュー開閉
   menuButton.addEventListener("click", (e) => {
-    e.stopPropagation();
+    e.stopPropagation(); // 外側クリックに阻害されないように
     menuPanel.style.display = menuPanel.style.display === "flex" ? "none" : "flex";
   });
 
+  // メニュー閉じる
   menuClose.addEventListener("click", () => {
     menuPanel.style.display = "none";
   });
 
-  // ----------------- ホームに戻る -----------------
+  // ホームに戻る
   menuHome.addEventListener("click", () => {
-    // index.html に遷移してホーム画面に戻る
     window.location.href = "index.html";
   });
 
-  // ----------------- メニュー外クリックで閉じる -----------------
+  // メニュー外クリックで閉じる
   document.addEventListener("click", (e) => {
     if (!menuPanel.contains(e.target) && e.target !== menuButton) {
       menuPanel.style.display = "none";
