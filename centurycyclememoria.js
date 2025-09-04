@@ -23,68 +23,7 @@ document.addEventListener("DOMContentLoaded", () => {
   const affection = { miku: 0, shizuka: 0, rena: 0 };
   const logHistory = [];
 
-  // ------------- セーブ・ロード ----------------
-  function saveGame() {
-    const saveData = {
-      currentLine,
-      affection,
-      logHistory
-    };
-    localStorage.setItem("centurycyclememoria-save", JSON.stringify(saveData));
-    alert("ゲームをセーブしました。");
-  }
-
-  function loadGame(showAlert = true) {
-    const saveData = JSON.parse(localStorage.getItem("centurycyclememoria-save"));
-    if (saveData) {
-      currentLine = saveData.currentLine;
-      Object.assign(affection, saveData.affection);
-      logHistory.length = 0;
-      logHistory.push(...saveData.logHistory);
-      showLine();
-      if (showAlert) alert("ゲームをロードしました。");
-      return true;
-    } else {
-      if (showAlert) alert("セーブデータがありません。");
-      return false;
-    }
-  }
-
-  // ----------------- 初期化 -----------------
-  const shouldLoad = localStorage.getItem("loadOnStart") === "true";
-  localStorage.removeItem("loadOnStart");
-
-  if (shouldLoad) {
-    const loaded = loadGame(false);
-    if (!loaded) {
-      alert("セーブデータがありません。最初から開始します。");
-      showLine();
-    }
-  } else {
-    showLine();
-  }
-
-
-  // ------------- ログ表示 ----------------
-  function updateLog() {
-    logContent.innerHTML = "";
-    logHistory.forEach(entry => {
-      const div = document.createElement("div");
-      div.className = "log-entry";
-      div.textContent = entry.speaker ? `${entry.speaker}「${entry.text}」` : entry.text;
-      logContent.appendChild(div);
-
-      if (entry.choices) {
-        entry.choices.forEach(opt => {
-          const c = document.createElement("div");
-          c.className = "log-choice" + (opt.selected ? " log-selected" : "");
-          c.textContent = opt.text;
-          logContent.appendChild(c);
-        });
-      }
-    });
-  }
-
+  
   const scenario = [
     { text: "──闇の中、ただひとつの光が浮かんでいた。", bg: "bg_black.jpg" },
     { text: "月明かりに照らされ、桜の花びらが静かに舞う。", bg: "bg_night_sakura.jpg" },
@@ -176,11 +115,12 @@ document.addEventListener("DOMContentLoaded", () => {
     { speaker: "玲奈", text: "私は生徒会長の一ノ瀬玲奈。困ったことがあれば言いなさい。ただし、甘えは許さないわよ", bg: "bg_council_inside_evening.jpg", char: "char_rena_serious.png" }
   ];
 
+ // ----------------- showLine -----------------
   function showLine() {
     const line = scenario[currentLine];
     if (!line) return;
 
-    // 選択肢のとき
+    // 選択肢判定
     if (line.choice) {
       waitingChoice = true;
       displayChoice(line);
@@ -192,6 +132,7 @@ document.addEventListener("DOMContentLoaded", () => {
       document.getElementById("centurycyclememoria-textbox-wrapper").style.display = "block";
     }
 
+    // 背景・キャラクター・オーバーレイ
     if (line.bg) bgImage.src = line.bg;
     if (line.char) {
       charImage.src = line.char;
@@ -199,9 +140,9 @@ document.addEventListener("DOMContentLoaded", () => {
     } else {
       charImage.style.display = "none";
     }
-
     overlay.style.opacity = line.overlay ? 1 : 0;
 
+    // スピーカー・テキスト
     if (line.speaker) {
       nameBox.style.display = "inline-block";
       nameBox.textContent = line.speaker;
@@ -212,11 +153,9 @@ document.addEventListener("DOMContentLoaded", () => {
     }
 
     // ログに追加
-    logHistory.push({
-      speaker: line.speaker || null,
-      text: line.text
-    });
+    logHistory.push({ speaker: line.speaker || null, text: line.text });
 
+    // 好感度加算
     if (line.affection) {
       for (const key in line.affection) {
         affection[key] += line.affection[key];
@@ -224,7 +163,7 @@ document.addEventListener("DOMContentLoaded", () => {
     }
   }
 
-  // ------------- 選択肢 ----------------
+  // ----------------- displayChoice -----------------
   function displayChoice(line) {
     choiceContainer.innerHTML = "";
     choiceContainer.style.display = "flex";
@@ -256,15 +195,12 @@ document.addEventListener("DOMContentLoaded", () => {
           currentLine++;
         }
 
-        waitingChoice = null;
+        waitingChoice = false;
         choiceContainer.innerHTML = "";
 
         // ログに選択肢記録
         line.options.forEach(o => {
-          choicesLog.push({
-            text: o.text,
-            selected: o.text === opt.text
-          });
+          choicesLog.push({ text: o.text, selected: o.text === opt.text });
         });
         logHistory.push({ choices: choicesLog });
 
@@ -278,7 +214,7 @@ document.addEventListener("DOMContentLoaded", () => {
     nameBox.style.display = "none";
   }
 
-  // ------------- クリック進行 ----------------
+  // ----------------- クリック進行 -----------------
   gameScreen.addEventListener("click", (e) => {
     if (waitingChoice) return;
     if (e.target.closest("#menu-button, #menu-panel")) return;
@@ -286,27 +222,75 @@ document.addEventListener("DOMContentLoaded", () => {
     if (currentLine < scenario.length) showLine();
   });
 
-  // ------------- メニュー操作 ----------------
+  // ----------------- セーブ・ロード -----------------
+  function saveGame() {
+    const saveData = { currentLine, affection, logHistory };
+    localStorage.setItem("centurycyclememoria-save", JSON.stringify(saveData));
+    alert("ゲームをセーブしました。");
+  }
+
+  function loadGame(showAlert = true) {
+    const saveData = JSON.parse(localStorage.getItem("centurycyclememoria-save"));
+    if (saveData) {
+      currentLine = saveData.currentLine;
+      Object.assign(affection, saveData.affection);
+      logHistory.length = 0;
+      logHistory.push(...saveData.logHistory);
+      showLine();
+      if (showAlert) alert("ゲームをロードしました。");
+      return true;
+    } else {
+      if (showAlert) alert("セーブデータがありません。");
+      return false;
+    }
+  }
+
+  const shouldLoad = localStorage.getItem("loadOnStart") === "true";
+  localStorage.removeItem("loadOnStart");
+  if (shouldLoad) {
+    const loaded = loadGame(false);
+    if (!loaded) showLine();
+  } else {
+    showLine();
+  }
+
+  // ----------------- メニュー操作 -----------------
   menuButton.addEventListener("click", () => {
     menuPanel.style.display = menuPanel.style.display === "flex" ? "none" : "flex";
     menuPanel.style.flexDirection = "column";
   });
-
   saveButton.addEventListener("click", saveGame);
   loadButton.addEventListener("click", loadGame);
 
+  // ----------------- ログ表示 -----------------
   logButton.addEventListener("click", () => {
     updateLog();
     logOverlay.style.display = "block";
     document.getElementById("centurycyclememoria-textbox-wrapper").style.display = "none";
     choiceContainer.style.display = "none";
   });
-
   logClose.addEventListener("click", () => {
     logOverlay.style.display = "none";
     document.getElementById("centurycyclememoria-textbox-wrapper").style.display = "block";
   });
 
-  // 初期表示
-  showLine();
+  function updateLog() {
+    logContent.innerHTML = "";
+    logHistory.forEach(entry => {
+      const div = document.createElement("div");
+      div.className = "log-entry";
+      div.textContent = entry.speaker ? `${entry.speaker}「${entry.text}」` : entry.text;
+      logContent.appendChild(div);
+
+      if (entry.choices) {
+        entry.choices.forEach(opt => {
+          const c = document.createElement("div");
+          c.className = "log-choice" + (opt.selected ? " log-selected" : "");
+          c.textContent = opt.text;
+          logContent.appendChild(c);
+        });
+      }
+    });
+  }
+
 });
