@@ -48,6 +48,17 @@ document.addEventListener("DOMContentLoaded", () => {
     }
   }
 
+  document.addEventListener("DOMContentLoaded", () => {
+    // ホーム画面で「途中から」を選んだ場合はロードする
+    if (localStorage.getItem("loadOnStart") === "true") {
+      loadGame();
+      localStorage.removeItem("loadOnStart"); // フラグは消す
+    } else {
+      showLine(); // 新規スタート
+    }
+  });
+
+
   // ------------- ログ表示 ----------------
   function updateLog() {
     logContent.innerHTML = "";
