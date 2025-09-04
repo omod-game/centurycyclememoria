@@ -84,8 +84,6 @@ document.addEventListener("DOMContentLoaded", () => {
       }
     });
   }
-  document.getElementById("save-button").addEventListener("click", saveGame);
-  document.getElementById("load-button").addEventListener("click", loadGame);
 
   const scenario = [
     { text: "──闇の中、ただひとつの光が浮かんでいた。", bg: "bg_black.jpg" },
