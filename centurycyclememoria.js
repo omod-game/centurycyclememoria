@@ -294,9 +294,21 @@ document.addEventListener("DOMContentLoaded", () => {
     menuPanel.classList.remove("show");
     menuButton.style.display = "none";
   });
+  // ----------------- ログ閉じる -----------------
   logClose.addEventListener("click", () => {
     logOverlay.style.display = "none";
-    document.getElementById("centurycyclememoria-textbox-wrapper").style.display = "block";
+    // メニューボタンを元に戻す
+    menuButton.style.display = "block";
+    menuPanel.style.display = "flex";   // CSSでflex指定しているので元通り
+    menuPanel.classList.remove("show"); // 閉じた状態で戻す
+    // 状態を復元
+    if (wasChoiceVisible) {
+      choiceContainer.style.display = "block";   // 選択肢を復活
+      textboxWrapper.style.display = "none";     // テキストボックスは隠したまま
+    } else {
+      choiceContainer.style.display = "none";    // 選択肢は非表示のまま
+      textboxWrapper.style.display = "block";    // テキストボックス復活
+    }
   });
 
   function updateLog() {
