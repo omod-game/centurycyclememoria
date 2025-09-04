@@ -256,29 +256,11 @@ document.addEventListener("DOMContentLoaded", () => {
     showLine();
   }
 
-  // メニュー開閉
-  menuButton.addEventListener("click", (e) => {
-    e.stopPropagation(); // 外側クリックに阻害されないように
+  // ----------------- メニュー操作 -----------------
+  menuButton.addEventListener("click", () => {
     menuPanel.style.display = menuPanel.style.display === "flex" ? "none" : "flex";
+    menuPanel.style.flexDirection = "column";
   });
-
-  // メニュー閉じる
-  menuClose.addEventListener("click", () => {
-    menuPanel.style.display = "none";
-  });
-
-  // ホームに戻る
-  menuHome.addEventListener("click", () => {
-    window.location.href = "index.html";
-  });
-
-  // メニュー外クリックで閉じる
-  document.addEventListener("click", (e) => {
-    if (!menuPanel.contains(e.target) && e.target !== menuButton) {
-      menuPanel.style.display = "none";
-    }
-  });
-  
   saveButton.addEventListener("click", saveGame);
   loadButton.addEventListener("click", loadGame);
 
