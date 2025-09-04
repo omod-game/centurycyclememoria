@@ -256,7 +256,7 @@ document.addEventListener("DOMContentLoaded", () => {
     showLine();
   }
 
-  // ハンバーガー開閉
+  // ----------------- メニュー操作 -----------------
   menuButton.addEventListener("click", () => {
     const isOpen = menuPanel.classList.toggle("show");
     menuButton.setAttribute("aria-expanded", isOpen ? "true" : "false");
@@ -280,12 +280,19 @@ document.addEventListener("DOMContentLoaded", () => {
   saveButton.addEventListener("click", saveGame);
   loadButton.addEventListener("click", loadGame);
 
+  // ----------------- ホームに戻る -----------------
+  menuHome.addEventListener("click", () => {
+    window.location.href = "index.html"; // ← ここでトップページへ遷移
+  });
+
   // ----------------- ログ表示 -----------------
   logButton.addEventListener("click", () => {
     updateLog();
     logOverlay.style.display = "block";
     document.getElementById("centurycyclememoria-textbox-wrapper").style.display = "none";
     choiceContainer.style.display = "none";
+    menuPanel.classList.remove("show");
+    menuButton.style.display = "none";
   });
   logClose.addEventListener("click", () => {
     logOverlay.style.display = "none";
