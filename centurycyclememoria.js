@@ -12,6 +12,8 @@ document.addEventListener("DOMContentLoaded", () => {
   const saveButton = document.getElementById("save-button");
   const loadButton = document.getElementById("load-button");
   const logButton = document.getElementById("log-button");
+  const menuHome = document.getElementById("menu-home");
+  const menuClose = document.getElementById("menu-close");
 
   const logOverlay = document.getElementById("log-overlay");
   const logClose = document.getElementById("log-close");
@@ -254,11 +256,29 @@ document.addEventListener("DOMContentLoaded", () => {
     showLine();
   }
 
-  // ----------------- メニュー操作 -----------------
-  menuButton.addEventListener("click", () => {
+  // ----------------- メニュー開閉 -----------------
+  menuButton.addEventListener("click", (e) => {
+    e.stopPropagation();
     menuPanel.style.display = menuPanel.style.display === "flex" ? "none" : "flex";
-    menuPanel.style.flexDirection = "column";
   });
+
+  menuClose.addEventListener("click", () => {
+    menuPanel.style.display = "none";
+  });
+
+  // ----------------- ホームに戻る -----------------
+  menuHome.addEventListener("click", () => {
+    // index.html に遷移してホーム画面に戻る
+    window.location.href = "index.html";
+  });
+
+  // ----------------- メニュー外クリックで閉じる -----------------
+  document.addEventListener("click", (e) => {
+    if (!menuPanel.contains(e.target) && e.target !== menuButton) {
+      menuPanel.style.display = "none";
+    }
+  });
+  
   saveButton.addEventListener("click", saveGame);
   loadButton.addEventListener("click", loadGame);
 
