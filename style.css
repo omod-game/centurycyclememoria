@@ -65,7 +65,7 @@ section p { margin-bottom:1rem; }
   color:#fff;
   text-decoration:none;
   transition:background 0.3s;
-  width: 40%;
+  width: 60%;
   margin: 10px auto;    /* 縦方向に余白 + 中央寄せ */
 }
 .btn:hover { background: rgba(255,255,255,0.3); }
