@@ -34,7 +34,7 @@ document.addEventListener("DOMContentLoaded", () => {
     alert("ゲームをセーブしました。");
   }
 
-  function loadGame() {
+  function loadGame(showAlert = true) {
     const saveData = JSON.parse(localStorage.getItem("centurycyclememoria-save"));
     if (saveData) {
       currentLine = saveData.currentLine;
@@ -42,28 +42,27 @@ document.addEventListener("DOMContentLoaded", () => {
       logHistory.length = 0;
       logHistory.push(...saveData.logHistory);
       showLine();
-      alert("ゲームをロードしました。");
+      if (showAlert) alert("ゲームをロードしました。");
+      return true;
     } else {
-      alert("セーブデータがありません。");
+      if (showAlert) alert("セーブデータがありません。");
+      return false;
     }
   }
 
-  document.addEventListener("DOMContentLoaded", () => {
-    // ロードフラグの確認
-    const shouldLoad = localStorage.getItem("loadOnStart") === "true";
-  
-    if (shouldLoad) {
-      localStorage.removeItem("loadOnStart"); // フラグを消す
-      const loaded = loadGame(false); // 自動ロード、アラートなし
-      if (!loaded) {
-        alert("セーブデータがありません。最初から開始します。");
-        showLine();
-      }
-    } else {
-      // 新規開始
+  // ----------------- 初期化 -----------------
+  const shouldLoad = localStorage.getItem("loadOnStart") === "true";
+  localStorage.removeItem("loadOnStart");
+
+  if (shouldLoad) {
+    const loaded = loadGame(false);
+    if (!loaded) {
+      alert("セーブデータがありません。最初から開始します。");
       showLine();
     }
-  });
+  } else {
+    showLine();
+  }
 
 
   // ------------- ログ表示 ----------------
@@ -85,6 +84,8 @@ document.addEventListener("DOMContentLoaded", () => {
       }
     });
   }
+  document.getElementById("save-button").addEventListener("click", saveGame);
+  document.getElementById("load-button").addEventListener("click", loadGame);
 
   const scenario = [
     { text: "──闇の中、ただひとつの光が浮かんでいた。", bg: "bg_black.jpg" },
@@ -178,6 +179,7 @@ document.addEventListener("DOMContentLoaded", () => {
   ];
 
   function showLine() {
+    textBox.textContent = "ここから物語が始まります。";
     const line = scenario[currentLine];
     if (!line) return;
 
