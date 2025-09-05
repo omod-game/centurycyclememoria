@@ -7,7 +7,7 @@ document.addEventListener("DOMContentLoaded", () => {
   const nameBox = document.getElementById("centurycyclememoria-name");
   const choiceContainer = document.getElementById("choice-container");
   const textboxWrapper = document.getElementById("centurycyclememoria-textbox-wrapper");
-  const nextButton = document.getElementById("next-button");
+  //const nextButton = document.getElementById("next-button");
 
   const menuButton = document.getElementById("menu-button");
   const menuPanel = document.getElementById("menu-panel");
@@ -166,16 +166,16 @@ function showLine() {
 }
 
 // ----------------- 次へボタン -----------------
-nextButton.addEventListener("click", () => {
+//nextButton.addEventListener("click", () => {
   // 今表示中のセリフをログに追加
-  const line = scenario[currentLine];
-  if (line && !line.choice) {
-    logHistory.push({ speaker: line.speaker || null, text: line.text });
-  }
+  //const line = scenario[currentLine];
+  //if (line && !line.choice) {
+    //logHistory.push({ speaker: line.speaker || null, text: line.text });
+  //}
 
-  currentLine++;
-  showLine();
-});
+  //currentLine++;
+  //showLine();
+//});
 
 // ----------------- displayChoice -----------------
 function displayChoice(line) {
