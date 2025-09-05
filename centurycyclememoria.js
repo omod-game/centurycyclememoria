@@ -118,103 +118,172 @@ document.addEventListener("DOMContentLoaded", () => {
   ];
 
  // ----------------- showLine -----------------
-  function showLine() {
-    const line = scenario[currentLine];
-    if (!line) return;
+  // ----------------- showLine -----------------
+function showLine() {
+  const line = scenario[currentLine];
+  if (!line) return;
 
-    // 選択肢判定
-    if (line.choice) {
-      waitingChoice = true;
-      displayChoice(line);
-      document.getElementById("centurycyclememoria-textbox-wrapper").style.display = "none";
-      return;
-    } else {
-      waitingChoice = false;
-      choiceContainer.style.display = "none";
-      document.getElementById("centurycyclememoria-textbox-wrapper").style.display = "block";
-    }
-
-    // 背景・キャラクター・オーバーレイ
-    if (line.bg) bgImage.src = line.bg;
-    if (line.char) {
-      charImage.src = line.char;
-      charImage.style.display = "block";
-    } else {
-      charImage.style.display = "none";
-    }
-    overlay.style.opacity = line.overlay ? 1 : 0;
-
-    // スピーカー・テキスト
-    if (line.speaker) {
-      nameBox.style.display = "inline-block";
-      nameBox.textContent = line.speaker;
-      textBox.textContent = `「${line.text}」`;
-    } else {
-      nameBox.style.display = "none";
-      textBox.textContent = line.text;
-    }
-
-    // ログに追加
-    logHistory.push({ speaker: line.speaker || null, text: line.text });
-
-    // 好感度加算
-    if (line.affection) {
-      for (const key in line.affection) {
-        affection[key] += line.affection[key];
-      }
-    }
+  // 選択肢判定
+  if (line.choice) {
+    waitingChoice = true;
+    displayChoice(line);
+    textboxWrapper.style.display = "none";
+    wasChoiceVisible = true; // 選択肢表示中を記録
+    return;
+  } else {
+    waitingChoice = false;
+    choiceContainer.style.display = "none";
+    textboxWrapper.style.display = "block";
+    wasChoiceVisible = false; // テキスト表示中を記録
   }
 
-  // ----------------- displayChoice -----------------
-  function displayChoice(line) {
-    choiceContainer.innerHTML = "";
-    choiceContainer.style.display = "flex";
-    waitingChoice = line;
+  // 背景・キャラクター・オーバーレイ
+  if (line.bg) bgImage.src = line.bg;
+  if (line.char) {
+    charImage.src = line.char;
+    charImage.style.display = "block";
+  } else {
+    charImage.style.display = "none";
+  }
+  overlay.style.opacity = line.overlay ? 1 : 0;
 
-    const prompt = document.createElement("div");
-    prompt.id = "choice-prompt";
-    prompt.className = "choice-prompt";
-    prompt.textContent = line.text;
-    choiceContainer.appendChild(prompt);
+  // スピーカー・テキスト
+  if (line.speaker) {
+    nameBox.style.display = "inline-block";
+    nameBox.textContent = line.speaker;
+    textBox.textContent = `「${line.text}」`;
+  } else {
+    nameBox.style.display = "none";
+    textBox.textContent = line.text;
+  }
 
-    const choicesLog = [];
+  // ※ログ追加はここでは行わない
+  // （次へボタンや選択肢決定時に追加する）
+}
 
-    line.options.forEach(opt => {
-      const btn = document.createElement("button");
-      btn.textContent = opt.text;
-      btn.className = "scenario-choice";
+// ----------------- 次へボタン -----------------
+nextButton.addEventListener("click", () => {
+  // 今表示中のセリフをログに追加
+  const line = scenario[currentLine];
+  if (line && !line.choice) {
+    logHistory.push({ speaker: line.speaker || null, text: line.text });
+  }
 
-      btn.addEventListener("click", () => {
-        if (opt.affection) {
-          for (const key in opt.affection) {
-            affection[key] += opt.affection[key];
-          }
+  currentLine++;
+  showLine();
+});
+
+// ----------------- displayChoice -----------------
+function displayChoice(line) {
+  choiceContainer.innerHTML = "";
+  choiceContainer.style.display = "flex";
+  waitingChoice = line;
+
+  // 質問文を表示
+  const prompt = document.createElement("div");
+  prompt.id = "choice-prompt";
+  prompt.className = "choice-prompt";
+  prompt.textContent = line.text;
+  choiceContainer.appendChild(prompt);
+
+  // 質問文をログに追加
+  logHistory.push({ speaker: line.speaker || null, text: line.text });
+
+  const choicesLog = [];
+
+  line.options.forEach(opt => {
+    const btn = document.createElement("button");
+    btn.textContent = opt.text;
+    btn.className = "scenario-choice";
+
+    btn.addEventListener("click", () => {
+      // 好感度加算
+      if (opt.affection) {
+        for (const key in opt.affection) {
+          affection[key] += opt.affection[key];
         }
-        if (opt.next) {
-          const nextIndex = scenario.findIndex(l => l.id === opt.next);
-          if (nextIndex >= 0) currentLine = nextIndex;
-        } else {
-          currentLine++;
-        }
+      }
+      // 次のシナリオへ
+      if (opt.next) {
+        const nextIndex = scenario.findIndex(l => l.id === opt.next);
+        if (nextIndex >= 0) currentLine = nextIndex;
+      } else {
+        currentLine++;
+      }
 
-        waitingChoice = false;
-        choiceContainer.innerHTML = "";
+      waitingChoice = false;
+      choiceContainer.innerHTML = "";
 
-        // ログに選択肢記録
-        line.options.forEach(o => {
-          choicesLog.push({ text: o.text, selected: o.text === opt.text });
-        });
-        logHistory.push({ choices: choicesLog });
-
-        showLine();
+      // ログに選択肢を記録
+      line.options.forEach(o => {
+        choicesLog.push({ text: o.text, selected: o.text === opt.text });
       });
+      logHistory.push({ choices: choicesLog });
 
-      choiceContainer.appendChild(btn);
+      showLine();
     });
 
-    textBox.textContent = "";
-    nameBox.style.display = "none";
+    choiceContainer.appendChild(btn);
+  });
+
+  textBox.textContent = "";
+  nameBox.style.display = "none";
+}
+
+// ----------------- ログ表示 -----------------
+logButton.addEventListener("click", () => {
+  updateLog();
+  logOverlay.style.display = "block";
+
+  // 現在の状態を記録
+  wasChoiceVisible = (choiceContainer.style.display === "flex");
+
+  textboxWrapper.style.display = "none";
+  choiceContainer.style.display = "none";
+  menuPanel.classList.remove("show");
+  menuButton.style.display = "none";
+});
+
+// ----------------- ログ閉じる -----------------
+logClose.addEventListener("click", () => {
+  logOverlay.style.display = "none";
+
+  // メニューボタン復帰
+  menuButton.style.display = "block";
+  menuPanel.style.display = "flex";
+  menuPanel.classList.remove("show");
+
+  // 状態を復元
+  if (wasChoiceVisible) {
+    choiceContainer.style.display = "flex";   // 選択肢を復活
+    textboxWrapper.style.display = "none";
+  } else {
+    choiceContainer.style.display = "none";
+    textboxWrapper.style.display = "block";   // テキストボックスを復活
   }
+});
+
+// ----------------- ログ更新 -----------------
+function updateLog() {
+  logContent.innerHTML = "";
+  logHistory.forEach(entry => {
+    if (entry.text) {
+      const div = document.createElement("div");
+      div.className = "log-entry";
+      div.textContent = entry.speaker ? `${entry.speaker}「${entry.text}」` : entry.text;
+      logContent.appendChild(div);
+    }
+
+    if (entry.choices) {
+      entry.choices.forEach(opt => {
+        const c = document.createElement("div");
+        c.className = "log-choice" + (opt.selected ? " log-selected" : "");
+        c.textContent = opt.text;
+        logContent.appendChild(c);
+      });
+    }
+  });
+}
 
   // ----------------- クリック進行 -----------------
   gameScreen.addEventListener("click", (e) => {
@@ -289,50 +358,5 @@ document.addEventListener("DOMContentLoaded", () => {
 
   // ----------------- 状態管理用の変数 -----------------
   let wasChoiceVisible = false;
-
-  // ----------------- ログ表示 -----------------
-  logButton.addEventListener("click", () => {
-    updateLog();
-    logOverlay.style.display = "block";
-    document.getElementById("centurycyclememoria-textbox-wrapper").style.display = "none";
-    choiceContainer.style.display = "none";
-    menuPanel.classList.remove("show");
-    menuButton.style.display = "none";
-  });
-  // ----------------- ログ閉じる -----------------
-  logClose.addEventListener("click", () => {
-    logOverlay.style.display = "none";
-    // メニューボタンを元に戻す
-    menuButton.style.display = "block";
-    menuPanel.style.display = "flex";   // CSSでflex指定しているので元通り
-    menuPanel.classList.remove("show"); // 閉じた状態で戻す
-    // 状態を復元
-    if (wasChoiceVisible) {
-      choiceContainer.style.display = "block";   // 選択肢を復活
-      textboxWrapper.style.display = "none";     // テキストボックスは隠したまま
-    } else {
-      choiceContainer.style.display = "none";    // 選択肢は非表示のまま
-      textboxWrapper.style.display = "block";    // テキストボックス復活
-    }
-  });
-
-  function updateLog() {
-    logContent.innerHTML = "";
-    logHistory.forEach(entry => {
-      const div = document.createElement("div");
-      div.className = "log-entry";
-      div.textContent = entry.speaker ? `${entry.speaker}「${entry.text}」` : entry.text;
-      logContent.appendChild(div);
-
-      if (entry.choices) {
-        entry.choices.forEach(opt => {
-          const c = document.createElement("div");
-          c.className = "log-choice" + (opt.selected ? " log-selected" : "");
-          c.textContent = opt.text;
-          logContent.appendChild(c);
-        });
-      }
-    });
-  }
 
 });
