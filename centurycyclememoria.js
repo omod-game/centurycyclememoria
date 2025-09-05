@@ -117,8 +117,10 @@ document.addEventListener("DOMContentLoaded", () => {
     { speaker: "玲奈", text: "私は生徒会長の一ノ瀬玲奈。困ったことがあれば言いなさい。ただし、甘えは許さないわよ", bg: "bg_council_inside_evening.jpg", char: "char_rena_serious.png" }
   ];
 
+ // ----------------- 状態管理用の変数 -----------------
+let waitingChoice = false;   // 選択肢処理中かどうか
+let wasChoiceVisible = false; // ログを閉じた後に選択肢を復元するため
  // ----------------- showLine -----------------
-  // ----------------- showLine -----------------
 function showLine() {
   const line = scenario[currentLine];
   if (!line) return;
@@ -355,8 +357,5 @@ function updateLog() {
   menuHome.addEventListener("click", () => {
     window.location.href = "index.html"; // ← ここでトップページへ遷移
   });
-
-  // ----------------- 状態管理用の変数 -----------------
-  let wasChoiceVisible = false;
 
 });
