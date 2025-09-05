@@ -257,10 +257,12 @@ document.addEventListener("DOMContentLoaded", () => {
   }
 
   // ----------------- メニュー操作 -----------------
-  menuButton.addEventListener("click", () => {
+  menuButton.addEventListener("click", (e) => {
+    e.stopPropagation();
     const isOpen = menuPanel.classList.toggle("show");
-    menuButton.setAttribute("aria-expanded", isOpen ? "true" : "false");
-  });
+    menuButton.classList.toggle("active", isOpen); // ← 黒背景付与
+    menuButton.setAttribute("aria-expanded", isOpen ? "true" : "false"); // アクセシビリティ対応
+　});
   
   // パネルの「閉じる」ボタン
   menuClose.addEventListener("click", () => {
