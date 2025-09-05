@@ -7,7 +7,6 @@ document.addEventListener("DOMContentLoaded", () => {
   const nameBox = document.getElementById("centurycyclememoria-name");
   const choiceContainer = document.getElementById("choice-container");
   const textboxWrapper = document.getElementById("centurycyclememoria-textbox-wrapper");
-  //const nextButton = document.getElementById("next-button");
 
   const menuButton = document.getElementById("menu-button");
   const menuPanel = document.getElementById("menu-panel");
@@ -22,7 +21,8 @@ document.addEventListener("DOMContentLoaded", () => {
   const logContent = document.getElementById("log-content");
 
   let currentLine = 0;
-  let waitingChoice = false;
+  let waitingChoice = false;   // 選択肢処理中かどうか
+  let wasChoiceVisible = false; // ログを閉じた後に選択肢を復元するため
 
   const affection = { miku: 0, shizuka: 0, rena: 0 };
   const logHistory = [];
