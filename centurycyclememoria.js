@@ -6,6 +6,8 @@ document.addEventListener("DOMContentLoaded", () => {
   const overlay = document.getElementById("centurycyclememoria-overlay");
   const nameBox = document.getElementById("centurycyclememoria-name");
   const choiceContainer = document.getElementById("choice-container");
+  const textboxWrapper = document.getElementById("centurycyclememoria-textbox-wrapper");
+  const nextButton = document.getElementById("next-button");
 
   const menuButton = document.getElementById("menu-button");
   const menuPanel = document.getElementById("menu-panel");
