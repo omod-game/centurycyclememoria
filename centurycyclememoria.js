@@ -290,12 +290,23 @@ function updateLog() {
 }
 
   // ----------------- クリック進行 -----------------
-  gameScreen.addEventListener("click", (e) => {
-    if (waitingChoice) return;
-    if (e.target.closest("#menu-button, #menu-panel")) return;
-    currentLine++;
-    if (currentLine < scenario.length) showLine();
-  });
+gameScreen.addEventListener("click", (e) => {
+  // メニューが開いている場合は無視
+  if (menuPanel.classList.contains("show")) return;
+
+  // ログ表示中は無視
+  if (logOverlay.style.display === "block") return;
+
+  // 選択肢表示中は無視
+  if (waitingChoice) return;
+
+  // メニュー関連クリックも無視
+  if (e.target.closest("#menu-button, #menu-panel")) return;
+
+  // 次の行を表示
+  currentLine++;
+  if (currentLine < scenario.length) showLine();
+});
 
   // ----------------- セーブ・ロード -----------------
   function saveGame() {
