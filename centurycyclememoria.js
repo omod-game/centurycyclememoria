@@ -264,6 +264,11 @@ document.addEventListener("DOMContentLoaded", () => {
         });
       }
     });
+    // ✅ 最新のログを中央にスクロール
+    const lastLog = logContent.lastElementChild;
+    if (lastLog) {
+      lastLog.scrollIntoView({ block: "center", behavior: "smooth" });
+    }
   }
 
   // ----------------- 画面タップで進行 -----------------
