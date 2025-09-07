@@ -245,15 +245,39 @@ document.addEventListener("DOMContentLoaded", () => {
       textboxWrapper.style.display = "block";
     }
   });
-
+  //ログの表示設定
+  function addLogLine(speaker, text, color = "#fff") {
+    const div = document.createElement("div");
+    div.className = "log-entry";
+    div.style.marginBottom = "8px";
+    div.style.position = "relative";
+    div.style.left = "30%"; // 左から30%の位置
+  
+    if (speaker) {
+      const name = document.createElement("div");
+      name.className = "log-speaker";
+      name.textContent = speaker;
+      name.style.color = color;
+      name.style.fontWeight = "bold";
+      div.appendChild(name);
+    }
+  
+    const txt = document.createElement("div");
+    txt.className = "log-text";
+    txt.innerHTML = text.replace(/\n/g, "<br>");
+    div.appendChild(txt);
+  
+    logContent.appendChild(div);
+    logContent.scrollTop = logContent.scrollHeight;
+  }
+  //ログ内の設定
   function updateLog() {
     logContent.innerHTML = "";
     logHistory.forEach(entry => {
       if (entry.text) {
-        const div = document.createElement("div");
-        div.className = "log-entry";
-        div.textContent = entry.speaker ? `${entry.speaker}「${entry.text}」` : entry.text;
-        logContent.appendChild(div);
+        const charColors = { "桜井 未来": "#ff69b4", "？？？": "#87ceeb", "玲奈": "#ffa500" };
+        const color = charColors[entry.speaker] || "#fff";
+        addLogLine(entry.speaker, entry.text, color);
       }
       if (entry.choices) {
         entry.choices.forEach(opt => {
