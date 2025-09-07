@@ -149,10 +149,22 @@ document.addEventListener("DOMContentLoaded", () => {
       nameBox.style.display = "inline-block";
       nameBox.textContent = line.speaker;
       textBox.textContent = `「${line.text}」`;
+    
+      // ✅ 選択肢ではないときだけログ追加
+      if (!line.choice) {
+        logHistory.push({ speaker: line.speaker, text: line.text });
+      }
+    
     } else {
       nameBox.style.display = "none";
       textBox.textContent = line.text;
+    
+      // ✅ 選択肢ではないときだけログ追加
+      if (!line.choice) {
+        logHistory.push({ speaker: null, text: line.text });
+      }
     }
+
   }
 
   // ----------------- displayChoice -----------------
