@@ -301,6 +301,7 @@ body {
   margin-bottom: 10px;
   word-break: break-word;
   white-space: pre-wrap;   /* 改行保持 */
+  white-space: pre-line; /* 改行文字 \n を画面で改行として表示 */
 }
 
 .log-choice {
