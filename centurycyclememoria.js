@@ -148,7 +148,7 @@ document.addEventListener("DOMContentLoaded", () => {
     if (line.speaker) {
       nameBox.style.display = "inline-block";
       nameBox.textContent = line.speaker;
-      textBox.textContent = `「${line.text}」`;
+      textBox.innerHTML = `「${line.text.replace(/\n/g, "<br>")}」`;
     
       // ✅ 選択肢ではないときだけログ追加
       if (!line.choice) {
@@ -157,7 +157,7 @@ document.addEventListener("DOMContentLoaded", () => {
     
     } else {
       nameBox.style.display = "none";
-      textBox.textContent = line.text;
+      textBox.innerHTML = line.text.replace(/\n/g, "<br>");
     
       // ✅ 選択肢ではないときだけログ追加
       if (!line.choice) {
