@@ -249,9 +249,10 @@ document.addEventListener("DOMContentLoaded", () => {
   function addLogLine(speaker, text, color = "#fff") {
     const div = document.createElement("div");
     div.className = "log-entry";
-    div.style.marginBottom = "8px";
-    div.style.position = "relative";
-    div.style.left = "30%"; // 左から30%の位置
+    div.style.marginBottom = "12px"; // 少し余白を広げる
+    div.style.width = "60%";         // 画面内で中央寄せ
+    div.style.marginLeft = "auto";
+    div.style.marginRight = "auto";
   
     if (speaker) {
       const name = document.createElement("div");
@@ -259,17 +260,23 @@ document.addEventListener("DOMContentLoaded", () => {
       name.textContent = speaker;
       name.style.color = color;
       name.style.fontWeight = "bold";
+      name.style.marginBottom = "4px";
       div.appendChild(name);
     }
   
     const txt = document.createElement("div");
     txt.className = "log-text";
     txt.innerHTML = text.replace(/\n/g, "<br>");
+    txt.style.whiteSpace = "pre-wrap"; // 改行・空白を保持
+    txt.style.wordBreak = "break-word"; // 長文の折返し対応
     div.appendChild(txt);
   
     logContent.appendChild(div);
-    logContent.scrollTop = logContent.scrollHeight;
+    // 最新ログを中央にスクロール
+    const lastLog = logContent.lastElementChild;
+    if (lastLog) lastLog.scrollIntoView({ block: "center", behavior: "smooth" });
   }
+
   //ログ内の設定
   function updateLog() {
     logContent.innerHTML = "";
