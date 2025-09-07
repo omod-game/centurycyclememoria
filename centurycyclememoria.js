@@ -226,6 +226,7 @@ document.addEventListener("DOMContentLoaded", () => {
     textboxWrapper.style.display = "none";
     choiceContainer.style.display = "none";
     menuPanel.classList.remove("show");
+    menuButton.classList.remove("active");
     menuButton.style.display = "none";
   });
 
@@ -234,6 +235,7 @@ document.addEventListener("DOMContentLoaded", () => {
     menuButton.style.display = "block";
     menuPanel.style.display = "flex";
     menuPanel.classList.remove("show");
+    menuButton.classList.remove("active");
 
     if (wasChoiceVisible) {
       choiceContainer.style.display = "flex";
