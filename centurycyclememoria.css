@@ -251,7 +251,7 @@ body {
 }
 
 /* ログ画面 */
-#log-overlay {
+#log-overlay, #log-content {
   position: absolute;
   top: 0;
   left: 0;
@@ -276,6 +276,8 @@ body {
   flex: 1;
   overflow-y: auto;
   padding: 20px;
+  padding-left: 30%;
+  padding-right: 10%;
 }
 
 #log-close {
@@ -293,6 +295,12 @@ body {
 
 .log-entry {
   margin: 5px 0;
+  display: flex;
+  flex-direction: column;  /* キャラ名の下にセリフを配置 */
+  align-items: flex-start; /* 左寄せ */
+  margin-bottom: 10px;
+  word-break: break-word;
+  white-space: pre-wrap;   /* 改行保持 */
 }
 
 .log-choice {
@@ -303,4 +311,17 @@ body {
 .log-selected::before {
   content: "▶ ";
   color: #ff7777;
+}
+
+/* キャラ名 */
+.log-speaker {
+  font-weight: bold;
+  margin-bottom: 4px;
+  color: #ff69b4;          /* 初期色。JSでキャラごとに変更可能 */
+}
+
+/* セリフ本文 */
+.log-text {
+  line-height: 1.6;
+  white-space: pre-wrap;
 }
