@@ -344,15 +344,58 @@ document.addEventListener("DOMContentLoaded", () => {
     }
   }
 
+  // ゲーム開始前に確認メニュー表示
   const shouldLoad = localStorage.getItem("loadOnStart") === "true";
   localStorage.removeItem("loadOnStart");
+  
   if (shouldLoad) {
-    const loaded = loadGame(false);
-    if (!loaded) showLine();
+    // 「続きから始めますか？」の確認選択肢
+    showYesNoMenu("続きから始めますか？", () => {
+      const loaded = loadGame(false);
+      if (!loaded) currentLine = 0;
+      choiceContainer.innerHTML = "";
+      showLine();
+    });
   } else {
-    showLine();
+    // 「最初から始めますか？」の確認選択肢
+    showYesNoMenu("最初から始めますか？", () => {
+      currentLine = 0;
+      choiceContainer.innerHTML = "";
+      showLine();
+    });
   }
 
+  function showYesNoMenu(question, yesCallback) {
+    choiceContainer.innerHTML = "";
+    choiceContainer.style.display = "flex";
+    choiceContainer.style.flexDirection = "column";
+  
+    const prompt = document.createElement("div");
+    prompt.id = "choice-prompt";
+    prompt.textContent = question;
+    choiceContainer.appendChild(prompt);
+  
+    const yesBtn = document.createElement("button");
+    yesBtn.className = "scenario-choice";
+    yesBtn.textContent = "はい";
+    yesBtn.addEventListener("click", () => {
+      choiceContainer.innerHTML = "";
+      yesCallback();
+    });
+  
+    const noBtn = document.createElement("button");
+    noBtn.className = "scenario-choice";
+    noBtn.textContent = "いいえ";
+    noBtn.addEventListener("click", () => {
+      window.location.href = "index.html"; // ホームに戻る
+    });
+  
+    choiceContainer.appendChild(yesBtn);
+    choiceContainer.appendChild(noBtn);
+  }
+
+
+  
   // ----------------- メニュー操作 -----------------
   menuButton.addEventListener("click", (e) => {
     e.stopPropagation();
