@@ -291,7 +291,7 @@ document.addEventListener("DOMContentLoaded", () => {
         const charColors = { "桜井 未来": "#ff69b4", "？？？": "#87ceeb", "玲奈": "#ffa500" };
         const color = charColors[entry.speaker] || "#fff";
   
-        addLogLine(entry.speaker, text, color);
+        addLogLine(entry.speaker, entry.text, color);
       }
   
       if (entry.choices) {
