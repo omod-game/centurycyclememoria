@@ -178,7 +178,7 @@ document.addEventListener("DOMContentLoaded", () => {
     prompt.textContent = line.text;
     choiceContainer.appendChild(prompt);
 
-    logHistory.push({ speaker: line.speaker || null, text: line.text });
+    logHistory.push({ speaker: line.speaker || null, text: "▼ " + line.text });
 
     const choicesLog = [];
 
