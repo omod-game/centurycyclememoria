@@ -291,18 +291,15 @@ document.addEventListener("DOMContentLoaded", () => {
         const charColors = { "桜井 未来": "#ff69b4", "？？？": "#87ceeb", "玲奈": "#ffa500" };
         const color = charColors[entry.speaker] || "#fff";
   
-        // ▼を選択肢質問の前に付与
-        const isChoicePrompt = entry.choices === undefined && !entry.speaker;
-        const text = isChoicePrompt ? `▼ ${entry.text}` : entry.text;
-  
         addLogLine(entry.speaker, text, color);
       }
   
       if (entry.choices) {
-        entry.choices.forEach((opt, index) => {
+        entry.choices.forEach(opt => {
           const c = document.createElement("div");
           c.className = "log-choice" + (opt.selected ? " log-selected" : "");
-          c.textContent = `${index + 1}. ${opt.text}`; // インデックスを付与
+          // 番号は付けない。選ばれたものだけ▶が付く
+          c.textContent = opt.text;
           logContent.appendChild(c);
         });
       }
