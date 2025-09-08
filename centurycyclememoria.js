@@ -300,7 +300,7 @@ document.addEventListener("DOMContentLoaded", () => {
           c.className = "log-choice" + (opt.selected ? " log-selected" : "");
           // 選んだものは▶、選ばなかったものは全角スペースで揃える
           const prefix = opt.selected ? "" : "　 ";
-          c.textContent = opt.text;
+          c.textContent = prefix + opt.text;
           logContent.appendChild(c);
         });
       }
