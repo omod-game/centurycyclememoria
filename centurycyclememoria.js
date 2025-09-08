@@ -245,13 +245,13 @@ document.addEventListener("DOMContentLoaded", () => {
       textboxWrapper.style.display = "block";
     }
   });
-  //ログの表示設定
+  // ログの表示設定
   function addLogLine(speaker, text, color = "#fff") {
     const div = document.createElement("div");
     div.className = "log-entry";
-    div.style.marginBottom = "12px"; // 少し余白を広げる
-    div.style.width = "60%";         // 画面内で中央寄せ
-    div.style.marginLeft = "auto";
+    div.style.marginBottom = "12px";
+    div.style.width = "80%";         // 幅を広げて読みやすく
+    div.style.marginLeft = "0";      // 左寄せ
     div.style.marginRight = "auto";
   
     if (speaker) {
@@ -266,40 +266,50 @@ document.addEventListener("DOMContentLoaded", () => {
   
     const txt = document.createElement("div");
     txt.className = "log-text";
-    txt.innerHTML = text.replace(/\n/g, "<br>");
+    // ✅ speakerがあるときだけ「」を付ける
+    txt.innerHTML = speaker
+      ? `「${text.replace(/\n/g, "<br>")}」`
+      : text.replace(/\n/g, "<br>");
     txt.style.whiteSpace = "pre-wrap"; // 改行・空白を保持
     txt.style.wordBreak = "break-word"; // 長文の折返し対応
     div.appendChild(txt);
   
     logContent.appendChild(div);
+  
     // 最新ログを中央にスクロール
     const lastLog = logContent.lastElementChild;
-    if (lastLog) lastLog.scrollIntoView({ block: "center", behavior: "smooth" });
+    if (lastLog) {
+      lastLog.scrollIntoView({ block: "center", behavior: "smooth" });
+    }
   }
 
-  //ログ内の設定
+  // ログ内の設定
   function updateLog() {
     logContent.innerHTML = "";
     logHistory.forEach(entry => {
       if (entry.text) {
         const charColors = { "桜井 未来": "#ff69b4", "？？？": "#87ceeb", "玲奈": "#ffa500" };
         const color = charColors[entry.speaker] || "#fff";
-        addLogLine(entry.speaker, entry.text, color);
+  
+        // ▼を選択肢質問の前に付与
+        const isChoicePrompt = entry.choices === undefined && !entry.speaker;
+        const text = isChoicePrompt ? `▼ ${entry.text}` : entry.text;
+  
+        addLogLine(entry.speaker, text, color);
       }
+  
       if (entry.choices) {
-        entry.choices.forEach(opt => {
+        entry.choices.forEach((opt, index) => {
           const c = document.createElement("div");
           c.className = "log-choice" + (opt.selected ? " log-selected" : "");
-          c.textContent = opt.text;
+          c.textContent = `${index + 1}. ${opt.text}`; // インデックスを付与
           logContent.appendChild(c);
         });
       }
     });
-    // ✅ 最新のログを中央にスクロール
+  
     const lastLog = logContent.lastElementChild;
-    if (lastLog) {
-      lastLog.scrollIntoView({ block: "center", behavior: "smooth" });
-    }
+    if (lastLog) lastLog.scrollIntoView({ block: "center", behavior: "smooth" });
   }
 
   // ----------------- 画面タップで進行 -----------------
@@ -361,6 +371,7 @@ document.addEventListener("DOMContentLoaded", () => {
   document.addEventListener("click", (e) => {
     if (!menuPanel.contains(e.target) && e.target !== menuButton) {
       menuPanel.classList.remove("show");
+      menuButton.classList.remove("active"); // 黒背景を消す
       menuButton.setAttribute("aria-expanded", "false");
     }
   });
