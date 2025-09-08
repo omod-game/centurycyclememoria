@@ -298,7 +298,8 @@ document.addEventListener("DOMContentLoaded", () => {
         entry.choices.forEach(opt => {
           const c = document.createElement("div");
           c.className = "log-choice" + (opt.selected ? " log-selected" : "");
-          // 番号は付けない。選ばれたものだけ▶が付く
+          // 選んだものは▶、選ばなかったものは全角スペースで揃える
+          const prefix = opt.selected ? "" : "　 ";
           c.textContent = opt.text;
           logContent.appendChild(c);
         });
