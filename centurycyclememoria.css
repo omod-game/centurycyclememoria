@@ -251,7 +251,7 @@ body {
 }
 
 /* ログ画面 */
-#log-overlay, #log-content {
+#log-overlay {
   position: absolute;
   top: 0;
   left: 0;
