@@ -347,13 +347,17 @@ document.addEventListener("DOMContentLoaded", () => {
   // ゲーム開始前に確認メニュー表示
   const shouldLoad = localStorage.getItem("loadOnStart") === "true";
   localStorage.removeItem("loadOnStart");
-  
+
+  // 最初はテキストボックス非表示
+  textbox.style.display = "none";
   if (shouldLoad) {
     // 「続きから始めますか？」の確認選択肢
     showYesNoMenu("続きから始めますか？", () => {
       const loaded = loadGame(false);
       if (!loaded) currentLine = 0;
       choiceContainer.innerHTML = "";
+      waitingChoice = false;
+      textbox.style.display = "block"; // ✅ はい選択後に表示
       showLine();
     });
   } else {
@@ -361,6 +365,8 @@ document.addEventListener("DOMContentLoaded", () => {
     showYesNoMenu("最初から始めますか？", () => {
       currentLine = 0;
       choiceContainer.innerHTML = "";
+      waitingChoice = false;
+      textbox.style.display = "block"; // ✅ はい選択後に表示
       showLine();
     });
   }
@@ -380,8 +386,11 @@ document.addEventListener("DOMContentLoaded", () => {
     yesBtn.textContent = "はい";
     yesBtn.addEventListener("click", () => {
       choiceContainer.innerHTML = "";
+      waitingChoice = false;
+      textbox.style.display = "block";  // ✅ テキストボックスを出す
       yesCallback();
     });
+
   
     const noBtn = document.createElement("button");
     noBtn.className = "scenario-choice";
