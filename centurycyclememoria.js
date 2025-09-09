@@ -349,7 +349,7 @@ document.addEventListener("DOMContentLoaded", () => {
   localStorage.removeItem("loadOnStart");
 
   // 最初はテキストボックス非表示
-  textbox.style.display = "none";
+  textboxWrapper.style.display = "none";  // ✅ textBox ではなく textboxWrapper を隠す
   if (shouldLoad) {
     // 「続きから始めますか？」の確認選択肢
     showYesNoMenu("続きから始めますか？", () => {
