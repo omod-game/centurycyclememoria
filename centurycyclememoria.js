@@ -350,7 +350,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
   // ----------------- ゲーム開始前の処理 -----------------
   textboxWrapper.style.display = "none";  // 最初はテキスト非表示
-  waitingChoice = true;                   // ✅ 進行を止める（Yes/No 待ち）
+  waitingChoice = true;                   // ✅ 最初はクリック進行を止める
   
   const shouldLoad = localStorage.getItem("loadOnStart") === "true";
   localStorage.removeItem("loadOnStart");
@@ -370,17 +370,21 @@ document.addEventListener("DOMContentLoaded", () => {
     });
   }
   
+  // ✅ 「ゲーム開始処理」を共通化
   function startGame() {
     choiceContainer.innerHTML = "";
-    waitingChoice = false;                // ✅ クリック進行を有効化
+    choiceContainer.style.display = "none"; // ✅ メニューを消す
+    waitingChoice = false;                   // ✅ クリック進行を有効化
     textboxWrapper.style.display = "block"; 
-    showLine();                           // ✅ ここで初めてテキスト＋背景切り替え
+    showLine();                              // ✅ ここで初めて背景＋テキスト
   }
   
   function showYesNoMenu(question, yesCallback) {
     choiceContainer.innerHTML = "";
-    choiceContainer.style.display = "flex";
+    choiceContainer.style.display = "flex";   // ✅ 表示ON
     choiceContainer.style.flexDirection = "column";
+    choiceContainer.style.alignItems = "center";
+    choiceContainer.style.justifyContent = "center";
   
     const prompt = document.createElement("div");
     prompt.id = "choice-prompt";
@@ -404,6 +408,7 @@ document.addEventListener("DOMContentLoaded", () => {
     choiceContainer.appendChild(yesBtn);
     choiceContainer.appendChild(noBtn);
   }
+
 
   
   // ----------------- メニュー操作 -----------------
