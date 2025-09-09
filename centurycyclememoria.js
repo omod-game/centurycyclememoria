@@ -349,19 +349,9 @@ document.addEventListener("DOMContentLoaded", () => {
   localStorage.removeItem("loadOnStart");
 
   // ----------------- ゲーム開始前の処理 -----------------
-  textboxWrapper.style.display = "none";  // 最初は隠す
+  textboxWrapper.style.display = "none";  // 最初はテキスト非表示
   
-  // ✅ 背景だけ先に設定（scenario[0] を参照）
-  if (scenario[0].bg) {
-    bgImage.src = scenario[0].bg;
-  }
-  if (scenario[0].char) {
-    charImage.src = scenario[0].char;
-    charImage.style.display = "block";
-  } else {
-    charImage.style.display = "none";
-  }
-  overlay.style.opacity = scenario[0].overlay ? 1 : 0;
+  // ✅ 背景は index.html 側のままにするのでここで scenario[0].bg を設定しない
   
   // 「続きから」か「最初から」かで確認メニューを出す
   if (shouldLoad) {
@@ -373,7 +363,7 @@ document.addEventListener("DOMContentLoaded", () => {
       choiceContainer.innerHTML = "";
       waitingChoice = false;
       textboxWrapper.style.display = "block"; 
-      showLine();  // ✅ テキストを表示
+      showLine();  // ✅ テキストを表示（ここで初めて背景も変わる）
     });
   } else {
     showYesNoMenu("最初から始めますか？", () => {
@@ -381,7 +371,7 @@ document.addEventListener("DOMContentLoaded", () => {
       choiceContainer.innerHTML = "";
       waitingChoice = false;
       textboxWrapper.style.display = "block"; 
-      showLine();  // ✅ テキストを表示
+      showLine();  // ✅ テキストを表示（ここで初めて背景も変わる）
     });
   }
 
