@@ -348,28 +348,43 @@ document.addEventListener("DOMContentLoaded", () => {
   const shouldLoad = localStorage.getItem("loadOnStart") === "true";
   localStorage.removeItem("loadOnStart");
 
-  // 最初はテキストボックス非表示
-  textboxWrapper.style.display = "none";  // ✅ textBox ではなく textboxWrapper を隠す
+  // ----------------- ゲーム開始前の処理 -----------------
+  textboxWrapper.style.display = "none";  // 最初は隠す
+  
+  // ✅ 背景だけ先に設定（scenario[0] を参照）
+  if (scenario[0].bg) {
+    bgImage.src = scenario[0].bg;
+  }
+  if (scenario[0].char) {
+    charImage.src = scenario[0].char;
+    charImage.style.display = "block";
+  } else {
+    charImage.style.display = "none";
+  }
+  overlay.style.opacity = scenario[0].overlay ? 1 : 0;
+  
+  // 「続きから」か「最初から」かで確認メニューを出す
   if (shouldLoad) {
-    // 「続きから始めますか？」の確認選択肢
     showYesNoMenu("続きから始めますか？", () => {
       const loaded = loadGame(false);
-      if (!loaded) currentLine = 0;
+      if (!loaded) {
+        currentLine = 0;  // セーブが無ければ最初から
+      }
       choiceContainer.innerHTML = "";
       waitingChoice = false;
-      textboxWrapper.style.display = "block"; // ✅ はい選択後に表示
-      showLine();
+      textboxWrapper.style.display = "block"; 
+      showLine();  // ✅ テキストを表示
     });
   } else {
-    // 「最初から始めますか？」の確認選択肢
     showYesNoMenu("最初から始めますか？", () => {
-      currentLine = 0;
+      currentLine = 0; 
       choiceContainer.innerHTML = "";
       waitingChoice = false;
-      textboxWrapper.style.display = "block"; // ✅ はい選択後に表示
-      showLine();
+      textboxWrapper.style.display = "block"; 
+      showLine();  // ✅ テキストを表示
     });
   }
+
 
   function showYesNoMenu(question, yesCallback) {
     choiceContainer.innerHTML = "";
