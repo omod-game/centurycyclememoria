@@ -350,32 +350,33 @@ document.addEventListener("DOMContentLoaded", () => {
 
   // ----------------- ゲーム開始前の処理 -----------------
   textboxWrapper.style.display = "none";  // 最初はテキスト非表示
+  waitingChoice = true;                   // ✅ 進行を止める（Yes/No 待ち）
   
-  // ✅ 背景は index.html 側のままにするのでここで scenario[0].bg を設定しない
+  const shouldLoad = localStorage.getItem("loadOnStart") === "true";
+  localStorage.removeItem("loadOnStart");
   
-  // 「続きから」か「最初から」かで確認メニューを出す
   if (shouldLoad) {
     showYesNoMenu("続きから始めますか？", () => {
       const loaded = loadGame(false);
       if (!loaded) {
         currentLine = 0;  // セーブが無ければ最初から
       }
-      choiceContainer.innerHTML = "";
-      waitingChoice = false;
-      textboxWrapper.style.display = "block"; 
-      showLine();  // ✅ テキストを表示（ここで初めて背景も変わる）
+      startGame();
     });
   } else {
     showYesNoMenu("最初から始めますか？", () => {
-      currentLine = 0; 
-      choiceContainer.innerHTML = "";
-      waitingChoice = false;
-      textboxWrapper.style.display = "block"; 
-      showLine();  // ✅ テキストを表示（ここで初めて背景も変わる）
+      currentLine = 0;
+      startGame();
     });
   }
-
-
+  
+  function startGame() {
+    choiceContainer.innerHTML = "";
+    waitingChoice = false;                // ✅ クリック進行を有効化
+    textboxWrapper.style.display = "block"; 
+    showLine();                           // ✅ ここで初めてテキスト＋背景切り替え
+  }
+  
   function showYesNoMenu(question, yesCallback) {
     choiceContainer.innerHTML = "";
     choiceContainer.style.display = "flex";
@@ -390,9 +391,6 @@ document.addEventListener("DOMContentLoaded", () => {
     yesBtn.className = "scenario-choice";
     yesBtn.textContent = "はい";
     yesBtn.addEventListener("click", () => {
-      choiceContainer.innerHTML = "";
-      waitingChoice = false;
-      textboxWrapper.style.display = "block";  // ✅ テキストボックスを出す
       yesCallback();
     });
   
@@ -406,7 +404,6 @@ document.addEventListener("DOMContentLoaded", () => {
     choiceContainer.appendChild(yesBtn);
     choiceContainer.appendChild(noBtn);
   }
-
 
   
   // ----------------- メニュー操作 -----------------
