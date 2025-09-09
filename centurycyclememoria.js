@@ -357,7 +357,7 @@ document.addEventListener("DOMContentLoaded", () => {
       if (!loaded) currentLine = 0;
       choiceContainer.innerHTML = "";
       waitingChoice = false;
-      textbox.style.display = "block"; // ✅ はい選択後に表示
+      textboxWrapper.style.display = "block"; // ✅ はい選択後に表示
       showLine();
     });
   } else {
@@ -366,7 +366,7 @@ document.addEventListener("DOMContentLoaded", () => {
       currentLine = 0;
       choiceContainer.innerHTML = "";
       waitingChoice = false;
-      textbox.style.display = "block"; // ✅ はい選択後に表示
+      textboxWrapper.style.display = "block"; // ✅ はい選択後に表示
       showLine();
     });
   }
@@ -387,10 +387,9 @@ document.addEventListener("DOMContentLoaded", () => {
     yesBtn.addEventListener("click", () => {
       choiceContainer.innerHTML = "";
       waitingChoice = false;
-      textbox.style.display = "block";  // ✅ テキストボックスを出す
+      textboxWrapper.style.display = "block";  // ✅ テキストボックスを出す
       yesCallback();
     });
-
   
     const noBtn = document.createElement("button");
     noBtn.className = "scenario-choice";
