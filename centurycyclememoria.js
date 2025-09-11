@@ -361,10 +361,10 @@ document.addEventListener("DOMContentLoaded", () => {
     if (line.bg) bgImage.src = line.bg;
   
     // キャラ立ち絵復元
-    if (line.character) {
-      characterImage.src = line.character;
+    if (line.char) {
+      charImage.src = line.char;
     } else {
-      characterImage.src = "";
+      charImage.src = "";
     }
   
     // BGM復元
