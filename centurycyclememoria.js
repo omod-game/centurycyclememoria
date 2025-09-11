@@ -335,9 +335,17 @@ document.addEventListener("DOMContentLoaded", () => {
     if (saveData) {
       currentLine = saveData.currentLine;
       Object.assign(affection, saveData.affection);
+  
+      // ✅ ログ履歴は保存済みをそのまま使う
       logHistory.length = 0;
       logHistory.push(...saveData.logHistory);
-      // ✅ showLine() は呼ばずに待機状態にする
+  
+      // ✅ セーブ時点を復元（進めない・二重登録しない）
+      restoreLine(currentLine);
+  
+      waitingChoice = false; // すぐクリックで次に進める
+      textboxWrapper.style.display = "block";
+  
       if (showAlert) alert("ゲームをロードしました。");
       return true;
     } else {
@@ -345,6 +353,48 @@ document.addEventListener("DOMContentLoaded", () => {
       return false;
     }
   }
+
+  //復元の関数
+  function restoreLine(lineIndex) {
+    const line = script[lineIndex];
+    if (!line) return;
+  
+    // 背景復元
+    if (line.bg) bgImage.src = line.bg;
+  
+    // キャラ立ち絵復元
+    if (line.character) {
+      characterImage.src = line.character;
+    } else {
+      characterImage.src = "";
+    }
+  
+    // BGM復元
+    if (line.bgm) playBGM(line.bgm);
+  
+    // ✅ テキストをそのまま表示
+    textboxSpeaker.textContent = line.speaker || "";
+    textboxText.innerHTML = line.text ? line.text.replace(/\n/g, "<br>") : "";
+  
+    // ✅ ログを画面に描画（logHistoryの内容だけ表示）
+    logContent.innerHTML = "";
+    logHistory.forEach(entry => {
+      if (entry.text) {
+        const color = charColors[entry.speaker] || "#fff";
+        addLogLine(entry.speaker, entry.text, color);
+      }
+      if (entry.choices) {
+        entry.choices.forEach(opt => {
+          const c = document.createElement("div");
+          c.className = "log-choice" + (opt.selected ? " log-selected" : "");
+          c.textContent = opt.text;
+          logContent.appendChild(c);
+        });
+      }
+    });
+  }
+
+
 
   // ----------------- ゲーム開始前の確認 -----------------
   const shouldLoad = localStorage.getItem("loadOnStart") === "true";
