@@ -125,7 +125,7 @@ document.addEventListener("DOMContentLoaded", () => {
     // 選択肢判定
     if (line.choice) {
       waitingChoice = true;
-      displayChoice(line);
+      displayChoice(line);    // ← この中で push しない！
       textboxWrapper.style.display = "none";
       wasChoiceVisible = true;
       return;
@@ -150,21 +150,16 @@ document.addEventListener("DOMContentLoaded", () => {
       nameBox.textContent = line.speaker;
       textBox.innerHTML = `「${line.text.replace(/\n/g, "<br>")}」`;
     
-      // ✅ 選択肢ではないときだけログ追加
-      if (!line.choice) {
-        logHistory.push({ speaker: line.speaker, text: line.text });
-      }
+      // ✅ テキスト行だけログ追加
+      logHistory.push({ speaker: line.speaker, text: line.text });
     
     } else {
       nameBox.style.display = "none";
       textBox.innerHTML = line.text.replace(/\n/g, "<br>");
     
-      // ✅ 選択肢ではないときだけログ追加
-      if (!line.choice) {
-        logHistory.push({ speaker: null, text: line.text });
-      }
+      // ✅ テキスト行だけログ追加
+      logHistory.push({ speaker: null, text: line.text });
     }
-
   }
 
   // ----------------- displayChoice -----------------
