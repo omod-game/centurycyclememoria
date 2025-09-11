@@ -317,8 +317,10 @@ document.addEventListener("DOMContentLoaded", () => {
     if (waitingChoice) return;
     if (e.target.closest("#menu-button, #menu-panel")) return;
 
-    currentLine++;
-    if (currentLine < scenario.length) showLine();
+    if (currentLine < scenario.length) {
+      showLine();   // ✅ ここで表示する
+      currentLine++;
+    }
   });
 
   // ----------------- セーブ・ロード -----------------
@@ -373,7 +375,10 @@ document.addEventListener("DOMContentLoaded", () => {
     choiceContainer.style.display = "none"; // ✅ メニューを消す
     waitingChoice = false;                   // ✅ クリック進行を有効化
     textboxWrapper.style.display = "block"; 
-    showLine();                              // ✅ ここで初めて背景＋テキスト
+    currentLine = 0; // ✅ ここでリセット
+
+    // showLine() は呼ばない！
+    // 最初のクリックで 1ページ目を表示する
   }
   
   function showYesNoMenu(question, yesCallback) {
