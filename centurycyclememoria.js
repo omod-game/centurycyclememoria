@@ -21,6 +21,7 @@ document.addEventListener("DOMContentLoaded", () => {
   const logContent = document.getElementById("log-content");
 
   let currentLine = 0;
+  let suppressLogPush = false; // true の間は showLine() が logHistory へ push しない
   let waitingChoice = false;   // 選択肢処理中かどうか
   let wasChoiceVisible = false; // ログを閉じた後に選択肢を復元するため
 
@@ -150,17 +151,19 @@ document.addEventListener("DOMContentLoaded", () => {
       nameBox.textContent = line.speaker;
       textBox.innerHTML = `「${line.text.replace(/\n/g, "<br>")}」`;
     
-      // ✅ テキスト行だけログ追加
-      logHistory.push({ speaker: line.speaker, text: line.text });
+      // ロード時などに二重pushさせないためのフラグチェック
+      if (!suppressLogPush && !line.choice) {
+        addLogEntry(line.speaker, line.text);
+      }
     
     } else {
       nameBox.style.display = "none";
       textBox.innerHTML = line.text.replace(/\n/g, "<br>");
     
-      // ✅ テキスト行だけログ追加
-      logHistory.push({ speaker: null, text: line.text });
+      if (!suppressLogPush && !line.choice) {
+        addLogEntry(null, line.text);
+      }
     }
-  }
 
   // ----------------- displayChoice -----------------
   function displayChoice(line) {
@@ -351,7 +354,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
   //復元の関数
   function restoreLine(lineIndex) {
-    const line = script[lineIndex];
+    const line = scenario[lineIndex];
     if (!line) return;
   
     // 背景復元
@@ -389,7 +392,14 @@ document.addEventListener("DOMContentLoaded", () => {
     });
   }
 
-
+  // 変更後：関数を追加（showLine / displayChoice / loadGame と共に使います）
+  function addLogEntry(speaker, text) {
+    // 直前のログとまったく同じなら push しない（簡易デデュープ）
+    const last = logHistory[logHistory.length - 1];
+    if (!last || last.speaker !== speaker || last.text !== text) {
+      logHistory.push({ speaker, text });
+    }
+  }
 
   // ----------------- ゲーム開始前の確認 -----------------
   const shouldLoad = localStorage.getItem("loadOnStart") === "true";
