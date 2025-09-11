@@ -346,54 +346,77 @@ document.addEventListener("DOMContentLoaded", () => {
     }
   }
 
-  // ゲーム開始前に確認メニュー表示
+  // ----------------- ゲーム開始前の確認 -----------------
   const shouldLoad = localStorage.getItem("loadOnStart") === "true";
   localStorage.removeItem("loadOnStart");
   
-  // 最初はテキスト非表示、クリック進行を止める
+  // 最初はテキスト非表示・クリック進行も無効化
   textboxWrapper.style.display = "none";
   waitingChoice = true;
   
+  // 背景を固定（確認画面用）
+  bgImage.src = "bg_moon_sakura.jpg";
+  
   if (shouldLoad) {
     showYesNoMenu("続きから始めますか？", () => {
-      startGame(true); // 保存データを読み込むかどうかのフラグ
+      const loaded = loadGame(false);
+      if (!loaded) {
+        currentLine = 0; // セーブが無ければ最初から
+      }
+      startGame();
     });
   } else {
     showYesNoMenu("最初から始めますか？", () => {
-      startGame(false); // 最初から開始
+      currentLine = 0;
+      startGame();
     });
   }
   
   // ----------------- ゲーム開始処理 -----------------
-  function startGame(fromLoad = false) {
+  function startGame() {
     choiceContainer.innerHTML = "";
-    choiceContainer.style.display = "none"; // メニューを消す
-    waitingChoice = false;                  // クリック進行を有効化
+    choiceContainer.style.display = "none";  // メニューを消す
+    waitingChoice = false;                   // クリック進行を有効化
     textboxWrapper.style.display = "block";
   
-    if (fromLoad) {
-      // 保存データがある場合だけ読み込む
-      const saveData = JSON.parse(localStorage.getItem("centurycyclememoria-save"));
-      if (saveData) {
-        currentLine = saveData.currentLine;
-        Object.assign(affection, saveData.affection);
-        logHistory.length = 0;
-        logHistory.push(...saveData.logHistory);
-      } else {
-        currentLine = 0;
-      }
-    } else {
-      currentLine = 0; // 最初から
-    }
+    // ※「続きから」は loadGame が currentLine を復元するのでリセットしない
+    // 「最初から」は yesCallback 内で currentLine = 0 をセット済み
   
-    // 最初のクリックで showLine() を呼ぶ
-    gameScreen.addEventListener("click", startScenarioOnce, { once: true });
+    // showLine() は呼ばない！
+    // ✅ 最初のクリックで1ページ目を表示する
   }
   
-  // ----------------- 最初のクリックでシナリオ開始 -----------------
-  function startScenarioOnce() {
-    showLine();
+  // ----------------- 確認メニュー表示 -----------------
+  function showYesNoMenu(question, yesCallback) {
+    choiceContainer.innerHTML = "";
+    choiceContainer.style.display = "flex";
+    choiceContainer.style.flexDirection = "column";
+    choiceContainer.style.alignItems = "center";
+    choiceContainer.style.justifyContent = "center";
+  
+    const prompt = document.createElement("div");
+    prompt.id = "choice-prompt";
+    prompt.textContent = question;
+    choiceContainer.appendChild(prompt);
+  
+    const yesBtn = document.createElement("button");
+    yesBtn.className = "scenario-choice";
+    yesBtn.textContent = "はい";
+    yesBtn.addEventListener("click", () => {
+      yesCallback();
+    });
+  
+    const noBtn = document.createElement("button");
+    noBtn.className = "scenario-choice";
+    noBtn.textContent = "いいえ";
+    noBtn.addEventListener("click", () => {
+      window.location.href = "index.html"; // ホームに戻る
+    });
+  
+    choiceContainer.appendChild(yesBtn);
+    choiceContainer.appendChild(noBtn);
   }
+
   
   // ----------------- showYesNoMenu はそのまま -----------------
   function showYesNoMenu(question, yesCallback) {
