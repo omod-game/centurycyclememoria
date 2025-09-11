@@ -352,9 +352,6 @@ document.addEventListener("DOMContentLoaded", () => {
   textboxWrapper.style.display = "none";  // 最初はテキスト非表示
   waitingChoice = true;                   // ✅ 最初はクリック進行を止める
   
-  const shouldLoad = localStorage.getItem("loadOnStart") === "true";
-  localStorage.removeItem("loadOnStart");
-  
   if (shouldLoad) {
     showYesNoMenu("続きから始めますか？", () => {
       const loaded = loadGame(false);
