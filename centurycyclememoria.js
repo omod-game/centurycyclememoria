@@ -337,7 +337,7 @@ document.addEventListener("DOMContentLoaded", () => {
       Object.assign(affection, saveData.affection);
       logHistory.length = 0;
       logHistory.push(...saveData.logHistory);
-      showLine();
+      // ✅ showLine() は呼ばずに待機状態にする
       if (showAlert) alert("ゲームをロードしました。");
       return true;
     } else {
