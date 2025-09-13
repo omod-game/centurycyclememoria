@@ -355,14 +355,14 @@ document.addEventListener("DOMContentLoaded", () => {
 
   //復元の関数
   function restoreLine(lineIndex) {
-    const line = script[lineIndex];
+    const line = scenario[lineIndex];
     if (!line) return;
   
     // 背景復元
     if (line.bg) bgImage.src = line.bg;
   
     // キャラ立ち絵復元
-    if (line.character) {
+    if (line.char) {
       charImage.src = line.character;
     } else {
       charImage.src = "";
