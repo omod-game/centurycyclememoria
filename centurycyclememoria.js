@@ -362,9 +362,9 @@ document.addEventListener("DOMContentLoaded", () => {
   
     // キャラ立ち絵復元
     if (line.character) {
-      characterImage.src = line.character;
+      charImage.src = line.character;
     } else {
-      characterImage.src = "";
+      charImage.src = "";
     }
   
     // BGM復元
