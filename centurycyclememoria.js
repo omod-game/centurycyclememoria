@@ -353,7 +353,6 @@ document.addEventListener("DOMContentLoaded", () => {
     }
   }
 
-  //復元の関数
   function restoreLine(lineIndex) {
     const line = scenario[lineIndex];
     if (!line) return;
@@ -363,20 +362,28 @@ document.addEventListener("DOMContentLoaded", () => {
   
     // キャラ立ち絵復元
     if (line.char) {
-      charImage.src = line.character;
+      charImage.src = line.char;   // ✅ 修正
+      charImage.style.display = "block";
     } else {
-      charImage.src = "";
+      charImage.style.display = "none";
     }
   
     // BGM復元
     if (line.bgm) playBGM(line.bgm);
   
-    // ✅ テキストをそのまま表示
-    textboxSpeaker.textContent = line.speaker || "";
-    textboxText.innerHTML = line.text ? line.text.replace(/\n/g, "<br>") : "";
+    // テキスト復元
+    if (line.speaker) {
+      nameBox.style.display = "inline-block";
+      nameBox.textContent = line.speaker;
+      textBox.innerHTML = `「${line.text.replace(/\n/g, "<br>")}」`;
+    } else {
+      nameBox.style.display = "none";
+      textBox.innerHTML = line.text ? line.text.replace(/\n/g, "<br>") : "";
+    }
   
-    // ✅ ログを画面に描画（logHistoryの内容だけ表示）
+    // ログ更新（既存の logHistory から）
     logContent.innerHTML = "";
+    const charColors = { "桜井 未来": "#ff69b4", "？？？": "#87ceeb", "玲奈": "#ffa500" };
     logHistory.forEach(entry => {
       if (entry.text) {
         const color = charColors[entry.speaker] || "#fff";
@@ -392,6 +399,7 @@ document.addEventListener("DOMContentLoaded", () => {
       }
     });
   }
+
 
   // 変更後：関数を追加（showLine / displayChoice / loadGame と共に使います）
   function addLogEntry(speaker, text) {
