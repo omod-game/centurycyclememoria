@@ -481,37 +481,6 @@ document.addEventListener("DOMContentLoaded", () => {
     choiceContainer.appendChild(noBtn);
   }
 
-  
-  // ----------------- showYesNoMenu はそのまま -----------------
-  function showYesNoMenu(question, yesCallback) {
-    choiceContainer.innerHTML = "";
-    choiceContainer.style.display = "flex";
-    choiceContainer.style.flexDirection = "column";
-    choiceContainer.style.alignItems = "center";
-    choiceContainer.style.justifyContent = "center";
-  
-    const prompt = document.createElement("div");
-    prompt.id = "choice-prompt";
-    prompt.textContent = question;
-    choiceContainer.appendChild(prompt);
-  
-    const yesBtn = document.createElement("button");
-    yesBtn.className = "scenario-choice";
-    yesBtn.textContent = "はい";
-    yesBtn.addEventListener("click", () => {
-      yesCallback();
-    });
-  
-    const noBtn = document.createElement("button");
-    noBtn.className = "scenario-choice";
-    noBtn.textContent = "いいえ";
-    noBtn.addEventListener("click", () => {
-      window.location.href = "index.html";
-    });
-  
-    choiceContainer.appendChild(yesBtn);
-    choiceContainer.appendChild(noBtn);
-  }
 
 
   // ----------------- メニュー操作 -----------------
