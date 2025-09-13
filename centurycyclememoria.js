@@ -164,6 +164,7 @@ document.addEventListener("DOMContentLoaded", () => {
         addLogEntry(null, line.text);
       }
     }
+  }
 
   // ----------------- displayChoice -----------------
   function displayChoice(line) {
