@@ -317,7 +317,7 @@ document.addEventListener("DOMContentLoaded", () => {
     if (e.target.closest("#menu-button, #menu-panel")) return;
 
     if (currentLine < scenario.length) {
-      showLine();   // ✅ ここで表示する
+      showLine(currentLine); // 今の行を表示
       currentLine++;
     }
   });
@@ -356,6 +356,14 @@ document.addEventListener("DOMContentLoaded", () => {
   function restoreLine(lineIndex) {
     const line = scenario[lineIndex];
     if (!line) return;
+
+    // 選択肢の行なら専用処理
+    if (line.choice) {
+      waitingChoice = true;
+      displayChoice(line); // ✅ 選択肢を再表示
+      textboxWrapper.style.display = "none"; // テキスト枠は隠す
+      return;
+    }
   
     // 背景復元
     if (line.bg) bgImage.src = line.bg;
