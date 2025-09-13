@@ -532,4 +532,4 @@ document.addEventListener("DOMContentLoaded", () => {
   menuHome.addEventListener("click", () => {
     window.location.href = "index.html";
   });
-});
+};
