@@ -330,13 +330,14 @@ document.addEventListener("DOMContentLoaded", () => {
     }
   });
 
-  // ----------------- セーブ・ロード -----------------
+  // ----------------- セーブ -----------------
   function saveGame() {
-    const saveData = { currentLine, affection, logHistory };
+    const saveData = { currentLine, affection, logHistory, waitingChoice };
     localStorage.setItem("centurycyclememoria-save", JSON.stringify(saveData));
     alert("ゲームをセーブしました。");
   }
 
+  // ----------------- ロード -----------------
   function loadGame(showAlert = true) {
     const saveData = JSON.parse(localStorage.getItem("centurycyclememoria-save"));
     if (saveData) {
@@ -346,12 +347,14 @@ document.addEventListener("DOMContentLoaded", () => {
       // ✅ ログ履歴は保存済みをそのまま使う
       logHistory.length = 0;
       logHistory.push(...saveData.logHistory);
-  
+
+      // ✅ waitingChoice も復元
+      waitingChoice = !!saveData.waitingChoice;
+      
       // ✅ セーブ時点を復元（進めない・二重登録しない）
       restoreLine(currentLine);
   
-      waitingChoice = false; // すぐクリックで次に進める
-      textboxWrapper.style.display = "block";
+      textboxWrapper.style.display = waitingChoice ? "none" : "block";
   
       if (showAlert) alert("ゲームをロードしました。");
       return true;
@@ -367,12 +370,18 @@ document.addEventListener("DOMContentLoaded", () => {
 
     // 選択肢の行なら専用処理
     if (line.choice) {
-      // この line.text に対応するログを探す
-      const entry = [...logHistory].reverse().find(e => 
-        e.text === "▼ " + line.text && e.choices
-      );
-    
-      const hasSelected = entry?.choices?.some(c => c.selected);
+      // waitingChoice が true なら選択肢を再表示
+      if (waitingChoice) {
+        displayChoice(line);
+        textboxWrapper.style.display = "none";
+        return;
+      }
+      // すでに選択済みならスキップ
+    }
+      
+      // ログを確認して選択済みかどうかチェック
+      const lastEntry = logHistory[logHistory.length - 1];
+      const hasSelected = lastEntry?.choices?.some(c => c.selected);
     
       if (!hasSelected) {
         // まだ選んでない → 選択肢を再表示
