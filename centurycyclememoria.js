@@ -177,7 +177,12 @@ document.addEventListener("DOMContentLoaded", () => {
     prompt.textContent = line.text;
     choiceContainer.appendChild(prompt);
 
-    logHistory.push({ speaker: line.speaker || null, text: "▼ " + line.text });
+    logHistory.push({
+      speaker: line.speaker || null,
+      text: "▼ " + line.text,
+      choices: line.options.map(opt => ({ text: opt.text, selected: false }))
+    });
+
 
     const choicesLog = [];
 
@@ -202,10 +207,13 @@ document.addEventListener("DOMContentLoaded", () => {
         waitingChoice = false;
         choiceContainer.innerHTML = "";
 
-        line.options.forEach(o => {
-          choicesLog.push({ text: o.text, selected: o.text === opt.text });
-        });
-        logHistory.push({ choices: choicesLog });
+        const lastEntry = logHistory[logHistory.length - 1];
+        if (lastEntry && lastEntry.choices) {
+          lastEntry.choices = line.options.map(o => ({
+            text: o.text,
+            selected: o.text === opt.text
+          }));
+        }
 
         showLine();
       });
@@ -359,10 +367,18 @@ document.addEventListener("DOMContentLoaded", () => {
 
     // 選択肢の行なら専用処理
     if (line.choice) {
-      waitingChoice = true;
-      displayChoice(line); // ✅ 選択肢を再表示
-      textboxWrapper.style.display = "none"; // テキスト枠は隠す
-      return;
+      // 直近のログを確認
+      const lastEntry = logHistory[logHistory.length - 1];
+      const hasSelected = lastEntry?.choices?.some(c => c.selected);
+    
+      if (!hasSelected) {
+        // ✅ まだ選んでない → 選択肢を再表示
+        waitingChoice = true;
+        displayChoice(line);
+        textboxWrapper.style.display = "none"; // テキスト枠は隠す
+        return;
+      }
+      // ✅ 選んである → 選択肢スキップして通常進行
     }
   
     // 背景復元
