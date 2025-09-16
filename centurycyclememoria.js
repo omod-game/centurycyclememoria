@@ -367,18 +367,21 @@ document.addEventListener("DOMContentLoaded", () => {
 
     // 選択肢の行なら専用処理
     if (line.choice) {
-      // 直近のログを確認
-      const lastEntry = logHistory[logHistory.length - 1];
-      const hasSelected = lastEntry?.choices?.some(c => c.selected);
+      // この line.text に対応するログを探す
+      const entry = [...logHistory].reverse().find(e => 
+        e.text === "▼ " + line.text && e.choices
+      );
+    
+      const hasSelected = entry?.choices?.some(c => c.selected);
     
       if (!hasSelected) {
-        // ✅ まだ選んでない → 選択肢を再表示
+        // まだ選んでない → 選択肢を再表示
         waitingChoice = true;
         displayChoice(line);
-        textboxWrapper.style.display = "none"; // テキスト枠は隠す
+        textboxWrapper.style.display = "none";
         return;
       }
-      // ✅ 選んである → 選択肢スキップして通常進行
+      // 選んである → 通常進行
     }
   
     // 背景復元
