@@ -124,7 +124,7 @@ document.addEventListener("DOMContentLoaded", () => {
     if (!line) return;
 
     // 選択肢判定
-    if (line.choice) {
+    if (line.options) {
       waitingChoice = true;
       displayChoice(line);    // ← この中で push しない！
       textboxWrapper.style.display = "none";
@@ -367,9 +367,19 @@ document.addEventListener("DOMContentLoaded", () => {
     if (!line) return;
 
     // 選択肢の行なら専用処理
-    if (line.choice) {
-      // waitingChoice が true なら選択肢を再表示
+    if (line.options) {  // ← ここも line.choice → line.options
       if (waitingChoice) {
+        displayChoice(line);
+        textboxWrapper.style.display = "none";
+        return;
+      }
+    
+      // ログを確認して選択済みかどうかチェック
+      const lastEntry = logHistory[logHistory.length - 1];
+      const hasSelected = lastEntry?.choices?.some(c => c.selected);
+    
+      if (!hasSelected) {
+        waitingChoice = true;
         displayChoice(line);
         textboxWrapper.style.display = "none";
         return;
