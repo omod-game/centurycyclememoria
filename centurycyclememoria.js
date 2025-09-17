@@ -377,7 +377,6 @@ document.addEventListener("DOMContentLoaded", () => {
         return;
       }
       // すでに選択済みならスキップ
-    }
       
       // ログを確認して選択済みかどうかチェック
       const lastEntry = logHistory[logHistory.length - 1];
