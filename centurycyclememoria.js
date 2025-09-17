@@ -353,16 +353,14 @@ document.addEventListener("DOMContentLoaded", () => {
       
       // ✅ セーブ時点を復元（進めない・二重登録しない）
       restoreLine(currentLine);
-  
-      textboxWrapper.style.display = waitingChoice ? "none" : "block";
-  
-      if (showAlert) alert("ゲームをロードしました。");
-      return true;
-    } else {
-      if (showAlert) alert("セーブデータがありません。");
-      return false;
-    }
-  }
+
+        if (showAlert) alert("ゲームをロードしました。");
+        return true;
+      } else {
+          if (showAlert) alert("セーブデータがありません。");
+          return false;
+        }
+      }
 
   function restoreLine(lineIndex) {
     const line = scenario[lineIndex];
