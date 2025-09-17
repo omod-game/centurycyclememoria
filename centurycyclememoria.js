@@ -375,7 +375,7 @@ document.addEventListener("DOMContentLoaded", () => {
       }
     
       // ログを確認して選択済みかどうかチェック
-      const lastEntry = logHistory[logHistory.length - 1];
+      let lastEntry = logHistory[logHistory.length - 1];
       const hasSelected = lastEntry?.choices?.some(c => c.selected);
     
       if (!hasSelected) {
