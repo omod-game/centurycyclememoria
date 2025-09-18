@@ -385,10 +385,6 @@ document.addEventListener("DOMContentLoaded", () => {
         return;
       }
       // すでに選択済みならスキップ
-      
-      // ログを確認して選択済みかどうかチェック
-      const lastEntry = logHistory[logHistory.length - 1];
-      const hasSelected = lastEntry?.choices?.some(c => c.selected);
     
       if (!hasSelected) {
         // まだ選んでない → 選択肢を再表示
