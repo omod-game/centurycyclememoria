@@ -168,6 +168,9 @@ document.addEventListener("DOMContentLoaded", () => {
 
   // ----------------- displayChoice -----------------
   function displayChoice(line) {
+    // ✅ currentLine を選択肢行に固定する
+    currentLine = scenario.findIndex(l => l === line);
+    
     choiceContainer.innerHTML = "";
     choiceContainer.style.display = "flex";
 
@@ -332,6 +335,16 @@ document.addEventListener("DOMContentLoaded", () => {
 
   // ----------------- セーブ -----------------
   function saveGame() {
+    // ✅ 選択肢中なら currentLine を選択肢行に合わせる
+    if (waitingChoice) {
+      const line = scenario[currentLine];
+      if (!line.options) {
+        const choiceIndex = scenario.findIndex(l => l.options);
+        if (choiceIndex >= 0) currentLine = choiceIndex;
+      }
+    }
+
+    
     const saveData = { currentLine, affection, logHistory, waitingChoice };
     localStorage.setItem("centurycyclememoria-save", JSON.stringify(saveData));
     alert("ゲームをセーブしました。");
