@@ -167,10 +167,23 @@ document.addEventListener("DOMContentLoaded", () => {
   }
 
   // ----------------- displayChoice -----------------
-  function displayChoice(line) {
+  function displayChoice(line, fromRestore = false) {
     // ✅ currentLine を選択肢行に固定する
     currentLine = scenario.findIndex(l => l === line);
-    
+
+    // ✅ 背景復元
+    if (line.bg) {
+      bgImage.src = line.bg;
+    }
+  
+    // ✅ キャラ立ち絵復元（必要なら）
+    if (line.char) {
+      charImage.src = line.char;
+      charImage.style.display = "block";
+    } else {
+      charImage.style.display = "none";
+    }
+      
     choiceContainer.innerHTML = "";
     choiceContainer.style.display = "flex";
 
@@ -180,11 +193,13 @@ document.addEventListener("DOMContentLoaded", () => {
     prompt.textContent = line.text;
     choiceContainer.appendChild(prompt);
 
-    logHistory.push({
-      speaker: line.speaker || null,
-      text: "▼ " + line.text,
-      choices: line.options.map(opt => ({ text: opt.text, selected: false }))
-    });
+    if (!fromRestore) {
+      logHistory.push({
+        speaker: line.speaker || null,
+        text: "▼ " + line.text,
+        choices: line.options.map(opt => ({ text: opt.text, selected: false }))
+      });
+    }
 
 
     const choicesLog = [];
@@ -382,7 +397,7 @@ document.addEventListener("DOMContentLoaded", () => {
     // 選択肢の行なら専用処理
     if (line.options) {  // ← ここも line.choice → line.options
       if (waitingChoice) {
-        displayChoice(line);
+        displayChoice(line, true);  // ← fromRestore = true
         textboxWrapper.style.display = "none";
         return;
       }
