@@ -358,9 +358,22 @@ document.addEventListener("DOMContentLoaded", () => {
         if (choiceIndex >= 0) currentLine = choiceIndex;
       }
     }
+    // 最後の選択肢情報を取得
+    let currentChoices = null;
+    let lastEntry = logHistory[logHistory.length - 1];
+    if (lastEntry?.choices) {
+      currentChoices = lastEntry.choices;
+    }
 
-    
-    const saveData = { currentLine, affection, logHistory, waitingChoice };
+    const saveData = { 
+      currentLine, 
+      affection, 
+      logHistory, 
+      waitingChoice,
+      bg: bgImage.src,      // ← 背景も保存
+      char: charImage.src,   // ← 立ち絵も保存
+      currentChoices   // ← 選択肢の状態も保存
+    };
     localStorage.setItem("centurycyclememoria-save", JSON.stringify(saveData));
     alert("ゲームをセーブしました。");
   }
@@ -382,22 +395,46 @@ document.addEventListener("DOMContentLoaded", () => {
       // ✅ セーブ時点を復元（進めない・二重登録しない）
       restoreLine(currentLine);
 
-        if (showAlert) alert("ゲームをロードしました。");
-        return true;
-      } else {
-          if (showAlert) alert("セーブデータがありません。");
-          return false;
-        }
-      }
+      if (showAlert) alert("ゲームをロードしました。");
+      return true;
+    } else {
+        if (showAlert) alert("セーブデータがありません。");
+        return false;
+    }
+  }
 
   function restoreLine(lineIndex) {
     const line = scenario[lineIndex];
     if (!line) return;
 
+    // 背景復元（常に実行）
+    bgImage.src = saveData.bg || "bg_moon_sakura.jpg";
+  
+    // キャラ立ち絵復元（常に実行）
+    if (saveData.char) {
+      charImage.src = saveData.char;
+      charImage.style.display = "block";
+    } else {
+      charImage.style.display = "none";
+    }
+
     // 選択肢の行なら専用処理
     if (line.options) {  // ← ここも line.choice → line.options
       if (waitingChoice) {
         displayChoice(line, true);  // ← fromRestore = true
+        // セーブデータに currentChoices があれば、それを反映
+        if (saveData.currentChoices) {
+          const buttons = choiceContainer.querySelectorAll("button");
+          saveData.currentChoices.forEach((opt, i) => {
+            if (buttons[i]) {
+              buttons[i].textContent = opt.text;
+              if (opt.selected) {
+                buttons[i].classList.add("selected"); // ★CSSで強調してもOK
+              }
+            }
+          });
+        }
+        
         textboxWrapper.style.display = "none";
         return;
       }
