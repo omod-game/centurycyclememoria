@@ -393,7 +393,7 @@ document.addEventListener("DOMContentLoaded", () => {
       waitingChoice = !!saveData.waitingChoice;
       
       // ✅ セーブ時点を復元（進めない・二重登録しない）
-      restoreLine(currentLine);
+      restoreLine(currentLine, saveData);
 
       if (showAlert) alert("ゲームをロードしました。");
       return true;
