@@ -427,29 +427,49 @@ document.addEventListener("DOMContentLoaded", () => {
     logContent.innerHTML = "";
     updateLog();
 
-    // 選択肢の行なら専用処理
-    if (line.choice) {
-      // 最後にログに残っている選択肢エントリを探す
+    // 背景を復元（セーブデータ優先 → 行にbgがあれば適用）
+    if (saveData.bg) {
+      bgImage.src = saveData.bg;
+    } else if (line.bg) {
+      bgImage.src = line.bg;
+    } else {
+      bgImage.src = "bg_moon_sakura.jpg"; // デフォルト
+    }
+  
+    // キャラ立ち絵を復元
+    if (saveData.char) {
+      charImage.src = saveData.char;
+      charImage.style.display = "block";
+    } else if (line.char) {
+      charImage.src = line.char;
+      charImage.style.display = "block";
+    } else {
+      charImage.style.display = "none";
+    }
+  
+    // ✅ 選択肢の行なら専用処理
+    if (line.choice && line.options) {
       const lastChoiceLog = findLastChoiceLogForLine(line);
-
-      // 選択済みのインデックスがあるか
-      const selectedIndex = lastChoiceLog ? lastChoiceLog.choices.findIndex(c => c.selected) : -1;
-
+      const selectedIndex = lastChoiceLog
+        ? lastChoiceLog.choices.findIndex(c => c.selected)
+        : -1;
+  
       if (selectedIndex === -1) {
         // まだ選んでいない → 選択肢 UI を表示
         waitingChoice = true;
-        displayChoice(line, true); // fromRestore = true（ログ側に既にエントリがあるので二重追加しない）
+        displayChoice(line, true); // fromRestore = true → ログに二重追加しない
         textboxWrapper.style.display = "none";
         return;
       } else {
-        // 既に選んである → その選択肢の分岐先から再開する
+        // 既に選んである → 分岐先へ進む
         const chosenOpt = line.options[selectedIndex];
-        let nextIndex = (chosenOpt && chosenOpt.next) ? scenario.findIndex(l => l.id === chosenOpt.next) : lineIndex + 1;
+        let nextIndex = (chosenOpt && chosenOpt.next)
+          ? scenario.findIndex(l => l.id === chosenOpt.next)
+          : lineIndex + 1;
         if (nextIndex < 0) nextIndex = lineIndex + 1;
-        // currentLine を分岐先にして続行
+  
         currentLine = nextIndex;
-        // 再帰的に復元（先のテキストや選択肢を復元する）
-        restoreLine(currentLine, saveData);
+        restoreLine(currentLine, saveData); // 再帰的に復元
         return;
       }
     }
@@ -476,6 +496,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
   // addLogEntry: 重複しない簡易デデュープ
   function addLogEntry(speaker, text) {
+    if (suppressLogPush) return;  // ここが無いと二重登録
     const last = logHistory[logHistory.length - 1];
     if (!last || last.speaker !== speaker || last.text !== text) {
       logHistory.push({ speaker, text });
