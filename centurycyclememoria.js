@@ -372,7 +372,7 @@ document.addEventListener("DOMContentLoaded", () => {
       waitingChoice,
       bg: bgImage.src,      // ← 背景も保存
       char: charImage.src,   // ← 立ち絵も保存
-      currentChoices   // ← 選択肢の状態も保存
+      currentChoices: logHistory[logHistory.length - 1]?.choices || null   // ← 選択肢の状態も保存
     };
     localStorage.setItem("centurycyclememoria-save", JSON.stringify(saveData));
     alert("ゲームをセーブしました。");
@@ -403,21 +403,28 @@ document.addEventListener("DOMContentLoaded", () => {
     }
   }
 
-  function restoreLine(lineIndex) {
+  function restoreLine(lineIndex, saveData = null) {
     const line = scenario[lineIndex];
     if (!line) return;
 
-    // 背景復元（常に実行）
-    bgImage.src = saveData.bg || "bg_moon_sakura.jpg";
+    // 背景復元
+    if (saveData?.bg) {
+      bgImage.src = saveData.bg;
+    } else {
+      bgImage.src = line.bg || "bg_moon_sakura.jpg"; // シナリオ優先 or デフォルト
+    }
   
-    // キャラ立ち絵復元（常に実行）
-    if (saveData.char) {
+    // キャラ立ち絵復元
+    if (saveData?.char) {
       charImage.src = saveData.char;
+      charImage.style.display = "block";
+    } else if (line.char) {
+      charImage.src = line.char;
       charImage.style.display = "block";
     } else {
       charImage.style.display = "none";
     }
-
+    
     // 選択肢の行なら専用処理
     if (line.options) {  // ← ここも line.choice → line.options
       if (waitingChoice) {
