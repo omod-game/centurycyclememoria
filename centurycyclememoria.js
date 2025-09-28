@@ -31,13 +31,6 @@ document.addEventListener("DOMContentLoaded", () => {
   const affection = { miku: 0, shizuka: 0, rena: 0 };
   const logHistory = [];
 
-  if (loadOnStart === "true") {
-    localStorage.removeItem("loadOnStart");
-    loadGame(false); // ここで直接ロード
-  } else {
-    showLine(); // はじめから開始のときだけ呼ぶ
-  }
-
   // --- シナリオ（元のものをそのまま入れてください） ---
   const scenario = [
     { text: "──闇の中、ただひとつの光が浮かんでいた。", bg: "bg_black.jpg" },
