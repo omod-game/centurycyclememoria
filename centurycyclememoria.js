@@ -20,6 +20,8 @@ document.addEventListener("DOMContentLoaded", () => {
   const logClose = document.getElementById("log-close");
   const logContent = document.getElementById("log-content");
 
+  const loadOnStart = localStorage.getItem("loadOnStart");
+
   // state
   let currentLine = 0;
   let suppressLogPush = false; // ロード時などで addLogEntry を抑止したい場合に true にする
@@ -28,6 +30,13 @@ document.addEventListener("DOMContentLoaded", () => {
 
   const affection = { miku: 0, shizuka: 0, rena: 0 };
   const logHistory = [];
+
+  if (loadOnStart === "true") {
+    localStorage.removeItem("loadOnStart");
+    loadGame(false); // ここで直接ロード
+  } else {
+    showLine(); // はじめから開始のときだけ呼ぶ
+  }
 
   // --- シナリオ（元のものをそのまま入れてください） ---
   const scenario = [
