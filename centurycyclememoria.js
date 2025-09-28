@@ -113,7 +113,17 @@ document.addEventListener("DOMContentLoaded", () => {
     { id: "rena_root", text: "生徒会室の扉をノックすると、中から凛とした声が返ってきた。", bg: "bg_council_inside_evening.jpg" },
     { speaker: "？？？", text: "入っていいわよ。……転校生ね？", bg: "bg_council_inside_evening.jpg", char: "char_rena_cool.png" },
     { text: "整然と並ぶ書類と、机に座る少女の姿。", bg: "bg_council_inside_evening.jpg" },
-    { speaker: "玲奈", text: "私は生徒会長の一ノ瀬玲奈。困ったことがあれば言いなさい。ただし、甘えは許さないわよ", bg: "bg_council_inside_evening.jpg", char: "char_rena_serious.png" }
+    { speaker: "玲奈", text: "私は生徒会長の白石玲奈。困ったことがあれば言いなさい。ただし、甘えは許さないわよ", bg: "bg_council_inside_evening.jpg", char: "char_rena_serious.png" },
+    { text: "その真っ直ぐな瞳に、思わず背筋が伸びる。", bg: "bg_council_inside_evening.jpg" },
+    { speaker: "桜井 未来", text: "ほらね、ちょっと厳しいでしょ。でも頼りになるんだよ", bg: "bg_council_inside_evening.jpg", char: "char_miku_smile.png" },
+    { text: "玲奈は軽くため息をつくと、書類に視線を戻した。", bg: "bg_council_inside_evening.jpg" },
+    { speaker: "玲奈", text: "……歓迎するわ。けれど、ここで過ごすなら覚悟を持ちなさい。", bg: "bg_council_inside_evening.jpg", char: "char_rena_cool.png" },
+    { text: "意味深な言葉に、心がざわめく。", bg: "bg_council_inside_evening.jpg", overlay: true },
+
+    { text: "夕暮れの鐘が、校舎に静かに響いた。", bg: "bg_school_corridor_evening.jpg" },
+    { text: "その音は、始まりを告げる鐘──それとも、終わりを繰り返す鐘なのか。", bg: "bg_school_corridor_evening.jpg", overlay: true },
+    { text: "胸の奥で、答えの見えないざわめきが鳴り止まなかった。", bg: "bg_school_corridor_evening.jpg" }
+
     // ...以降続ける
   ];
 
