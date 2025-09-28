@@ -206,7 +206,7 @@ document.addEventListener("DOMContentLoaded", () => {
     choiceContainer.appendChild(prompt);
 
     // ログ保存は初回表示のみ
-    if (!fromRestore) {
+    if (!fromRestore && !suppressLogPush) {
       logHistory.push({
         speaker: line.speaker || null,
         text: "▼ " + line.text,
