@@ -518,8 +518,10 @@ document.addEventListener("DOMContentLoaded", () => {
   if (shouldLoad) {
     showYesNoMenu("続きから始めますか？", () => {
       const loaded = loadGame(false);
-      if (!loaded) currentLine = 0;
-      startGame();
+      if (!loaded) {
+        currentLine = 0;
+        startGame();
+      }
     });
   } else {
     showYesNoMenu("最初から始めますか？", () => {
